@@ -1926,6 +1926,1935 @@
     a.href = canvas.toDataURL("image/png");
     a.click();
   }
+
+  <!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>Portal Menu MBG MAP</title>
+  <link rel="manifest" href="manifest.json">
+  
+  <!-- Meta Tags untuk Share ke WhatsApp/Sosmed -->
+  <meta property="og:title" content="Portal Menu MBG - Yayasan Muslim Aceh Peduli">
+  <meta property="og:description" content="Informasi Menu Makan Bergizi Gratis dan Galeri Kegiatan SPPG Yayasan Muslim Aceh Peduli.">
+  <meta property="og:image" content="https://drive.google.com/file/d/1szTBISMW2P7qaxNpQRauGt03C_7GlGnC/view?usp=drivesdk"> <!-- GANTI DENGAN URL DOMAINMU NANTI -->
+  <meta property="og:type" content="https://galeri-dan-menu-mbg-ymap.vercel.app/">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Nunito:ital,wght@0,400;0,600;0,700;0,900;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-outer:   #192f45;
+      --bg-main:    #05233f;
+      --bg-panel:   rgba(4, 16, 30, 0.94);
+      --gold:       #ffcc00;
+      --gold-dim:   rgba(255,204,0,0.12);
+      --green:      #34c759;
+      --red:        #ff3b30;
+      --orange:     #ff9500;
+      --glass:      rgba(255,255,255,0.06);
+      --glass-b:    rgba(255,255,255,0.11);
+      --glass-h:    rgba(255,255,255,0.12);
+      --fd: 'Rajdhani', sans-serif;
+      --fb: 'Nunito', sans-serif;
+      --dock-w: 80px; 
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg-outer);
+      font-family: var(--fb);
+      overflow: hidden;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* ─────────────────────────────────────────
+       MAIN CARD
+    ───────────────────────────────────────── */
+    #mainView {
+      width: 98%; height: 96%;
+      max-width: 1600px;
+      background: var(--bg-main);
+      border-radius: 24px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.85);
+      display: none;
+      flex-direction: row;
+      border: 1px solid var(--glass-b);
+    }
+
+    /* ─────────────────────────────────────────
+       LEFT DOCK — slide dari kiri, vertikal
+    ───────────────────────────────────────── */
+    #sideDock {
+      position: absolute;
+      left: calc(var(--dock-w) * -1.5);
+      top: 0; bottom: 0;
+      width: var(--dock-w);
+      background: var(--bg-panel);
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+      border-right: 1px solid var(--glass-b);
+      border-radius: 0;
+      z-index: 200;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 24px 0; 
+      gap: 16px; 
+      box-shadow: 8px 0 32px rgba(0,0,0,0.7);
+      transition: left 0.38s cubic-bezier(0.2,0.9,0.2,1);
+    }
+    #sideDock.show-dock { left: 0; }
+
+    .dock-sep {
+      width: 46px; height: 1px;
+      background: var(--glass-b);
+      margin: 10px 0; 
+      flex-shrink: 0;
+    }
+
+    .dock-btn {
+      width: 60px; height: 60px;
+      border-radius: 14px;
+      background: var(--glass);
+      border: 1px solid transparent;
+      color: #777;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      transition: 0.22s;
+      position: relative;
+      flex-shrink: 0;
+      font-family: var(--fb);
+      text-transform: uppercase;
+    }
+    .dock-btn:hover {
+      background: var(--glass-h);
+      color: #eee;
+      border-color: var(--glass-b);
+    }
+    .dock-btn.active {
+      background: var(--gold-dim);
+      border-color: rgba(255,204,0,0.4);
+      color: var(--gold);
+    }
+    .dock-btn.active-green {
+      background: rgba(52,199,89,0.15);
+      border-color: rgba(52,199,89,0.35);
+      color: var(--green);
+    }
+    .dock-btn.active-red {
+      background: rgba(255,59,48,0.15);
+      border-color: rgba(255,59,48,0.35);
+      color: var(--red);
+    }
+    .dock-btn.active-orange {
+      background: rgba(255,149,0,0.15);
+      border-color: rgba(255,149,0,0.35);
+      color: var(--orange);
+    }
+    .dock-btn svg { width: 22px; height: 22px; flex-shrink: 0; }
+    .dock-btn-label { font-size: 8px; font-weight: 800; letter-spacing: 0.5px; line-height: 1; text-align: center; }
+
+    .dock-view-tab {
+      width: 60px; height: 50px;
+      border-radius: 12px;
+      background: transparent;
+      border: 1px solid transparent;
+      color: #666;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      transition: 0.2s;
+      font-family: var(--fb);
+    }
+    .dock-view-tab:hover { color: #ccc; background: var(--glass); }
+    .dock-view-tab.tab-on {
+      background: var(--gold-dim);
+      border-color: rgba(255,204,0,0.3);
+      color: var(--gold);
+    }
+    .dock-view-tab svg { width: 18px; height: 18px; }
+    .dock-view-tab span { font-size: 7px; font-weight: 800; letter-spacing: 0.5px; }
+
+    /* ─────────────────────────────────────────
+       MAIN BODY
+    ───────────────────────────────────────── */
+    #mainBody {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      position: relative;
+    }
+
+    #header {
+      width: 100%;
+      flex-shrink: 0;
+      background: var(--bg-panel);
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+      border-bottom: 1px solid var(--glass-b);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 24px;
+      color: white;
+      z-index: 20;
+      gap: 12px;
+    }
+
+    .logo-box {
+      height: 64px; width: 90px;
+      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .logo-img {
+      max-height: 100%; max-width: 100%;
+      object-fit: contain;
+      filter: drop-shadow(0 2px 6px rgba(0,0,0,0.6));
+    }
+
+    .header-info {
+      flex: 1;
+      text-align: center;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 3px;
+    }
+    #txtDapur {
+      font-family: var(--fd);
+      font-size: 26px; font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #fff;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+      line-height: 1.1;
+    }
+    #txtMenu {
+      font-size: 14px; font-weight: 800;
+      color: var(--gold);
+      letter-spacing: 0.5px;
+    }
+    #txtTgl {
+      font-size: 13px; opacity: 0.75;
+      font-style: italic; letter-spacing: 0.3px;
+    }
+
+    #secretLoginBtn {
+      position: absolute; top: 12px; right: 16px;
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: transparent; cursor: pointer; border: none;
+      z-index: 100; transition: 0.3s;
+    }
+    #secretLoginBtn:hover {
+      background: var(--gold-dim);
+      border: 1px solid rgba(255,204,0,0.35);
+    }
+
+    #contentArea {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #slideBar {
+      position: absolute;
+      top: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 30;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(0,0,0,0.55);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--glass-b);
+      border-radius: 24px;
+      padding: 8px 18px;
+      pointer-events: all;
+      opacity: 0;
+      transition: opacity 0.3s;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+    }
+    #slideBar.visible { opacity: 1; }
+
+    .pill-btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      background: var(--glass);
+      border: 1px solid var(--glass-b);
+      color: white;
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      cursor: pointer; transition: 0.2s;
+    }
+    .pill-btn:hover { background: var(--glass-h); border-color: var(--gold); color: var(--gold); }
+    
+    #btnPlayPause {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--green);
+      border: none; color: white;
+      padding: 9px 20px; border-radius: 20px;
+      font-family: var(--fb); font-size: 11px; font-weight: 800;
+      cursor: pointer; transition: 0.2s;
+    }
+    #btnPlayPause.playing { background: var(--red); }
+    #btnPlayPause:hover { filter: brightness(1.15); transform: scale(1.02); }
+    
+    .slide-counter {
+      font-size: 11px; font-weight: 700; color: #aaa; font-style: italic; min-width: 36px; text-align: center;
+    }
+
+    #imgContainer {
+      width: 100%; flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      position: relative;
+    }
+    #displayImg {
+      max-width: 100%; max-height: 100%;
+      object-fit: contain;
+      transform-origin: center;
+      cursor: pointer;
+      position: absolute;
+    }
+    
+    .fade-anim { animation: smoothFade 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
+    @keyframes smoothFade {
+      0% { opacity: 0; transform: scale(0.96); filter: blur(4px); }
+      100% { opacity: 1; transform: scale(1); filter: blur(0); }
+    }
+
+    .nav-arrow {
+      position: absolute;
+      top: 50%; transform: translateY(-50%);
+      background: rgba(0,0,0,0.45);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--glass-b);
+      color: white;
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; z-index: 15;
+      transition: 0.2s;
+      opacity: 0; pointer-events: none;
+    }
+    #contentArea:hover .nav-arrow { opacity: 1; pointer-events: all; }
+    .nav-arrow:hover { background: rgba(255,204,0,0.3); border-color: var(--gold); color: var(--gold); transform: translateY(-50%) scale(1.1); }
+    #navPrev { left: 16px; }
+    #navNext { right: 16px; }
+
+    /* TOMBOL UNDUH */
+    #btnDownload {
+      position: absolute;
+      bottom: 24px; right: 24px;
+      background: linear-gradient(135deg, var(--gold), var(--orange));
+      color: #000;
+      font-weight: 800; font-family: var(--fb); font-size: 12px;
+      border: none;
+      padding: 10px 20px; border-radius: 20px;
+      cursor: pointer;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+      z-index: 50;
+      display: flex; align-items: center; gap: 8px;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.35s ease, transform 0.3s ease;
+      transform: translateY(15px);
+    }
+    #btnDownload.visible { opacity: 1; pointer-events: all; transform: translateY(0); }
+    #btnDownload:hover { filter: brightness(1.1); transform: translateY(-2px); }
+
+    /* TOMBOL SHARE */
+    #btnShare {
+      position: absolute;
+      bottom: 24px; left: 24px;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(8px);
+      color: #fff;
+      font-weight: 800; font-family: var(--fb); font-size: 12px;
+      border: 1px solid var(--glass-b);
+      padding: 10px 20px; border-radius: 20px;
+      cursor: pointer;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+      z-index: 50;
+      display: flex; align-items: center; gap: 8px;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.35s ease, transform 0.3s ease, background 0.2s;
+      transform: translateY(15px);
+    }
+    #btnShare.visible { opacity: 1; pointer-events: all; transform: translateY(0); }
+    #btnShare:hover { background: var(--green); border-color: var(--green); transform: translateY(-2px); }
+
+    #emptyState {
+      display: none;
+      flex-direction: column;
+      align-items: center; justify-content: center;
+      position: absolute;
+      width: 100%; height: 100%;
+      text-align: center; color: var(--red);
+    }
+    #emptyPesan {
+      font-family: var(--fd);
+      font-size: 22px; font-weight: 700;
+      background: rgba(0,0,0,0.5);
+      padding: 16px 32px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,59,48,0.4);
+      text-transform: uppercase;
+      margin-top: 16px;
+    }
+
+    #gridContainer {
+      width: 100%; height: 100%;
+      display: none; 
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      align-content: flex-start;
+      gap: 16px;
+      position: absolute; top: 0; left: 0;
+      padding: 24px;
+      overflow-y: auto;
+      z-index: 10;
+      background: var(--bg-main);
+    }
+    .grid-card {
+      display: flex; flex-direction: column;
+      align-items: center;
+      background: var(--glass); border: 1px solid var(--glass-b);
+      padding: 14px; border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+      cursor: pointer; transition: 0.25s;
+    }
+    .grid-card:hover { background: var(--glass-h); border-color: var(--gold); transform: translateY(-4px); }
+    .grid-item { width: 100%; height: 160px; object-fit: cover; border-radius: 10px; }
+    .grid-title { margin-top: 10px; font-family: var(--fd); font-size: 15px; font-weight: 700; color: var(--gold); text-transform: uppercase; letter-spacing: 1px; text-align: center; }
+    .grid-date { margin-top: 4px; font-size: 11px; font-weight: 600; color: #ccc; font-style: italic; text-align: center; }
+
+    #galeriContainer {
+      width: 100%; height: 100%;
+      display: none;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      align-content: flex-start;
+      gap: 18px;
+      position: absolute; top: 0; left: 0;
+      padding: 24px;
+      overflow-y: auto;
+      z-index: 5;
+    }
+    .galeri-card {
+      background: var(--glass); border: 1px solid var(--glass-b);
+      border-radius: 18px; padding: 14px;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.5);
+      color: white; transition: 0.25s;
+      display: flex; flex-direction: column; cursor: pointer;
+    }
+    .galeri-card:hover { border-color: var(--gold); background: var(--glass-h); transform: translateY(-3px); }
+    .galeri-card img { width: 100%; height: 180px; object-fit: cover; border-radius: 12px; margin-bottom: 12px; }
+    .galeri-title { font-family: var(--fd); color: var(--gold); font-weight: 700; font-size: 16px; text-transform: uppercase; letter-spacing: 1px; line-height: 1.2; }
+    .galeri-desc { font-size: 12px; color: #ddd; margin: 8px 0; line-height: 1.5; flex-grow: 1; }
+    .meta-item { display: flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 600; color: #aaa; font-style: italic; margin-top: 4px; }
+
+    .galeri-admin-actions {
+      display: flex; gap: 8px; margin-top: 12px; padding-top: 12px; border-top: 1px dashed var(--glass-b);
+    }
+    .galeri-admin-actions button {
+      flex: 1; padding: 7px; font-size: 10px; border-radius: 8px;
+    }
+
+    #galeriFilterBar, #menuFilterBar {
+      display: none;
+      align-items: center;
+      gap: 14px;
+      padding: 10px 24px;
+      background: var(--bg-panel);
+      border-bottom: 1px solid var(--glass-b);
+      flex-shrink: 0;
+      flex-wrap: wrap;
+    }
+    #galeriFilterBar label, #menuFilterBar label {
+      font-size: 10px; opacity: 0.6;
+      font-weight: 800; text-transform: uppercase;
+      letter-spacing: 1px; color: white;
+    }
+    .galeri-filter-group, .menu-filter-group { display: flex; flex-direction: column; gap: 4px; }
+
+    select, input[type="text"], input[type="date"] {
+      background: rgba(255,255,255,0.07);
+      color: white;
+      border: 1px solid var(--glass-b);
+      border-radius: 10px;
+      padding: 8px 12px;
+      font-family: var(--fb); font-size: 13px; font-weight: 600;
+      outline: none; transition: 0.2s;
+    }
+    select:focus, input[type="text"]:focus, input[type="date"]:focus {
+      border-color: var(--gold); background: rgba(255,255,255,0.1);
+    }
+    select option { background: #0a2040; }
+    input[type="file"] {
+      background: rgba(255,255,255,0.05);
+      color: #ccc;
+      border: 1px dashed var(--glass-b);
+      border-radius: 10px;
+      padding: 8px 12px;
+      font-family: var(--fb); font-size: 12px;
+      outline: none; cursor: pointer; transition: 0.2s;
+    }
+    input[type="file"]:hover { border-color: var(--gold); }
+    input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(1); cursor: pointer; }
+
+    button {
+      display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+      background: #1a6bbf; color: white;
+      border: none; border-radius: 10px;
+      padding: 10px 16px;
+      font-family: var(--fb); font-size: 12px; font-weight: 800; letter-spacing: 0.5px;
+      cursor: pointer; transition: 0.2s;
+      white-space: nowrap;
+    }
+    button:hover { filter: brightness(1.2); transform: translateY(-1px); }
+    .btn-action  { background: var(--green); color: #fff;}
+    .btn-nav     { background: var(--orange); color: #fff;}
+    .btn-danger  { background: var(--red); color: #fff;}
+    .btn-dark    { background: #213e58; border: 1px solid var(--glass-b); }
+    .btn-secondary { background: #444; }
+
+    #welcomeScreen {
+      position: fixed; top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: var(--bg-main);
+      z-index: 9999;
+      display: flex; justify-content: center; align-items: center;
+      transition: opacity 1s ease-out;
+    }
+    .welcome-logo {
+      width: 180px;
+      animation: pulse 1.6s infinite alternate;
+      filter: drop-shadow(0 0 14px rgba(255,204,0,0.4));
+    }
+    @keyframes pulse { 100% { filter: drop-shadow(0 0 28px rgba(0,234,255,0.75)); transform: scale(1.08); } }
+
+    .modal-overlay {
+      display: none; position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.75);
+      backdrop-filter: blur(10px);
+      z-index: 10001;
+      justify-content: center; align-items: center;
+      padding: 16px;
+    }
+    .modal-box {
+      background: rgba(8,20,40,0.98);
+      border: 1px solid var(--glass-b);
+      border-radius: 24px;
+      padding: 30px; width: 100%; max-width: 360px;
+      text-align: center; color: white;
+      display: flex; flex-direction: column; gap: 16px;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.9);
+      animation: modalPop 0.3s cubic-bezier(0.2,0.9,0.2,1);
+    }
+    @keyframes modalPop { from { transform: scale(0.9); opacity: 0;} to { transform: scale(1); opacity: 1;} }
+    .modal-box.modal-wide { max-width: 460px; }
+    .modal-box h3 { color: var(--gold); font-family: var(--fd); font-size: 24px; letter-spacing: 1px; }
+    .modal-actions { display: flex; gap: 12px; margin-top: 8px; }
+    .modal-actions button { flex: 1; padding: 12px; font-size: 13px; }
+
+    .modal-form-row {
+      display: flex; flex-direction: column;
+      align-items: flex-start; gap: 6px;
+      text-align: left;
+    }
+    .modal-form-row label {
+      font-size: 10px; opacity: 0.6; font-weight: 800;
+      text-transform: uppercase; letter-spacing: 1px; color: white;
+    }
+    .modal-form-row select, .modal-form-row input { width: 100%; }
+    
+    .modal-badge {
+      font-family: var(--fd);
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      padding: 6px 12px; border-radius: 8px;
+      display: inline-block; margin-bottom: 8px;
+    }
+    .badge-menu   { background: rgba(52,199,89,0.15); color: var(--green); border: 1px solid rgba(52,199,89,0.25); }
+    .badge-galeri { background: rgba(255,149,0,0.15); color: var(--orange); border: 1px solid rgba(255,149,0,0.25); }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+    #loaderFloat, #toast {
+      visibility: hidden; opacity: 0;
+      position: fixed; transition: all 0.3s ease;
+      z-index: 10005;
+    }
+    #loaderFloat {
+      top: 50%; left: 50%; transform: translate(-50%,-50%);
+      background: rgba(6,18,34,0.95);
+      backdrop-filter: blur(16px);
+      padding: 24px 36px; border-radius: 20px;
+      border: 1px solid var(--glass-b);
+      display: flex; flex-direction: column;
+      align-items: center; gap: 12px;
+      box-shadow: 0 16px 48px rgba(0,0,0,0.8);
+    }
+    #loaderFloat.show { visibility: visible; opacity: 1; }
+    .spinner {
+      width: 40px; height: 40px;
+      border: 4px solid var(--gold-dim);
+      border-top: 4px solid var(--gold);
+      border-radius: 50%;
+      animation: spin 0.75s linear infinite;
+    }
+    #loaderMsg { color: white; font-weight: 800; font-size: 13px; letter-spacing: 1px; }
+    
+    #toast {
+      background: rgba(52,199,89,0.95);
+      backdrop-filter: blur(8px);
+      color: #fff; padding: 14px 24px;
+      border-radius: 14px;
+      left: 50%; bottom: 80px;
+      transform: translateX(-50%) translateY(20px);
+      font-weight: 800; font-size: 14px; white-space: nowrap;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+    }
+    #toast.show { visibility: visible; opacity: 1; transform: translateX(-50%) translateY(0); }
+    #toast.error { background: rgba(255,59,48,0.95); }
+
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 6px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(255,204,0,0.5); }
+
+    /* ─────────────────────────────────────────
+       ADAPTIF & RESPONSIVE
+    ───────────────────────────────────────── */
+    @media (max-width: 1024px) {
+      #txtDapur { font-size: 22px; }
+      .logo-box { height: 50px; width: 70px; }
+      #gridContainer { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
+      #galeriContainer { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+    }
+
+    @media (max-width: 680px) {
+      :root { --dock-w: 64px; }
+      #mainView { width: 100%; height: 100%; border-radius: 0; border: none; }
+      #header { padding: 10px 16px; gap: 8px; }
+      #txtDapur { font-size: 18px; letter-spacing: 1.5px; }
+      #txtMenu { font-size: 12px; }
+      .logo-box { height: 40px; width: 50px; }
+      
+      .dock-btn { width: 50px; height: 50px; }
+      .dock-view-tab { width: 50px; height: 42px; }
+      .dock-btn svg { width: 18px; height: 18px; }
+      .dock-btn-label { font-size: 7px; }
+      
+      #slideBar { padding: 6px 12px; gap: 6px; width: 90%; justify-content: center; top: 10px; }
+      #btnPlayPause { padding: 8px 14px; font-size: 10px; }
+      
+      #gridContainer { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); padding: 16px; gap: 12px; }
+      .grid-item { height: 120px; }
+      
+      #galeriContainer { grid-template-columns: repeat(auto-fill, minmax(100%, 1fr)); padding: 16px; }
+      
+      #galeriFilterBar, #menuFilterBar { padding: 10px 16px; gap: 8px; justify-content: center; }
+      select, input[type="date"] { padding: 6px 10px; font-size: 12px; }
+    }
+
+    @media (max-width: 900px) and (orientation: landscape) {
+      #header { padding: 6px 16px; }
+      .logo-box { height: 36px; }
+      #txtDapur { font-size: 16px; }
+      #slideBar { top: 6px; padding: 4px 12px; }
+      #gridContainer { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); padding: 10px; }
+      .grid-item { height: 100px; }
+      #galeriContainer { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); padding: 10px; }
+      .galeri-card img { height: 120px; }
+    }
+
+    /* ─────────────────────────────────────────
+       FULL SCREEN GALERI CSS & TOMBOL SHARE
+    ───────────────────────────────────────── */
+    .full-galeri-box { position: relative; display: flex; align-items: center; justify-content: center; max-width: 95vw; max-height: 90vh; width: 100%; height: 100%;}
+    .full-galeri-box .nav-arrow-gal { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.6); color: white; border: none; padding: 15px; cursor: pointer; border-radius: 50%; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; z-index: 10; transition: 0.3s; }
+    .full-galeri-box .nav-arrow-gal:hover { background: var(--gold); color: black; }
+    #navPrevGal { left: -60px; }
+    #navNextGal { right: -60px; }
+    @media (max-width: 680px) {
+      #navPrevGal { left: 10px; }
+      #navNextGal { right: 10px; }
+    }
+    
+    /* Tombol share di Fullscreen modal */
+    .btn-share-modal {
+      position: absolute; top: 20px; right: 20px;
+      background: rgba(0,0,0,0.7); backdrop-filter: blur(8px);
+      color: white; border: 1px solid var(--glass-b);
+      width: 45px; height: 45px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; z-index: 20; transition: 0.2s;
+    }
+    .btn-share-modal:hover { background: var(--green); border-color: var(--green); transform: scale(1.1); }
+  </style>
+</head>
+<body>
+
+<div id="welcomeScreen">
+  <img src="icon.png" class="welcome-logo" alt="Logo MAP">
+</div>
+
+<div id="mainView">
+
+  <button id="secretLoginBtn" onclick="cekStatusLogin()" title="Login Admin"></button>
+
+  <div id="sideDock">
+
+    <button class="dock-view-tab tab-on" id="tabMenu" onclick="switchView('menu')" title="Menu MBG">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+      <span>MENU</span>
+    </button>
+    <button class="dock-view-tab" id="tabGaleri" onclick="switchView('galeri')" title="Galeri Kegiatan">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+      <span>GALERI</span>
+    </button>
+
+    <div class="dock-sep"></div>
+
+    <div id="menuDockBtns" style="display:flex; flex-direction:column; align-items:center; gap:16px; width:100%;">
+      <button class="dock-btn active-red" id="btnModePlayGlobal" onclick="setMode('playglobal')" title="Play Hari Ini">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        <span class="dock-btn-label">PLAY</span>
+      </button>
+
+      <button class="dock-btn" id="btnModeLihat" onclick="setMode('lihat')" title="Lihat Menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        <span class="dock-btn-label">LIHAT</span>
+      </button>
+
+      <button class="dock-btn" id="btnModeKelola" onclick="setMode('kelola')" title="Kelola Data">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15 1.65 1.65 0 0 0 3.17 14H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        <span class="dock-btn-label">KELOLA</span>
+      </button>
+
+      <div class="dock-sep"></div>
+
+      <button class="dock-btn kelola-menu-only" id="btnUploadMenu" onclick="bukaModalUploadMenu()" title="Upload Menu MBG" style="display:none;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        <span class="dock-btn-label" style="color:var(--green);">UPLOAD</span>
+      </button>
+
+      <button class="dock-btn kelola-menu-only" id="btnEdit" onclick="bukaModalEdit()" title="Edit Menu" style="display:none;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="16 3 21 8 8 21 3 21 3 16 16 3"/></svg>
+        <span class="dock-btn-label">EDIT</span>
+      </button>
+
+      <button class="dock-btn kelola-menu-only btn-danger-dock" id="btnHapus" onclick="doHapus('menu')" title="Hapus Menu" style="display:none; color:var(--red);">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+        <span class="dock-btn-label">HAPUS</span>
+      </button>
+
+      <button class="dock-btn kelola-menu-only" id="btnBuatPeriode" onclick="buatPeriodeOtomatis()" title="Buat Folder Periode" style="display:none;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="12" y1="14" x2="12" y2="18"/><line x1="10" y1="16" x2="14" y2="16"/></svg>
+        <span class="dock-btn-label">PERIODE</span>
+      </button>
+    </div>
+
+    <div id="galeriDockBtns" style="display:none; flex-direction:column; align-items:center; gap:16px; width:100%;">
+      <button class="dock-btn active" id="btnGaleriSemua" onclick="filterGaleri('semua')" title="Semua Kegiatan">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        <span class="dock-btn-label">SEMUA</span>
+      </button>
+      <button class="dock-btn" id="btnGaleriDapur" onclick="toggleGaleriFilter('dapur')" title="Filter per Dapur">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        <span class="dock-btn-label">DAPUR</span>
+      </button>
+      <button class="dock-btn" id="btnGaleriBulan" onclick="toggleGaleriFilter('bulan')" title="Filter per Bulan">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        <span class="dock-btn-label">BULAN</span>
+      </button>
+
+      <div class="dock-sep"></div>
+
+      <button class="dock-btn" id="btnKelolGaleri" onclick="setGaleriKelola()" title="Kelola Galeri">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15 1.65 1.65 0 0 0 3.17 14H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        <span class="dock-btn-label">KELOLA</span>
+      </button>
+      <button class="dock-btn galeri-kelola-only" id="btnUploadGaleri" onclick="bukaModalUploadGaleri()" title="Upload Galeri" style="display:none;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        <span class="dock-btn-label" style="color:var(--orange);">UPLOAD</span>
+      </button>
+    </div>
+
+  </div>
+
+  <div id="mainBody">
+
+    <div id="header">
+      <div class="logo-box" id="boxLogo1"></div>
+      <div class="header-info">
+        <div id="txtDapur">PORTAL MENU MBG</div>
+        <div id="txtMenu">MENU MAKANAN BERGIZI</div>
+        <div id="txtTgl">-</div>
+      </div>
+      <div class="logo-box" id="boxLogo2"></div>
+    </div>
+
+    <div id="menuFilterBar">
+      <div class="menu-filter-group">
+        <label>Pilih Dapur</label>
+        <select id="selDapur" onchange="fetchPeriode()" style="min-width:160px;">
+          <option value="">-- Pilih Dapur --</option>
+        </select>
+      </div>
+      <div class="menu-filter-group">
+        <label>Pilih Periode</label>
+        <select id="selPeriode" onchange="fetchGambar()" style="min-width:160px;">
+          <option value="">-- Pilih Periode --</option>
+        </select>
+      </div>
+      <div class="menu-filter-group">
+        <label>Dari Tgl</label>
+        <input type="date" id="tglMulai" onchange="filterByTanggal()" style="width:140px;">
+      </div>
+      <div class="menu-filter-group">
+        <label>Sampai Tgl</label>
+        <input type="date" id="tglSelesai" onchange="filterByTanggal()" style="width:140px;">
+      </div>
+    </div>
+
+    <div id="galeriFilterBar">
+      <div id="galeriFilterDapur" style="display:none;" class="galeri-filter-group">
+        <label>Filter Dapur</label>
+        <select id="selGaleriDapur" onchange="applyGaleriFilter()" style="min-width:160px;">
+          <option value="">-- Semua Dapur --</option>
+        </select>
+      </div>
+      <div id="galeriFilterBulan" style="display:none;" class="galeri-filter-group">
+        <label>Filter Bulan</label>
+        <select id="selGaleriBulan" onchange="applyGaleriFilter()" style="min-width:160px;">
+          <option value="">-- Semua Bulan --</option>
+        </select>
+      </div>
+    </div>
+
+    <div id="contentArea">
+      <div id="slideBar">
+        <button class="pill-btn" id="btnToggleGrid" onclick="toggleGridSlide()" title="Tampilan Grid Menu">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        </button>
+        
+        <button class="pill-btn" onclick="prevSlide()" title="Sebelumnya">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/></svg>
+        </button>
+        
+        <button id="btnPlayPause" onclick="runSlide()">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" id="iconPlay"><path d="M8 5v14l11-7z"/></svg>
+          <span id="playLabel">PLAY SLIDESHOW</span>
+        </button>
+        
+        <button class="pill-btn" onclick="nextSlide()" title="Berikutnya">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M6 18l8.5-6L6 6v12zm10-12v12h2V6h-2z"/></svg>
+        </button>
+        <span class="slide-counter" id="slideCounter"></span>
+      </div>
+
+      <button class="nav-arrow" id="navPrev" onclick="prevSlide()">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <button class="nav-arrow" id="navNext" onclick="nextSlide()">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+
+      <div id="imgContainer">
+        <img id="displayImg" src="" alt="" class="fade-anim">
+
+        <!-- TOMBOL SHARE MUNCUL DISINI -->
+        <button id="btnShare" onclick="bagikanWeb()">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+          Bagikan
+        </button>
+
+        <button id="btnDownload" onclick="downloadPoster()">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Unduh Poster
+        </button>
+
+        <div id="emptyState">
+          <svg viewBox="0 0 24 24" width="80" height="80" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.6; margin-bottom:12px;"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          <div id="emptyPesan">Belum ada menu hari ini</div>
+        </div>
+      </div>
+      
+      <div id="gridContainer"></div>
+
+      <div id="galeriContainer"></div>
+    </div>
+
+  </div>
+</div>
+<canvas id="posterCanvas" style="display:none;"></canvas>
+<div id="loaderFloat"><div class="spinner"></div><div id="loaderMsg">MEMPROSES...</div></div>
+<div id="toast">Notifikasi</div>
+
+<!-- Modal Galeri Full Screen dengan dukungan SWIPE dan SHARE -->
+<div id="modalFullGaleri" class="modal-overlay" onclick="tutupModalFull()">
+  <div class="full-galeri-box" onclick="event.stopPropagation()">
+    
+    <!-- Tombol Share di dalam Modal Galeri -->
+    <button class="btn-share-modal" onclick="bagikanWeb()" title="Bagikan">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+    </button>
+
+    <div id="fullGaleriContent" style="display:flex; justify-content:center; align-items:center; width:100%; height:100%;"></div>
+    
+    <button class="nav-arrow-gal" id="navPrevGal" onclick="slideGal(false)">
+      <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+    <button class="nav-arrow-gal" id="navNextGal" onclick="slideGal(true)">
+      <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+  </div>
+</div>
+
+<div id="modalLogin" class="modal-overlay">
+  <div class="modal-box">
+    <h3>LOGIN ADMIN</h3>
+    <input type="password" id="inPassword" placeholder="Masukkan Password" style="text-align:center; font-size:16px; padding:12px; border-radius:12px;">
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="tutupModal('modalLogin')">Batal</button>
+      <button class="btn-action" onclick="prosesLogin()">Masuk</button>
+    </div>
+  </div>
+</div>
+
+<div id="modalConfirm" class="modal-overlay">
+  <div class="modal-box">
+    <h3>KONFIRMASI HAPUS</h3>
+    <p id="modalText" style="color:#bbb; font-size:15px;">Yakin ingin menghapus data ini?</p>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="tutupModal('modalConfirm')">Batal</button>
+      <button class="btn-danger" onclick="executeHapus()">Ya, Hapus</button>
+    </div>
+  </div>
+</div>
+
+<div id="modalEdit" class="modal-overlay">
+  <div class="modal-box">
+    <h3>EDIT MENU</h3>
+    <div class="modal-form-row">
+      <label>Nama Menu</label>
+      <input type="text" id="editNama" placeholder="Nama Menu Baru">
+    </div>
+    <div class="modal-form-row">
+      <label>Tanggal</label>
+      <input type="date" id="editTgl">
+    </div>
+    <div class="modal-form-row">
+      <label>Ganti Foto (opsional)</label>
+      <input type="file" id="editFile" accept="image/*">
+    </div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="tutupModal('modalEdit')">Batal</button>
+      <button class="btn-action" onclick="executeEdit()">Simpan</button>
+    </div>
+  </div>
+</div>
+
+<div id="modalEditGaleri" class="modal-overlay">
+  <div class="modal-box modal-wide">
+    <h3>EDIT GALERI</h3>
+    <div class="modal-form-row">
+      <label>Judul Kegiatan</label>
+      <input type="text" id="editGaleriJudul" placeholder="Judul Kegiatan Baru">
+    </div>
+    <div class="modal-form-row">
+      <label>Tanggal</label>
+      <input type="date" id="editGaleriTgl">
+    </div>
+    <div class="modal-form-row">
+      <label>Deskripsi Singkat</label>
+      <input type="text" id="editGaleriDesc" placeholder="Deskripsi...">
+    </div>
+    <div class="modal-form-row">
+      <label>Ganti Foto (opsional)</label>
+      <input type="file" id="editGaleriFile" accept="image/*">
+    </div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="tutupModal('modalEditGaleri')">Batal</button>
+      <button class="btn-nav" onclick="executeEditGaleri()">Simpan</button>
+    </div>
+  </div>
+</div>
+
+<div id="modalUploadMenu" class="modal-overlay">
+  <div class="modal-box modal-wide">
+    <h3>UPLOAD MENU MBG</h3>
+    <span class="modal-badge badge-menu">📋 Per Mingguan — Folder Otomatis</span>
+    <div class="modal-form-row">
+      <label>Pilih Dapur</label>
+      <select id="upMenuDapur" style="width:100%;">
+        <option value="">-- Pilih Dapur --</option>
+      </select>
+    </div>
+    <div class="modal-form-row">
+      <label>Tanggal Menu</label>
+      <input type="date" id="upMenuTgl">
+    </div>
+    <div class="modal-form-row">
+      <label>Nama Menu</label>
+      <input type="text" id="upMenuNama" placeholder="Contoh: Ayam Geprek + Sayur">
+    </div>
+    <div class="modal-form-row">
+      <label>Foto Menu</label>
+      <input type="file" id="upMenuFile" accept="image/*">
+    </div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="tutupModal('modalUploadMenu')">Batal</button>
+      <button class="btn-action" onclick="doUploadMenu()">Upload Menu</button>
+    </div>
+  </div>
+</div>
+
+<div id="modalUploadGaleri" class="modal-overlay">
+  <div class="modal-box modal-wide">
+    <h3>UPLOAD GALERI KEGIATAN</h3>
+    <span class="modal-badge badge-galeri">📸 Per Bulanan — Folder Otomatis</span>
+    <div class="modal-form-row">
+      <label>Pilih Dapur</label>
+      <select id="upGaleriDapur" style="width:100%;">
+        <option value="">-- Pilih Dapur --</option>
+      </select>
+    </div>
+    <div class="modal-form-row">
+      <label>Tanggal Kegiatan</label>
+      <input type="date" id="upGaleriTgl">
+    </div>
+    <div class="modal-form-row">
+      <label>Judul Kegiatan</label>
+      <input type="text" id="upGaleriJudul" placeholder="Judul kegiatan...">
+    </div>
+    <div class="modal-form-row">
+      <label>Deskripsi</label>
+      <input type="text" id="upGaleriDesc" placeholder="Deskripsi singkat...">
+    </div>
+    <div class="modal-form-row">
+      <label>Foto/Video Kegiatan</label>
+      <input type="file" id="upGaleriFile" accept="image/*,video/mp4">
+    </div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="tutupModal('modalUploadGaleri')">Batal</button>
+      <button class="btn-nav" onclick="doUploadGaleri()">Upload Galeri</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // =====================================
+  // GANTI URL DI BAWAH INI DENGAN URL GAS-MU
+  // =====================================
+  const GAS_API_URL = "https://script.google.com/macros/s/AKfycbyOVIv7gaMKYfkOu8IERI5uwoeENZibdyq11EsGkco-h8kcqzrLoPm2VE_TWgQUUiwL/exec";
+
+  let isAdmin = false;
+  let imageList = [];
+  let galeriAllData = []; 
+  let currentIdx = 0;
+  let isPlaying = false;
+  let slideTimer, idleDockTimer, dlHideTimer;
+  let isDockHovered = false;
+  let isGlobalPlayMode = true;
+  let isModeGaleri = false;
+  let currentView = 'menu'; 
+  let isGaleriKelola = false;
+  let isGridView = false; 
+  let dapurList = []; 
+  
+  let deleteTargetType = 'menu'; 
+  let deleteTargetIndex = 0;
+
+  // ── FORMAT TANGGAL ──────────────────────────
+  const HARI  = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+  const BULAN = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+
+  function fmtTgl(str) {
+    if(!str || str==='-') return '-';
+    try {
+      const p = str.split('-');
+      const d = (p.length===3 && p[0].length===4)
+        ? new Date(+p[0], +p[1]-1, +p[2])
+        : new Date(str);
+      if(isNaN(d)) return str;
+      return `${HARI[d.getDay()]}, ${String(d.getDate()).padStart(2,'0')} ${BULAN[d.getMonth()]} ${d.getFullYear()}`;
+    } catch(e) { return str; }
+  }
+
+  function fmtHariIni() {
+    const d = new Date();
+    return `${HARI[d.getDay()]}, ${String(d.getDate()).padStart(2,'0')} ${BULAN[d.getMonth()]} ${d.getFullYear()}`;
+  }
+
+  // ── API ──────────────────────────────────────
+  async function fetchAPI(action, payload={}) {
+    try {
+      const r = await fetch(GAS_API_URL + "?action=" + action, {
+        method: 'POST',
+        headers: {'Content-Type':'text/plain;charset=utf-8'},
+        body: JSON.stringify(payload)
+      });
+      return await r.json();
+    } catch(e) { showToast("Gagal terhubung ke server", true); return null; }
+  }
+
+  // ── INIT ─────────────────────────────────────
+  window.onload = () => {
+    setTimeout(() => {
+      document.getElementById('welcomeScreen').style.opacity = '0';
+      setTimeout(() => {
+        document.getElementById('welcomeScreen').style.display = 'none';
+        document.getElementById('mainView').style.display = 'flex';
+        setMode('playglobal');
+      }, 1000);
+    }, 2500);
+
+    fetchAPI('getLogo',{namaFile:'Logo Yayasan.png'}).then(r => {
+      if(r) document.getElementById('boxLogo1').innerHTML = `<img src="${r}" class="logo-img">`;
+    });
+    fetchAPI('getLogo',{namaFile:'Logo Badan Gizi.png'}).then(r => {
+      if(r) document.getElementById('boxLogo2').innerHTML = `<img src="${r}" class="logo-img">`;
+    });
+
+    fetchAPI('getDaftarDapur').then(r => {
+      if(r) {
+        dapurList = r;
+        populateDapurSelects();
+      }
+    });
+
+    const dock = document.getElementById('sideDock');
+    window.addEventListener('mousemove', onActivity);
+    window.addEventListener('touchstart', onActivity, {passive:true});
+
+    dock.addEventListener('mouseenter', () => { isDockHovered = true; showDock(); });
+    dock.addEventListener('mouseleave', () => { isDockHovered = false; scheduleHideDock(); });
+
+    const ca = document.getElementById('contentArea');
+    ca.addEventListener('mousemove', showDl);
+    ca.addEventListener('touchstart', showDl, {passive:true});
+    ca.addEventListener('mouseleave', scheduleDlHide);
+
+    ca.addEventListener('mouseenter', () => { if(!isModeGaleri) document.getElementById('slideBar').classList.add('visible'); });
+    ca.addEventListener('mouseleave', () => { document.getElementById('slideBar').classList.remove('visible'); });
+  };
+
+  function populateDapurSelects() {
+    let h = '<option value="">-- Pilih Dapur --</option>';
+    dapurList.forEach(d => h += `<option value="${d.id}">${d.nama}</option>`);
+    document.getElementById('selDapur').innerHTML = h;
+
+    let h2 = '<option value="">-- Pilih Dapur --</option>';
+    dapurList.forEach(d => h2 += `<option value="${d.id}">${d.nama}</option>`);
+    document.getElementById('upMenuDapur').innerHTML = h2;
+
+    let h3 = '<option value="">-- Pilih Dapur --</option>';
+    dapurList.forEach(d => h3 += `<option value="${d.id}">${d.nama}</option>`);
+    document.getElementById('upGaleriDapur').innerHTML = h3;
+
+    let h4 = '<option value="">-- Semua Dapur --</option>';
+    dapurList.forEach(d => h4 += `<option value="${d.nama}">${d.nama}</option>`);
+    document.getElementById('selGaleriDapur').innerHTML = h4;
+  }
+
+  function onActivity(e) { if(e.clientX < 40) showDock(); }
+  function showDock() {
+    document.getElementById('sideDock').classList.add('show-dock');
+    clearTimeout(idleDockTimer);
+    idleDockTimer = setTimeout(() => {
+      if(!isDockHovered) document.getElementById('sideDock').classList.remove('show-dock');
+    }, 3500);
+  }
+  function scheduleHideDock() {
+    clearTimeout(idleDockTimer);
+    idleDockTimer = setTimeout(() => {
+      document.getElementById('sideDock').classList.remove('show-dock');
+    }, 800);
+  }
+
+  function showDl() {
+    const btnDl = document.getElementById('btnDownload');
+    const btnShare = document.getElementById('btnShare');
+    const img = document.getElementById('displayImg');
+    if(isGridView || isModeGaleri || !img.src || img.style.display==='none') return;
+    
+    btnDl.classList.add('visible');
+    btnShare.classList.add('visible');
+    
+    clearTimeout(dlHideTimer);
+    dlHideTimer = setTimeout(() => {
+      btnDl.classList.remove('visible');
+      btnShare.classList.remove('visible');
+    }, 2800);
+  }
+  function scheduleDlHide() {
+    clearTimeout(dlHideTimer);
+    dlHideTimer = setTimeout(() => {
+      document.getElementById('btnDownload').classList.remove('visible');
+      document.getElementById('btnShare').classList.remove('visible');
+    }, 900);
+  }
+
+  function showLoader(m) { document.getElementById('loaderMsg').innerText=m; document.getElementById('loaderFloat').classList.add('show'); }
+  function hideLoader()  { document.getElementById('loaderFloat').classList.remove('show'); }
+  function showToast(m, err=false) {
+    const t = document.getElementById('toast');
+    t.innerText = m;
+    err ? t.classList.add('error') : t.classList.remove('error');
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3200);
+  }
+  function tutupModal(id) { document.getElementById(id).style.display='none'; }
+  function updateCounter() {
+    const el = document.getElementById('slideCounter');
+    el.innerText = (imageList.length > 0 && !isGridView) ? `${currentIdx+1}/${imageList.length}` : '';
+  }
+
+  // ── FUNGSI BAGIKAN (SHARE) NATIVE ────────────
+  function bagikanWeb() {
+    const urlString = window.location.href;
+    const titleString = document.title;
+    const textString = "Halo! Cek Menu Makanan Bergizi Gratis (MBG) dan Galeri Kegiatan MAP hari ini.";
+
+    if (navigator.share) {
+      navigator.share({
+        title: titleString,
+        text: textString,
+        url: urlString
+      }).catch(err => {
+        console.log('Error sharing:', err);
+      });
+    } else {
+      // Fallback: Copy link ke clipboard
+      const dummy = document.createElement('input');
+      document.body.appendChild(dummy);
+      dummy.value = urlString;
+      dummy.select();
+      document.execCommand('copy');
+      document.body.removeChild(dummy);
+      showToast("Link berhasil disalin! Silakan paste di WhatsApp/Sosmed.");
+    }
+  }
+
+  function switchView(view) {
+    currentView = view;
+    document.getElementById('tabMenu').classList.toggle('tab-on', view==='menu');
+    document.getElementById('tabGaleri').classList.toggle('tab-on', view==='galeri');
+    document.getElementById('menuDockBtns').style.display = view==='menu' ? 'flex' : 'none';
+    document.getElementById('menuDockBtns').style.flexDirection = 'column';
+    document.getElementById('menuDockBtns').style.alignItems = 'center';
+    document.getElementById('menuDockBtns').style.gap = '16px'; 
+    document.getElementById('menuDockBtns').style.width = '100%';
+    document.getElementById('galeriDockBtns').style.display = view==='galeri' ? 'flex' : 'none';
+
+    if(view==='galeri') {
+      document.getElementById('menuFilterBar').style.display = 'none';
+      document.getElementById('imgContainer').style.display = 'none';
+      document.getElementById('gridContainer').style.display = 'none';
+      document.getElementById('slideBar').classList.remove('visible');
+      isModeGaleri = true;
+      isGaleriKelola = false;
+      stopSlide();
+
+      document.getElementById('galeriContainer').style.display = 'grid';
+      document.getElementById('galeriFilterBar').style.display = 'none';
+      document.getElementById('galeriFilterDapur').style.display = 'none';
+      document.getElementById('galeriFilterBulan').style.display = 'none';
+      
+      if(isAdmin) document.querySelectorAll('.galeri-kelola-only').forEach(el => el.style.display='flex');
+      else document.querySelectorAll('.galeri-kelola-only').forEach(el => el.style.display='none');
+      document.getElementById('btnKelolGaleri').className = 'dock-btn';
+
+      muatGaleri();
+    } else {
+      document.getElementById('galeriContainer').style.display = 'none';
+      document.getElementById('galeriFilterBar').style.display = 'none';
+      document.getElementById('imgContainer').style.display = 'flex';
+      isModeGaleri = false;
+      isGaleriKelola = false;
+      document.querySelectorAll('.galeri-kelola-only').forEach(el => el.style.display='none');
+      setMode('playglobal');
+    }
+  }
+
+  function cekStatusLogin() {
+    if(!isAdmin) document.getElementById('modalLogin').style.display='flex';
+    else showToast("Anda sudah login sebagai Admin.");
+  }
+  async function prosesLogin() {
+    const pwd = document.getElementById('inPassword').value;
+    showLoader("Mengecek...");
+    const r = await fetchAPI('login',{password:pwd});
+    hideLoader();
+    if(r && r.success) {
+      isAdmin = true; tutupModal('modalLogin');
+      showToast("Berhasil Login!");
+      if(currentView === 'menu') setMode('kelola');
+      else setGaleriKelola();
+    } else { showToast("Password Salah!", true); }
+  }
+
+  function setMode(mode) {
+    if(mode==='kelola' && !isAdmin) { document.getElementById('modalLogin').style.display='flex'; return; }
+
+    ['btnModePlayGlobal','btnModeLihat','btnModeKelola'].forEach(id => {
+      document.getElementById(id).className = 'dock-btn';
+    });
+    const kelolaElems = document.querySelectorAll('.kelola-menu-only');
+
+    if(mode==='playglobal') {
+      document.getElementById('btnModePlayGlobal').className = 'dock-btn active-red';
+      kelolaElems.forEach(el => el.style.display='none');
+      document.getElementById('menuFilterBar').style.display = 'none';
+      jalankanPlaySemua();
+    } else if(mode==='lihat') {
+      document.getElementById('btnModeLihat').className = 'dock-btn active';
+      kelolaElems.forEach(el => el.style.display='none');
+      document.getElementById('menuFilterBar').style.display = 'flex'; 
+      isGlobalPlayMode = false;
+      stopSlide();
+    } else if(mode==='kelola') {
+      document.getElementById('btnModeKelola').className = 'dock-btn active';
+      kelolaElems.forEach(el => el.style.display='flex');
+      document.getElementById('menuFilterBar').style.display = 'flex'; 
+      isGlobalPlayMode = false;
+      stopSlide();
+    }
+  }
+
+  function setGaleriKelola() {
+    if(!isAdmin) { document.getElementById('modalLogin').style.display='flex'; return; }
+    isGaleriKelola = true;
+    document.getElementById('btnKelolGaleri').className = 'dock-btn active';
+    document.querySelectorAll('.galeri-kelola-only').forEach(el => el.style.display='flex');
+    renderGaleri(galeriAllData); 
+  }
+
+  function filterGaleri(mode) {
+    document.getElementById('btnGaleriSemua').className = mode==='semua' ? 'dock-btn active' : 'dock-btn';
+    document.getElementById('galeriFilterBar').style.display = mode==='semua' ? 'none' : 'flex';
+    if(mode==='semua') {
+      document.getElementById('galeriFilterDapur').style.display = 'none';
+      document.getElementById('galeriFilterBulan').style.display = 'none';
+      renderGaleri(galeriAllData);
+    }
+  }
+
+  function toggleGaleriFilter(type) {
+    const showDapur = type==='dapur';
+    const showBulan = type==='bulan';
+    document.getElementById('btnGaleriDapur').className = showDapur ? 'dock-btn active' : 'dock-btn';
+    document.getElementById('btnGaleriBulan').className = showBulan ? 'dock-btn active' : 'dock-btn';
+    document.getElementById('btnGaleriSemua').className = 'dock-btn';
+    document.getElementById('galeriFilterBar').style.display = 'flex';
+    document.getElementById('galeriFilterDapur').style.display = showDapur ? 'flex' : 'none';
+    document.getElementById('galeriFilterBulan').style.display = showBulan ? 'flex' : 'none';
+    applyGaleriFilter();
+  }
+
+  function applyGaleriFilter() {
+    const filterDapur = document.getElementById('selGaleriDapur').value;
+    const filterBulan = document.getElementById('selGaleriBulan').value;
+    let filtered = galeriAllData;
+    if(filterDapur) filtered = filtered.filter(g => g.dapur === filterDapur);
+    if(filterBulan) filtered = filtered.filter(g => {
+      if(!g.tanggal || g.tanggal==='-') return false;
+      const d = new Date(g.tanggal);
+      return `${BULAN[d.getMonth()]} ${d.getFullYear()}` === filterBulan;
+    });
+    renderGaleri(filtered);
+  }
+
+  async function jalankanPlaySemua() {
+    isGlobalPlayMode = true; isModeGaleri = false; isGridView = false;
+    document.getElementById('galeriContainer').style.display='none';
+    document.getElementById('gridContainer').style.display='none';
+    document.getElementById('imgContainer').style.display='flex';
+    
+    document.getElementById('txtDapur').innerText = "MEMUAT...";
+    document.getElementById('txtTgl').innerText = fmtHariIni();
+    showLoader("Mengambil Menu Hari Ini...");
+    
+    const r = await fetchAPI('getSemuaMenuHariIni');
+    hideLoader();
+    if(r) {
+      imageList = r.filter(i => !i.isPlaceholder);
+      if(imageList.length > 0) { 
+        updateDisplay(0); 
+        if(!isPlaying) runSlide(); 
+      } else {
+        document.getElementById('txtMenu').innerText  = "BELUM ADA MENU HARI INI";
+        document.getElementById('displayImg').src     = "";
+        document.getElementById('txtDapur').innerText = "SEMUA DAPUR";
+        document.getElementById('emptyState').style.display = 'flex';
+      }
+    }
+    updateCounter();
+  }
+
+  async function fetchPeriode() {
+    const id = document.getElementById('selDapur').value;
+    if(!id) return;
+    document.getElementById('txtDapur').innerText =
+      document.getElementById('selDapur').options[document.getElementById('selDapur').selectedIndex].text;
+    showLoader("Memuat Periode...");
+    const r = await fetchAPI('getDaftarPeriode',{dapurId:id});
+    hideLoader();
+    if(r) {
+      let h = '<option value="">-- Pilih Periode --</option>';
+      r.forEach(p => h += `<option value="${p.id}">${p.nama}</option>`);
+      document.getElementById('selPeriode').innerHTML = h;
+      document.getElementById('emptyState').style.display = 'none';
+    }
+  }
+
+  async function buatPeriodeOtomatis() {
+    const id = document.getElementById('selDapur').value;
+    if(!id) return showToast("Pilih Dapur dulu!", true);
+    showLoader("Membuat Folder...");
+    const r = await fetchAPI('buatPeriodeMingguIni',{dapurId:id});
+    hideLoader();
+    if(r) { showToast(r.status); fetchPeriode(); }
+  }
+
+  async function fetchGambar() {
+    const id = document.getElementById('selPeriode').value;
+    if(!id) return;
+    showLoader("Mengambil Gambar...");
+    const r = await fetchAPI('getGambarMenu',{periodeId:id});
+    hideLoader();
+    if(r) {
+      imageList = r;
+      if(r.length > 0) {
+        if(isGridView) {
+          renderMenuGrid();
+          document.getElementById('menuFilterBar').style.display = 'flex'; 
+        } else {
+          updateDisplay(0);
+          document.getElementById('menuFilterBar').style.display = 'none'; 
+        }
+      } else { 
+        document.getElementById('txtMenu').innerText="BELUM ADA MENU"; 
+        document.getElementById('displayImg').src=""; 
+        document.getElementById('gridContainer').style.display='none';
+      }
+    }
+    updateCounter();
+  }
+
+  function filterByTanggal() {
+    const tglMulai   = document.getElementById('tglMulai').value;
+    const tglSelesai = document.getElementById('tglSelesai').value;
+    if(!tglMulai || !tglSelesai) return;
+    const filtered = imageList.filter(img => {
+      if(!img.tanggal) return false;
+      return img.tanggal >= tglMulai && img.tanggal <= tglSelesai;
+    });
+    if(filtered.length > 0) {
+      imageList = filtered;
+      if(isGridView) renderMenuGrid(); else updateDisplay(0);
+    } else {
+      showToast("Tidak ada menu di rentang tanggal tersebut", true);
+    }
+    updateCounter();
+  }
+
+  function toggleGridSlide() {
+    if(imageList.length === 0) return;
+    isGridView = !isGridView;
+    const btn = document.getElementById('btnToggleGrid');
+    
+    if(isGridView) {
+      stopSlide();
+      document.getElementById('imgContainer').style.display = 'none';
+      document.getElementById('gridContainer').style.display = 'grid';
+      document.getElementById('txtMenu').innerText = "SEMUA MENU (" + imageList.length + ")";
+      btn.innerHTML = `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>`;
+      btn.classList.add('tab-on');
+      btn.style.color = 'var(--gold)';
+      
+      if(!isGlobalPlayMode) document.getElementById('menuFilterBar').style.display = 'flex';
+      renderMenuGrid();
+    } else {
+      document.getElementById('gridContainer').style.display = 'none';
+      document.getElementById('imgContainer').style.display = 'flex';
+      btn.innerHTML = `<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>`;
+      btn.classList.remove('tab-on');
+      btn.style.color = 'white';
+
+      if(!isGlobalPlayMode) document.getElementById('menuFilterBar').style.display = 'none';
+      updateDisplay(currentIdx);
+    }
+    updateCounter();
+  }
+
+  function renderMenuGrid() {
+    let html = '';
+    imageList.forEach((img, index) => {
+      if(img.isPlaceholder) return;
+      html += `
+        <div class="grid-card" onclick="pilihMenuDariGrid(${index})">
+          <img class="grid-item" src="${img.src}" loading="lazy">
+          <div class="grid-title">${img.nama}</div>
+          <div class="grid-date">${fmtTgl(img.tanggal)}</div>
+          ${img.dapur && isGlobalPlayMode ? `<div class="grid-date" style="color:#888;">${img.dapur}</div>` : ''}
+        </div>
+      `;
+    });
+    document.getElementById('gridContainer').innerHTML = html;
+  }
+
+  function pilihMenuDariGrid(index) {
+    currentIdx = index;
+    toggleGridSlide(); 
+  }
+
+  function updateDisplay(idx) {
+    if(!imageList[idx]) return;
+    const img  = document.getElementById('displayImg');
+    const data = imageList[idx];
+    
+    img.classList.remove('fade-anim');
+    void img.offsetWidth; 
+
+    if(isGlobalPlayMode || data.dapur)
+      document.getElementById('txtDapur').innerText = data.dapur || "SEMUA DAPUR";
+    
+    document.getElementById('emptyState').style.display = data.isPlaceholder ? 'flex' : 'none';
+    img.style.display = data.isPlaceholder ? 'none' : 'block';
+    
+    img.src = data.src;
+    img.classList.add('fade-anim');
+
+    document.getElementById('txtMenu').innerText = data.nama;
+    document.getElementById('txtTgl').innerText  = fmtTgl(data.tanggal);
+    currentIdx = idx;
+    
+    updateCounter();
+  }
+
+  async function muatGaleri() {
+    document.getElementById('txtDapur').innerText = "GALERI KEGIATAN";
+    document.getElementById('txtMenu').innerText  = "SEMUA DAPUR";
+    document.getElementById('txtTgl').innerText   = fmtHariIni();
+
+    showLoader("Memuat Galeri...");
+    const r = await fetchAPI('getGaleri');
+    hideLoader();
+
+    galeriAllData = r || [];
+
+    const bulanSet = new Set();
+    galeriAllData.forEach(g => {
+      if(g.tanggal && g.tanggal!=='-') {
+        const d = new Date(g.tanggal);
+        bulanSet.add(`${BULAN[d.getMonth()]} ${d.getFullYear()}`);
+      }
+    });
+    let hb = '<option value="">-- Semua Bulan --</option>';
+    [...bulanSet].reverse().forEach(b => hb += `<option value="${b}">${b}</option>`);
+    document.getElementById('selGaleriBulan').innerHTML = hb;
+
+    renderGaleri(galeriAllData);
+  }
+
+  function renderGaleri(data) {
+    let html = '';
+    if(data && data.length > 0) {
+      data.forEach((g) => {
+        const originalIndex = galeriAllData.findIndex(item => item.id === g.id);
+        
+        let actionHtml = '';
+        if(isAdmin && isGaleriKelola) {
+          actionHtml = `
+            <div class="galeri-admin-actions" onclick="event.stopPropagation()">
+              <button class="btn-dark" onclick="bukaModalEditGaleri(${originalIndex})">Edit</button>
+              <button class="btn-danger" onclick="doHapus('galeri', ${originalIndex})">Hapus</button>
+            </div>
+          `;
+        }
+
+        let mediaTag = `<img src="${g.src}" loading="lazy">`;
+        if (g.src.includes('data:video') || g.src.includes('video/mp4')) {
+           mediaTag = `<div style="position:relative; width:100%; height:180px; background:#000; display:flex; align-items:center; justify-content:center; border-radius:12px; margin-bottom:12px;">
+                          <svg viewBox="0 0 24 24" width="40" height="40" fill="rgba(255,255,255,0.7)"><path d="M8 5v14l11-7z"/></svg>
+                       </div>`;
+        }
+
+        html += `<div class="galeri-card" onclick="bukaGaleriFull(${originalIndex})" style="cursor:pointer;">
+          ${mediaTag}
+          <div class="galeri-title">${g.judul}</div>
+          <div class="galeri-desc">${g.deskripsi||''}</div>
+          <div class="meta-item">
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            ${fmtTgl(g.tanggal)}
+          </div>
+          <div class="meta-item">
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            ${g.dapur||'Umum'}
+          </div>
+          ${actionHtml}
+        </div>`;
+      });
+    } else {
+      html = `<div style="color:#888;font-style:italic;grid-column:1/-1;text-align:center;padding:60px;">Belum ada kegiatan.</div>`;
+    }
+    document.getElementById('galeriContainer').innerHTML = html;
+  }
+
+  // ── FITUR FULL SCREEN GALERI SWIPE & VIDEO ──
+  let galeriListFullscreen = []; 
+  let galIdx = 0;
+
+  function bukaGaleriFull(index) {
+    galeriListFullscreen = galeriAllData;
+    galIdx = index;
+    renderFullGaleri();
+    document.getElementById('modalFullGaleri').style.display = 'flex';
+  }
+
+  function renderFullGaleri() {
+    const item = galeriListFullscreen[galIdx];
+    const container = document.getElementById('fullGaleriContent');
+    
+    if(item.src.includes('data:video') || item.src.includes('video/mp4')) {
+      container.innerHTML = `<video src="${item.src}" controls autoplay playsinline style="max-width:100%; max-height:85vh; border-radius:12px; box-shadow: 0 10px 30px rgba(0,0,0,0.8); background:black;"></video>`;
+    } else {
+      container.innerHTML = `<img src="${item.src}" style="max-width:100%; max-height:85vh; border-radius:12px; box-shadow: 0 10px 30px rgba(0,0,0,0.8); object-fit: contain;">`;
+    }
+  }
+
+  function slideGal(next) {
+    galIdx = next ? (galIdx + 1) % galeriListFullscreen.length : (galIdx - 1 + galeriListFullscreen.length) % galeriListFullscreen.length;
+    renderFullGaleri();
+  }
+
+  function tutupModalFull() { 
+    document.getElementById('modalFullGaleri').style.display='none'; 
+    document.getElementById('fullGaleriContent').innerHTML = ''; 
+  }
+
+  let touchstartX = 0;
+  let touchendX = 0;
+  
+  function handleSwipe() {
+    if (touchendX < touchstartX - 40) slideGal(true); 
+    if (touchendX > touchstartX + 40) slideGal(false); 
+  }
+
+  document.getElementById('modalFullGaleri').addEventListener('touchstart', e => {
+    touchstartX = e.changedTouches[0].screenX;
+  }, {passive: true});
+
+  document.getElementById('modalFullGaleri').addEventListener('touchend', e => {
+    touchendX = e.changedTouches[0].screenX;
+    handleSwipe();
+  }, {passive: true});
+
+
+  function bukaModalUploadMenu() { document.getElementById('modalUploadMenu').style.display='flex'; }
+  function bukaModalUploadGaleri() { document.getElementById('modalUploadGaleri').style.display='flex'; }
+
+  async function doUploadMenu() {
+    const dapurId  = document.getElementById('upMenuDapur').value;
+    const nama     = document.getElementById('upMenuNama').value.trim();
+    const tgl      = document.getElementById('upMenuTgl').value;
+    const file     = document.getElementById('upMenuFile').files[0];
+
+    if(!dapurId)  return showToast("Pilih Dapur dulu!", true);
+    if(!nama)     return showToast("Isi Nama Menu!", true);
+    if(!tgl)      return showToast("Isi Tanggal!", true);
+    if(!file)     return showToast("Pilih Foto!", true);
+
+    const rd = new FileReader();
+    rd.onload = async e => {
+      showLoader("MENGUPLOAD MENU...");
+      tutupModal('modalUploadMenu');
+      const r = await fetchAPI('uploadMenuAuto', { dapurId, namaMenu: nama, tanggal: tgl, data: e.target.result });
+      hideLoader();
+      if(r && r.status==='sukses') {
+        showToast(`✓ Menu '${nama}' berhasil diupload!`);
+        document.getElementById('upMenuFile').value='';
+        document.getElementById('upMenuNama').value='';
+        if(!isGlobalPlayMode && currentView==='menu') fetchGambar();
+      } else { showToast("Gagal upload menu", true); }
+    };
+    rd.readAsDataURL(file);
+  }
+
+  async function doUploadGaleri() {
+    const dapurEl   = document.getElementById('upGaleriDapur');
+    const dapurNama = dapurEl.options[dapurEl.selectedIndex]?.text || '';
+    const tgl       = document.getElementById('upGaleriTgl').value;
+    const judul     = document.getElementById('upGaleriJudul').value.trim();
+    const desc      = document.getElementById('upGaleriDesc').value.trim();
+    const file      = document.getElementById('upGaleriFile').files[0];
+
+    if(!dapurEl.value) return showToast("Pilih Dapur!", true);
+    if(!tgl)   return showToast("Isi Tanggal!", true);
+    if(!judul) return showToast("Isi Judul!", true);
+    if(!file)  return showToast("Pilih File!", true);
+
+    const rd = new FileReader();
+    rd.onload = async e => {
+      showLoader("MENGUPLOAD GALERI...");
+      tutupModal('modalUploadGaleri');
+      const r = await fetchAPI('uploadGaleri',{dapur:dapurNama, tanggal:tgl, judul, deskripsi:desc, data:e.target.result});
+      hideLoader();
+      if(r && r.status==='sukses') {
+        showToast("✓ Galeri berhasil diupload!");
+        document.getElementById('upGaleriFile').value='';
+        document.getElementById('upGaleriJudul').value='';
+        document.getElementById('upGaleriDesc').value='';
+        if(currentView==='galeri') muatGaleri();
+      } else showToast("Gagal upload galeri", true);
+    };
+    rd.readAsDataURL(file);
+  }
+
+  function bukaModalEdit() {
+    if(imageList.length===0 || isModeGaleri) return showToast("Pilih menu dulu!", true);
+    document.getElementById('editNama').value = imageList[currentIdx].nama;
+    document.getElementById('editTgl').value  = imageList[currentIdx].tanggal;
+    document.getElementById('modalEdit').style.display = 'flex';
+  }
+  
+  async function executeEdit() {
+    const curr = imageList[currentIdx];
+    const file = document.getElementById('editFile').files[0];
+    tutupModal('modalEdit');
+    showLoader("MENYIMPAN...");
+    let payload = {id:curr.id, nama:document.getElementById('editNama').value, tanggal:document.getElementById('editTgl').value, fileData:null};
+    if(file) {
+      const rd = new FileReader();
+      rd.onload = async e => { payload.fileData = e.target.result; await kirimEdit(payload); };
+      rd.readAsDataURL(file);
+    } else await kirimEdit(payload);
+  }
+  
+  async function kirimEdit(payload) {
+    const r = await fetchAPI('editMenu', payload);
+    hideLoader();
+    if(r && r.success) { showToast("Berhasil disimpan!"); fetchGambar(); }
+    else showToast("Gagal menyimpan!", true);
+  }
+
+  function bukaModalEditGaleri(index) {
+    const curr = galeriAllData[index];
+    deleteTargetIndex = index; 
+    document.getElementById('editGaleriJudul').value = curr.judul;
+    document.getElementById('editGaleriTgl').value  = curr.tanggal;
+    document.getElementById('editGaleriDesc').value = curr.deskripsi || '';
+    document.getElementById('modalEditGaleri').style.display = 'flex';
+  }
+
+  async function executeEditGaleri() {
+    const curr = galeriAllData[deleteTargetIndex];
+    const file = document.getElementById('editGaleriFile').files[0];
+    tutupModal('modalEditGaleri');
+    showLoader("MENYIMPAN GALERI...");
+    
+    let payload = {
+      id: curr.id, 
+      judul: document.getElementById('editGaleriJudul').value, 
+      tanggal: document.getElementById('editGaleriTgl').value,
+      deskripsi: document.getElementById('editGaleriDesc').value,
+      fileData: null
+    };
+
+    if(file) {
+      const rd = new FileReader();
+      rd.onload = async e => { payload.fileData = e.target.result; await kirimEditGaleri(payload); };
+      rd.readAsDataURL(file);
+    } else await kirimEditGaleri(payload);
+  }
+
+  async function kirimEditGaleri(payload) {
+    const r = await fetchAPI('editGaleri', payload); 
+    hideLoader();
+    if(r && r.success) { 
+      showToast("Galeri berhasil diperbarui!"); 
+      muatGaleri(); 
+    } else showToast("Gagal memperbarui galeri", true);
+  }
+
+  function doHapus(type, index=null) {
+    deleteTargetType = type;
+    if(type === 'menu') {
+      if(imageList.length===0) return;
+      document.getElementById('modalText').innerText = `Yakin hapus menu "${imageList[currentIdx].nama}"?`;
+    } else if (type === 'galeri') {
+      deleteTargetIndex = index;
+      document.getElementById('modalText').innerText = `Yakin hapus kegiatan "${galeriAllData[index].judul}"?`;
+    }
+    document.getElementById('modalConfirm').style.display = 'flex';
+  }
+
+  async function executeHapus() {
+    tutupModal('modalConfirm');
+    showLoader("MENGHAPUS...");
+    
+    if(deleteTargetType === 'menu') {
+      const r = await fetchAPI('hapusMenu', {fileId: imageList[currentIdx].id});
+      hideLoader();
+      if(r && r.success) {
+        showToast("Menu dihapus!");
+        imageList.splice(currentIdx,1);
+        currentIdx = 0;
+        if(isGridView) renderMenuGrid();
+        else if(imageList.length>0) updateDisplay(0);
+        else { document.getElementById('displayImg').src=''; document.getElementById('emptyState').style.display='flex'; }
+      } else showToast("Gagal menghapus!", true);
+      updateCounter();
+
+    } else if(deleteTargetType === 'galeri') {
+      const targetId = galeriAllData[deleteTargetIndex].id;
+      const r = await fetchAPI('hapusGaleri', {fileId: targetId}); 
+      hideLoader();
+      if(r && r.success) {
+        showToast("Kegiatan dihapus!");
+        muatGaleri();
+      } else showToast("Gagal menghapus!", true);
+    }
+  }
+
+  function stopSlide() {
+    if(!isPlaying) return;
+    isPlaying = false;
+    clearInterval(slideTimer);
+    const btn   = document.getElementById('btnPlayPause');
+    const icon  = document.getElementById('iconPlay');
+    const label = document.getElementById('playLabel');
+    btn.classList.remove('playing');
+    icon.innerHTML = '<path d="M8 5v14l11-7z"/>';
+    label.innerText = 'PLAY SLIDESHOW';
+  }
+
+  function runSlide() {
+    if(isModeGaleri || isGridView) return;
+    isPlaying = !isPlaying;
+    const btn   = document.getElementById('btnPlayPause');
+    const icon  = document.getElementById('iconPlay');
+    const label = document.getElementById('playLabel');
+    
+    if(isPlaying) {
+      btn.classList.add('playing');
+      icon.innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
+      label.innerText = 'PAUSE';
+      slideTimer = setInterval(() => nextSlide(), 5500); 
+    } else {
+      btn.classList.remove('playing');
+      icon.innerHTML = '<path d="M8 5v14l11-7z"/>';
+      label.innerText = 'PLAY SLIDESHOW';
+      clearInterval(slideTimer);
+    }
+  }
+  
+  function nextSlide() { if(imageList.length>0 && !isGridView) updateDisplay(currentIdx===imageList.length-1 ? 0 : currentIdx+1); }
+  function prevSlide() { if(imageList.length>0 && !isGridView) updateDisplay(currentIdx===0 ? imageList.length-1 : currentIdx-1); }
+
+  async function downloadPoster() {
+    const imgElem = document.getElementById('displayImg');
+    if(!imgElem || !imgElem.src) return alert("Belum ada gambar!");
+
+    const canvas = document.getElementById('posterCanvas');
+    const ctx    = canvas.getContext('2d');
+    canvas.width = 1080; canvas.height = 1920;
+
+    ctx.fillStyle = "#05233f";
+    ctx.fillRect(0,0,1080,1920);
+
+    ctx.fillStyle = "rgba(255,255,255,0.05)";
+    ctx.beginPath();
+    ctx.moveTo(0,500);
+    ctx.quadraticCurveTo(540,300,1080,500);
+    ctx.lineTo(1080,1500);
+    ctx.quadraticCurveTo(540,1700,0,1500);
+    ctx.fill();
+
+    const loadImg = src => new Promise(res => {
+      const i = new Image(); i.crossOrigin="Anonymous";
+      i.onload = () => res(i); i.src = src;
+    });
+
+    const imgMenu = await loadImg(imgElem.src);
+    const l1src   = document.getElementById('boxLogo1')?.querySelector('img')?.src;
+    const l2src   = document.getElementById('boxLogo2')?.querySelector('img')?.src;
+    if(!l1src || !l2src) return alert("Gagal memuat logo!");
+
+    const logo1 = await loadImg(l1src);
+    const logo2 = await loadImg(l2src);
+
+    const lw = 160;
+    ctx.drawImage(logo1, 80,  80, lw, lw/(logo1.width/logo1.height));
+    ctx.drawImage(logo2, 840, 80, lw, lw/(logo2.width/logo2.height));
+
+    ctx.shadowColor = "rgba(0,0,0,0.5)"; ctx.shadowBlur = 40;
+    ctx.fillStyle = "#fff";
+    ctx.fillRect(100,600,880,600);
+    
+    let hRatio = 840 / imgMenu.width;
+    let vRatio = 560 / imgMenu.height;
+    let ratio = Math.min(hRatio, vRatio);
+    let centerShift_x = (840 - imgMenu.width * ratio) / 2;
+    let centerShift_y = (560 - imgMenu.height * ratio) / 2;
+    
+    ctx.drawImage(imgMenu, 0, 0, imgMenu.width, imgMenu.height, 
+                  120 + centerShift_x, 620 + centerShift_y, 
+                  imgMenu.width * ratio, imgMenu.height * ratio);
+    
+    ctx.shadowBlur = 0;
+
+    ctx.textAlign = "center"; ctx.textBaseline = "top";
+    ctx.fillStyle = "#ffcc00"; ctx.font = "bold 55px Arial";
+    ctx.fillText(document.getElementById('txtDapur')?.innerText||"SPPG", 540, 430);
+
+    function wrapText(ctx, text, x, y, maxW, lh) {
+      const words = text.split(' ');
+      let line = '', cy = y;
+      for(let n=0; n<words.length; n++) {
+        const test = line + words[n] + ' ';
+        if(ctx.measureText(test).width > maxW && n>0) { ctx.fillText(line,x,cy); line=words[n]+' '; cy+=lh; }
+        else line=test;
+      }
+      ctx.fillText(line,x,cy);
+      return cy+lh;
+    }
+
+    ctx.fillStyle = "#fff"; ctx.font = "bold 60px Arial";
+    const endY = wrapText(ctx, document.getElementById('txtMenu')?.innerText||"Menu MBG", 540, 1320, 900, 80);
+
+    ctx.fillStyle="#ffcc00"; ctx.font="italic 36px Arial";
+    ctx.fillText(document.getElementById('txtTgl')?.innerText||fmtHariIni(), 540, endY+28);
+
+    const a = document.createElement('a');
+    a.download = "Poster_Premium_MBG.png";
+    a.href = canvas.toDataURL("image/png");
+    a.click();
+  }
 </script>
 </body>
 </html>
