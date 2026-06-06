@@ -5,223 +5,765 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Portal Menu MBG MAP</title>
   <link rel="manifest" href="manifest.json">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Nunito:ital,wght@0,400;0,600;0,700;0,900;1,400&display=swap" rel="stylesheet">
   <style>
-    /* CSS BAWAAN & GLASSMORPHISM */
-    body { margin: 0; background: #213e58; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif; overflow: hidden; height: 100vh; display: flex; justify-content: center; align-items: center; }
-    #mainView { width: 96%; height: 95%; background: #05233f; border-radius: 24px; position: relative; overflow: hidden; box-shadow: 0 30px 60px rgba(0,0,0,0.8); display: flex; flex-direction: column; align-items: center; border: 1px solid rgba(255,255,255,0.1); padding: 20px; box-sizing: border-box; display: none; }
-    
-    /* HEADER ELASTIS */
-    #header { width: 100%; min-height: 100px; flex-shrink: 0; background: rgba(255,255,255,0.1); backdrop-filter: blur(20px); border-radius: 18px; display: flex; justify-content: space-between; align-items: center; padding: 15px 25px; border: 1px solid rgba(255,255,255,0.2); box-sizing: border-box; color: white; margin-bottom: 20px; z-index: 10; gap: 10px; flex-wrap: wrap; }
-    .logo-box { height: 75px; width: 100px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
-    .logo-img { max-height: 100%; max-width: 100%; object-fit: contain; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.5)); }
-    .header-info { text-align: center; flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; min-width: 200px;}
-    #txtDapur { font-size: 24px; font-weight: 900; letter-spacing: 1.5px; text-transform: uppercase; text-shadow: 0 2px 5px rgba(0,0,0,0.8); margin-bottom: 5px;}
-    #txtMenu { font-size: 16px; font-weight: 600; color: #ffcc00; margin: 0; text-shadow: 0 1px 3px rgba(0,0,0,0.8); }
-    #txtTgl { font-size: 13px; opacity: 0.9; font-style: italic; letter-spacing: 0.5px; margin-bottom: 8px;}
-    
-    #imgContainer { width: 100%; flex: 1; display: flex; justify-content: center; align-items: center; overflow: hidden; position: relative; }
-    #displayImg { max-width: 100%; max-height: 100%; object-fit: contain; transform-origin: center; cursor: pointer; position: absolute; transition: transform 0.1s ease-out; }
-    
-    /* Ikon SVG di Tengah Kosong */
-    #emptyState { display: none; flex-direction: column; align-items: center; justify-content: center; position: absolute; width: 100%; height: 100%; text-align: center; color: #ff3b30; }
-    #emptyPesan { font-size: 24px; font-weight: 900; background: rgba(0,0,0,0.4); padding: 15px 30px; border-radius: 16px; border: 1px solid rgba(255,59,48,0.3); text-transform: uppercase; margin-top:15px;}
+    :root {
+      --bg-outer:   #192f45;
+      --bg-main:    #05233f;
+      --bg-panel:   rgba(4, 16, 30, 0.94);
+      --gold:       #ffcc00;
+      --gold-dim:   rgba(255,204,0,0.12);
+      --green:      #34c759;
+      --red:        #ff3b30;
+      --orange:     #ff9500;
+      --glass:      rgba(255,255,255,0.06);
+      --glass-b:    rgba(255,255,255,0.11);
+      --glass-h:    rgba(255,255,255,0.12);
+      --fd: 'Rajdhani', sans-serif;
+      --fb: 'Nunito', sans-serif;
+    }
 
-    #gridContainer { width: 100%; height: 100%; display: none; flex-wrap: wrap; justify-content: center; align-content: center; gap: 20px; position: absolute; top: 0; left: 0; box-sizing: border-box; padding: 10px; overflow-y: auto; }
-    .grid-card { display: flex; flex-direction: column; align-items: center; justify-content: center; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 15px; border-radius: 16px; width: calc(33.33% - 20px); max-width: 320px; min-width: 240px; box-shadow: 0 10px 20px rgba(0,0,0,0.5); cursor: pointer; transition: 0.3s; }
-    .grid-card:hover { background: rgba(255,255,255,0.1); border-color: #ffcc00; }
-    .grid-item { width: 100%; height: 180px; object-fit: contain; border-radius: 8px; }
-    .grid-title { margin-top: 12px; font-size: 15px; font-weight: bold; color: #ffcc00; text-align: center; text-transform: uppercase; }
-    .grid-date { margin-top: 4px; font-size: 12px; color: #ccc; text-align: center; font-style: italic; display:flex; align-items:center; gap:4px; }
-    
-    /* DOCK SENSOR KURSOR (Super Rapi & Anti Nyangkut) */
-    #dock { position: fixed; bottom: -250px; left: 50%; transform: translateX(-50%); background: rgba(20,20,20,0.95); backdrop-filter: blur(25px); padding: 20px 25px; border-radius: 20px 20px 0 0; transition: bottom 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); display: flex; flex-direction: column; gap: 15px; border: 1px solid rgba(255,255,255,0.1); z-index: 1000; color: white; width: max-content; box-shadow: 0 -10px 30px rgba(0,0,0,0.8);}
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg-outer);
+      font-family: var(--fb);
+      overflow: hidden;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* ─────────────────────────────────────────
+       MAIN CARD
+    ───────────────────────────────────────── */
+    #mainView {
+      width: 96%; height: 95%;
+      background: var(--bg-main);
+      border-radius: 24px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.85);
+      display: none;
+      flex-direction: column;
+      border: 1px solid var(--glass-b);
+    }
+
+    /* ─────────────────────────────────────────
+       HEADER  — hanya logo + info teks, super clean
+    ───────────────────────────────────────── */
+    #header {
+      width: 100%;
+      flex-shrink: 0;
+      background: var(--bg-panel);
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+      border-bottom: 1px solid var(--glass-b);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 18px;
+      color: white;
+      z-index: 20;
+      gap: 8px;
+      position: relative;
+    }
+
+    .logo-box {
+      height: 58px; width: 82px;
+      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .logo-img {
+      max-height: 100%; max-width: 100%;
+      object-fit: contain;
+      filter: drop-shadow(0 2px 6px rgba(0,0,0,0.6));
+    }
+
+    .header-info {
+      flex: 1;
+      text-align: center;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 1px;
+    }
+    #txtDapur {
+      font-family: var(--fd);
+      font-size: 21px; font-weight: 700;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: #fff;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+      line-height: 1.15;
+    }
+    #txtMenu {
+      font-size: 12px; font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 0.4px;
+    }
+    #txtTgl {
+      font-size: 11px; opacity: 0.65;
+      font-style: italic; letter-spacing: 0.2px;
+    }
+
+    /* Secret admin btn */
+    #secretLoginBtn {
+      position: absolute; top: 8px; right: 12px;
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      background: transparent; cursor: pointer; border: none;
+      z-index: 100; transition: 0.3s;
+    }
+    #secretLoginBtn:hover {
+      background: var(--gold-dim);
+      border: 1px solid rgba(255,204,0,0.35);
+    }
+
+    /* ─────────────────────────────────────────
+       TOP DOCK  — switch menu/galeri — slide dari atas
+    ───────────────────────────────────────── */
+    #topDock {
+      position: absolute;
+      top: -80px;
+      left: 50%; transform: translateX(-50%);
+      background: var(--bg-panel);
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+      border: 1px solid var(--glass-b);
+      border-top: none;
+      border-radius: 0 0 20px 20px;
+      padding: 10px 24px 12px;
+      z-index: 30;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+      transition: top 0.4s cubic-bezier(0.2,0.9,0.2,1);
+      white-space: nowrap;
+    }
+    #topDock.show-top { top: 0; }
+
+    .top-tab {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 8px 18px;
+      border-radius: 12px;
+      border: 1px solid transparent;
+      cursor: pointer;
+      font-family: var(--fb);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      background: var(--glass);
+      color: #888;
+      transition: 0.25s;
+    }
+    .top-tab:hover { color: #ccc; background: var(--glass-h); }
+    .top-tab.tab-active {
+      background: var(--gold-dim);
+      border-color: rgba(255,204,0,0.35);
+      color: var(--gold);
+    }
+    .top-tab-sep {
+      width: 1px; height: 28px;
+      background: var(--glass-b);
+      flex-shrink: 0;
+    }
+
+    /* ─────────────────────────────────────────
+       CONTENT AREA
+    ───────────────────────────────────────── */
+    #contentArea {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ─────────────────────────────────────────
+       IMG + NAV
+    ───────────────────────────────────────── */
+    #imgContainer {
+      width: 100%; flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      position: relative;
+    }
+    #displayImg {
+      max-width: 100%; max-height: 100%;
+      object-fit: contain;
+      transform-origin: center;
+      cursor: pointer;
+      position: absolute;
+      transition: transform 0.1s ease-out;
+    }
+
+    /* Floating nav arrows  */
+    .nav-arrow {
+      position: absolute;
+      top: 50%; transform: translateY(-50%);
+      background: rgba(0,0,0,0.38);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--glass-b);
+      color: white;
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; z-index: 15;
+      transition: 0.2s;
+      opacity: 0; pointer-events: none;
+    }
+    #contentArea:hover .nav-arrow { opacity: 1; pointer-events: all; }
+    .nav-arrow:hover { background: rgba(255,204,0,0.25); border-color: var(--gold); }
+    #navPrev { left: 10px; }
+    #navNext { right: 10px; }
+
+    /* Download btn — auto hide */
+    #btnDownload {
+      position: absolute;
+      bottom: 18px; right: 18px;
+      background: linear-gradient(135deg, var(--gold), var(--orange));
+      color: #000;
+      font-weight: 800; font-family: var(--fb); font-size: 12px;
+      border: none;
+      padding: 10px 20px; border-radius: 20px;
+      cursor: pointer;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+      z-index: 50;
+      display: flex; align-items: center; gap: 7px;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.35s ease, transform 0.3s ease;
+      transform: translateY(10px);
+    }
+    #btnDownload.visible { opacity: 1; pointer-events: all; transform: translateY(0); }
+    #btnDownload:hover { filter: brightness(1.1); }
+
+    /* Empty state */
+    #emptyState {
+      display: none;
+      flex-direction: column;
+      align-items: center; justify-content: center;
+      position: absolute;
+      width: 100%; height: 100%;
+      text-align: center; color: var(--red);
+    }
+    #emptyPesan {
+      font-family: var(--fd);
+      font-size: 20px; font-weight: 700;
+      background: rgba(0,0,0,0.4);
+      padding: 13px 26px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,59,48,0.3);
+      text-transform: uppercase;
+      margin-top: 12px;
+    }
+
+    #gridContainer {
+      width: 100%; height: 100%;
+      display: none;
+      flex-wrap: wrap;
+      justify-content: center; align-content: center;
+      gap: 16px;
+      position: absolute; top: 0; left: 0;
+      padding: 12px;
+      overflow-y: auto;
+    }
+    .grid-card {
+      display: flex; flex-direction: column;
+      align-items: center;
+      background: var(--glass); border: 1px solid var(--glass-b);
+      padding: 12px; border-radius: 14px;
+      width: calc(33.33% - 16px); max-width: 290px; min-width: 200px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+      cursor: pointer; transition: 0.25s;
+    }
+    .grid-card:hover { background: var(--glass-h); border-color: var(--gold); }
+    .grid-item { width: 100%; height: 150px; object-fit: contain; border-radius: 8px; }
+    .grid-title { margin-top: 9px; font-family: var(--fd); font-size: 13px; font-weight: 700; color: var(--gold); text-transform: uppercase; letter-spacing: 1px; text-align: center; }
+    .grid-date { margin-top: 3px; font-size: 11px; color: #aaa; font-style: italic; text-align: center; }
+
+    /* ─────────────────────────────────────────
+       GALERI
+    ───────────────────────────────────────── */
+    #galeriContainer {
+      width: 100%; height: 100%;
+      display: none;
+      flex-wrap: wrap;
+      justify-content: center; align-content: flex-start;
+      gap: 16px;
+      position: absolute; top: 0; left: 0;
+      padding: 18px;
+      overflow-y: auto;
+      z-index: 5;
+    }
+    .galeri-card {
+      background: var(--glass); border: 1px solid var(--glass-b);
+      border-radius: 16px; width: 270px; padding: 13px;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.5);
+      color: white; transition: 0.25s;
+    }
+    .galeri-card:hover { border-color: var(--gold); background: var(--glass-h); }
+    .galeri-card img { width: 100%; height: 170px; object-fit: cover; border-radius: 10px; margin-bottom: 9px; }
+    .galeri-title { font-family: var(--fd); color: var(--gold); font-weight: 700; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; }
+    .galeri-desc { font-size: 12px; color: #bbb; margin: 5px 0 7px; line-height: 1.5; }
+    .meta-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: #888; font-style: italic; margin-top: 3px; }
+
+    /* ─────────────────────────────────────────
+       BOTTOM DOCK — slide dari bawah
+    ───────────────────────────────────────── */
+    #dock {
+      position: fixed;
+      bottom: -380px;
+      left: 50%; transform: translateX(-50%);
+      background: var(--bg-panel);
+      backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+      border-radius: 22px 22px 0 0;
+      border: 1px solid var(--glass-b);
+      border-bottom: none;
+      transition: bottom 0.42s cubic-bezier(0.2,0.9,0.2,1);
+      z-index: 1000;
+      color: white;
+      width: max-content; max-width: 99vw;
+      box-shadow: 0 -12px 40px rgba(0,0,0,0.9);
+      overflow: hidden;
+    }
     #dock.show-dock { bottom: 0; }
-    
-    .dock-row { display: flex; gap: 15px; align-items: flex-end; flex-wrap: wrap; justify-content: center;}
-    .dock-group { display: flex; flex-direction: column; gap: 5px; }
-    label { font-size: 10px; opacity: 0.6; font-weight: 600; text-transform: uppercase; color: white; }
-    select, input, button { background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 10px; font-size: 12px; outline: none; box-sizing: border-box;}
+
+    /* Slideshow pill — sits on top edge of dock, always part of dock */
+    #slidePill {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 9px 22px;
+      background: rgba(0,0,0,0.45);
+      border-bottom: 1px solid var(--glass-b);
+    }
+    .pill-btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      background: var(--glass);
+      border: 1px solid var(--glass-b);
+      color: white;
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      cursor: pointer; transition: 0.2s;
+    }
+    .pill-btn:hover { background: var(--glass-h); border-color: var(--gold); }
+    #btnPlayPause {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: var(--green);
+      border: none; color: white;
+      padding: 8px 20px; border-radius: 20px;
+      font-family: var(--fb); font-size: 11px; font-weight: 700;
+      cursor: pointer; transition: 0.2s;
+    }
+    #btnPlayPause.playing { background: var(--red); }
+    #btnPlayPause:hover { filter: brightness(1.15); }
+    .slide-counter {
+      font-size: 11px; color: #666; font-style: italic; min-width: 38px; text-align: center;
+    }
+
+    /* Mode switch */
+    .dock-inner { padding: 12px 22px 16px; }
+
+    .mode-switch {
+      display: flex;
+      background: rgba(0,0,0,0.5);
+      border-radius: 10px;
+      padding: 3px; width: fit-content;
+      gap: 2px; margin: 0 auto 13px;
+    }
+    .mode-btn {
+      background: transparent; color: #666;
+      padding: 7px 14px; border-radius: 8px; border: none;
+      cursor: pointer;
+      font-family: var(--fb); font-size: 10px; font-weight: 700;
+      letter-spacing: 0.5px; text-transform: uppercase;
+      transition: 0.22s;
+      display: flex; align-items: center; gap: 5px;
+    }
+    .mode-btn.active { background: #1a6bbf; color: white; }
+    .mode-btn.play-active { background: var(--red); color: white; }
+
+    .dock-row {
+      display: flex; gap: 11px;
+      align-items: flex-end; flex-wrap: wrap;
+    }
+    .dock-group { display: flex; flex-direction: column; gap: 4px; }
+
+    label {
+      font-size: 9px; opacity: 0.45;
+      font-weight: 700; text-transform: uppercase;
+      letter-spacing: 1px; color: white;
+    }
+
+    select, input[type="text"], input[type="date"] {
+      background: rgba(255,255,255,0.07);
+      color: white;
+      border: 1px solid var(--glass-b);
+      border-radius: 8px;
+      padding: 8px 10px;
+      font-family: var(--fb); font-size: 12px;
+      outline: none;
+    }
+    select option { background: #0a2040; }
+    input[type="file"] {
+      background: rgba(255,255,255,0.05);
+      color: #ccc;
+      border: 1px dashed var(--glass-b);
+      border-radius: 8px;
+      padding: 6px 10px;
+      font-family: var(--fb); font-size: 11px;
+      outline: none; cursor: pointer;
+    }
     input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(1); cursor: pointer; }
-    
-    button { display: flex; align-items: center; justify-content: center; gap: 6px; background: #007aff; border: none; font-weight: bold; cursor: pointer; transition: 0.2s; }
-    button:hover { filter: brightness(1.2); }
-    .btn-action { background: #34c759; }
-    .btn-nav { background: #ff9500; }
-    .btn-danger { background: #ff3b30; }
-    .btn-secondary { background: #555; }
-    .kelola-only { display: none; } 
-    
-    .mode-switch { display: flex; background: rgba(0,0,0,0.5); border-radius: 10px; padding: 3px; width: fit-content; align-self: center; margin-bottom: 5px; gap: 2px;}
-    .mode-btn { background: transparent; color: #aaa; padding: 8px 15px; border-radius: 8px; border: none; cursor: pointer; font-size: 11px; font-weight: bold; transition: 0.3s; }
-    .mode-btn.active { background: #007aff; color: white; }
-    .mode-btn.play-active { background: #ff3b30; color: white; }
 
-    /* WELCOME SCREEN */
-    #welcomeScreen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #05233f; z-index: 9999; display: flex; justify-content: center; align-items: center; transition: opacity 1s ease-out; }
-    .welcome-logo { width: 180px; animation: pulsateLogo 1.5s infinite alternate; filter: drop-shadow(0 0 15px rgba(255,204,0,0.5)); }
-    @keyframes pulsateLogo { 100% { filter: drop-shadow(0 0 30px rgba(0,234,255,0.8)) scale(1.05); } }
+    button {
+      display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+      background: #1a6bbf; color: white;
+      border: none; border-radius: 8px;
+      padding: 8px 13px;
+      font-family: var(--fb); font-size: 11px; font-weight: 700;
+      cursor: pointer; transition: 0.2s;
+      white-space: nowrap;
+    }
+    button:hover { filter: brightness(1.2); transform: translateY(-1px); }
+    .btn-action  { background: var(--green); }
+    .btn-nav     { background: var(--orange); }
+    .btn-danger  { background: var(--red); }
+    .btn-dark    { background: #213e58; border: 1px solid var(--glass-b); }
+    .btn-secondary { background: #444; }
+    .kelola-only { display: none; }
 
-    #btnToggleGaleri { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3); padding: 8px 20px; border-radius: 20px; cursor: pointer; color: #ffcc00; font-weight: bold; margin-top: 5px; transition: 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.3);}
-    #btnToggleGaleri:hover { background: #ffcc00; color: #000; transform: scale(1.05); }
+    /* Upload panels */
+    #uploadSection {
+      display: none;
+      flex-direction: column;
+      gap: 9px;
+      margin-top: 10px;
+    }
+    .up-panel {
+      display: flex; flex-wrap: wrap;
+      gap: 9px; align-items: flex-end;
+      padding: 9px 12px 11px;
+      border-radius: 12px;
+      border: 1px solid var(--glass-b);
+      background: rgba(255,255,255,0.025);
+    }
+    .up-panel-menu   { border-left: 2px solid var(--green); }
+    .up-panel-galeri { border-left: 2px solid var(--orange); }
+    .up-badge {
+      font-family: var(--fd);
+      font-size: 9px; font-weight: 700;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      padding: 3px 8px; border-radius: 6px;
+      display: block; width: 100%; margin-bottom: 4px;
+    }
+    .up-badge-menu   { background: rgba(52,199,89,0.15); color: var(--green); border: 1px solid rgba(52,199,89,0.25); }
+    .up-badge-galeri { background: rgba(255,149,0,0.15); color: var(--orange); border: 1px solid rgba(255,149,0,0.25); }
 
-    /* GALERI */
-    #galeriContainer { width: 100%; height: 100%; display: none; flex-wrap: wrap; justify-content: center; align-content: flex-start; gap: 20px; position: absolute; top: 0; left: 0; box-sizing: border-box; padding: 20px; overflow-y: auto; background: #05233f; z-index: 5;}
-    .galeri-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; width: 300px; padding: 15px; box-shadow: 0 10px 20px rgba(0,0,0,0.5); text-align: left; transition:0.3s; }
-    .galeri-card:hover { border-color:#ffcc00; }
-    .galeri-card img { width: 100%; height: 200px; object-fit: cover; border-radius: 8px; margin-bottom: 10px; }
-    .galeri-title { color: #ffcc00; font-weight: bold; font-size: 16px; text-transform: uppercase; }
-    .galeri-desc { font-size: 12px; color: #ccc; margin: 8px 0; line-height: 1.4; }
-    .meta-item { display:flex; align-items:center; gap:5px; font-size: 11px; color:#aaa; font-style:italic;}
-    
-    #secretLoginBtn { position: absolute; top: 15px; right: 15px; width: 40px; height: 40px; border-radius: 50%; background: transparent; cursor: pointer; border: none; z-index: 100; transition: 0.3s; }
-    #secretLoginBtn:hover { background: rgba(255, 204, 0, 0.3); border: 1px solid rgba(255, 204, 0, 0.5); backdrop-filter: blur(5px); }
+    /* Filter row */
+    #areaFilter { display: none; margin-bottom: 10px; }
 
-    #btnDownloadEstetik { position: absolute; bottom: 30px; right: 30px; background: linear-gradient(45deg, #ffcc00, #ff9500); color: #000; font-weight: bold; border: none; padding: 12px 25px; border-radius: 20px; cursor: pointer; box-shadow: 0 10px 20px rgba(0,0,0,0.5); z-index: 50; display: none; opacity: 0; transition: 0.3s ease; }
-    #imgContainer:hover #btnDownloadEstetik { display: block; opacity: 1; }
+    /* ─────────────────────────────────────────
+       WELCOME
+    ───────────────────────────────────────── */
+    #welcomeScreen {
+      position: fixed; top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: var(--bg-main);
+      z-index: 9999;
+      display: flex; justify-content: center; align-items: center;
+      transition: opacity 1s ease-out;
+    }
+    .welcome-logo {
+      width: 155px;
+      animation: pulse 1.6s infinite alternate;
+      filter: drop-shadow(0 0 14px rgba(255,204,0,0.4));
+    }
+    @keyframes pulse { 100% { filter: drop-shadow(0 0 28px rgba(0,234,255,0.75)); transform: scale(1.06); } }
 
-    /* MODAL & LOADER */
-    .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); z-index: 10001; justify-content: center; align-items: center; }
-    .modal-box { background: rgba(30,30,30,0.9); border: 1px solid rgba(255,255,255,0.2); border-radius: 20px; padding: 25px; width: 320px; text-align: center; color: white; display: flex; flex-direction: column; gap: 15px; }
-    .modal-box h3 { margin: 0; color: #ffcc00; font-size: 20px; }
-    .modal-actions { display: flex; justify-content: space-between; gap: 10px; margin-top: 10px;}
-    .modal-actions button { flex: 1; padding: 12px; font-size: 14px; }
+    /* ─────────────────────────────────────────
+       MODAL
+    ───────────────────────────────────────── */
+    .modal-overlay {
+      display: none; position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.72);
+      backdrop-filter: blur(9px);
+      z-index: 10001;
+      justify-content: center; align-items: center;
+    }
+    .modal-box {
+      background: rgba(8,20,40,0.96);
+      border: 1px solid var(--glass-b);
+      border-radius: 22px;
+      padding: 26px; width: 320px;
+      text-align: center; color: white;
+      display: flex; flex-direction: column; gap: 13px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.85);
+    }
+    .modal-box h3 { color: var(--gold); font-family: var(--fd); font-size: 21px; letter-spacing: 1px; }
+    .modal-actions { display: flex; gap: 10px; margin-top: 6px; }
+    .modal-actions button { flex: 1; padding: 11px; font-size: 13px; }
 
-    #loaderFloat, #toast { visibility: hidden; opacity: 0; position: fixed; transition: all 0.3s ease; z-index: 10005; }
-    #loaderFloat { top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(20, 20, 20, 0.85); backdrop-filter: blur(15px); padding: 20px 30px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.2); display: flex; flex-direction: column; align-items: center; }
+    /* ─────────────────────────────────────────
+       LOADER & TOAST
+    ───────────────────────────────────────── */
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    #loaderFloat, #toast {
+      visibility: hidden; opacity: 0;
+      position: fixed; transition: all 0.3s ease;
+      z-index: 10005;
+    }
+    #loaderFloat {
+      top: 50%; left: 50%; transform: translate(-50%,-50%);
+      background: rgba(6,18,34,0.93);
+      backdrop-filter: blur(16px);
+      padding: 22px 32px; border-radius: 18px;
+      border: 1px solid var(--glass-b);
+      display: flex; flex-direction: column;
+      align-items: center; gap: 10px;
+    }
     #loaderFloat.show { visibility: visible; opacity: 1; }
-    .spinner { width: 40px; height: 40px; border: 4px solid rgba(255, 204, 0, 0.3); border-top: 4px solid #ffcc00; border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 10px; }
-    #toast { background: rgba(52, 199, 89, 0.9); color: #fff; padding: 15px; border-radius: 12px; left: 50%; bottom: 90px; transform: translateX(-50%) translateY(20px); font-weight: bold; }
+    .spinner {
+      width: 34px; height: 34px;
+      border: 3px solid var(--gold-dim);
+      border-top: 3px solid var(--gold);
+      border-radius: 50%;
+      animation: spin 0.75s linear infinite;
+    }
+    #loaderMsg { color: white; font-weight: 700; font-size: 12px; }
+    #toast {
+      background: rgba(52,199,89,0.93);
+      color: #fff; padding: 12px 20px;
+      border-radius: 12px;
+      left: 50%; bottom: 80px;
+      transform: translateX(-50%) translateY(16px);
+      font-weight: 700; font-size: 13px; white-space: nowrap;
+    }
     #toast.show { visibility: visible; opacity: 1; transform: translateX(-50%) translateY(0); }
-    #toast.error { background: rgba(255, 59, 48, 0.9); }
+    #toast.error { background: rgba(255,59,48,0.93); }
+
+    ::-webkit-scrollbar { width: 4px; height: 4px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.13); border-radius: 4px; }
+
+    @media (max-width: 680px) {
+      .grid-card { width: calc(50% - 10px); min-width: 130px; }
+      .galeri-card { width: 100%; }
+      #dock { width: 100%; border-radius: 18px 18px 0 0; }
+    }
   </style>
 </head>
 <body>
 
+<!-- WELCOME -->
 <div id="welcomeScreen">
   <img src="icon.png" class="welcome-logo" alt="Logo MAP">
 </div>
 
+<!-- MAIN CARD -->
 <div id="mainView">
+
+  <!-- SECRET ADMIN -->
   <button id="secretLoginBtn" onclick="cekStatusLogin()" title="Login Admin"></button>
 
+  <!-- ───── HEADER (clean: hanya logo + info) ───── -->
   <div id="header">
     <div class="logo-box" id="boxLogo1"></div>
     <div class="header-info">
-      <div id="txtDapur">PILIH DAPUR DI BAWAH</div>
-      <div id="txtMenu">MENU MAKANAN MBG</div>
+      <div id="txtDapur">PORTAL MENU MBG</div>
+      <div id="txtMenu">MENU MAKANAN BERGIZI</div>
       <div id="txtTgl">-</div>
-      <button id="btnToggleGaleri" onclick="toggleGaleri()">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
-        LIHAT GALERI KEGIATAN
-      </button>
     </div>
     <div class="logo-box" id="boxLogo2"></div>
   </div>
 
-  <div id="imgContainer">
-    <img id="displayImg" src="" alt="">
-    <button id="btnDownloadEstetik" onclick="downloadPoster()">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-      Unduh Poster Premium
+  <!-- ───── TOP DOCK — switch Menu / Galeri ───── -->
+  <div id="topDock">
+    <button class="top-tab tab-active" id="tabMenu" onclick="switchView('menu')">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+      MENU MBG
     </button>
-    
-    <div id="emptyState">
-      <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="filter: drop-shadow(0 5px 5px rgba(0,0,0,0.5)); margin-bottom:10px;"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
-      <div id="emptyPesan">Belum di update oleh SPPI</div>
+    <div class="top-tab-sep"></div>
+    <button class="top-tab" id="tabGaleri" onclick="switchView('galeri')">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+      GALERI KEGIATAN
+    </button>
+  </div>
+
+  <!-- ───── CONTENT ───── -->
+  <div id="contentArea">
+    <!-- Float nav -->
+    <button class="nav-arrow" id="navPrev" onclick="prevSlide()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+    <button class="nav-arrow" id="navNext" onclick="nextSlide()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+
+    <!-- IMG container -->
+    <div id="imgContainer">
+      <img id="displayImg" src="" alt="">
+
+      <!-- Download auto-hide -->
+      <button id="btnDownload" onclick="downloadPoster()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Unduh Poster Premium
+      </button>
+
+      <div id="emptyState">
+        <svg width="68" height="68" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.6; margin-bottom:10px;"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        <div id="emptyPesan">Belum ada menu hari ini</div>
+      </div>
+      <div id="gridContainer"></div>
     </div>
-    <div id="gridContainer"></div>
+
+    <!-- Galeri -->
+    <div id="galeriContainer"></div>
   </div>
 
-  <div id="galeriContainer"></div>
-</div>
+</div><!-- end mainView -->
 
+<!-- ───────────────────────────────────────────
+     BOTTOM DOCK
+─────────────────────────────────────────── -->
 <div id="dock">
-  <div class="mode-switch">
-    <button class="mode-btn active" id="btnModePlayGlobal" onclick="setMode('playglobal')">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg> PLAY HARI INI
+
+  <!-- Slideshow pill (atas dock) -->
+  <div id="slidePill">
+    <button class="pill-btn" onclick="prevSlide()" title="Sebelumnya">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/></svg>
     </button>
-    <button class="mode-btn" id="btnModeLihat" onclick="setMode('lihat')">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg> LIHAT MENU
+    <button id="btnPlayPause" onclick="runSlide()">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" id="iconPlay"><path d="M8 5v14l11-7z"/></svg>
+      <span id="playLabel">PLAY SLIDESHOW</span>
     </button>
-    <button class="mode-btn" id="btnModeKelola" onclick="setMode('kelola')">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg> KELOLA DATA
+    <button class="pill-btn" onclick="nextSlide()" title="Berikutnya">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M6 18l8.5-6L6 6v12zm10-12v12h2V6h-2z"/></svg>
     </button>
+    <span class="slide-counter" id="slideCounter"></span>
   </div>
 
-  <div class="dock-row">
-    <div class="dock-group" id="areaFilter">
-      <label>1. DAPUR & PERIODE</label>
-      <div style="display:flex; gap:5px;">
-        <select id="selDapur" onchange="fetchPeriode()"><option value="">Pilih Dapur...</option></select>
-        <select id="selPeriode" onchange="fetchGambar()"><option value="">Pilih Periode...</option></select>
-        <button class="kelola-only" onclick="bikinPeriodeBaru()" style="background:#213e58;">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg> BUAT
+  <div class="dock-inner">
+    <!-- Mode switch -->
+    <div class="mode-switch">
+      <button class="mode-btn active play-active" id="btnModePlayGlobal" onclick="setMode('playglobal')">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg> PLAY HARI INI
+      </button>
+      <button class="mode-btn" id="btnModeLihat" onclick="setMode('lihat')">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg> LIHAT MENU
+      </button>
+      <button class="mode-btn" id="btnModeKelola" onclick="setMode('kelola')">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15 1.65 1.65 0 0 0 3.17 14H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg> KELOLA DATA
+      </button>
+    </div>
+
+    <!-- Filter row -->
+    <div class="dock-row" id="areaFilter">
+      <div class="dock-group">
+        <label>Pilih Dapur</label>
+        <select id="selDapur" onchange="fetchPeriode()" style="min-width:145px;">
+          <option value="">-- Pilih Dapur --</option>
+        </select>
+      </div>
+      <div class="dock-group">
+        <label>Pilih Periode</label>
+        <select id="selPeriode" onchange="fetchGambar()" style="min-width:155px;">
+          <option value="">-- Pilih Periode --</option>
+        </select>
+      </div>
+      <div class="dock-group kelola-only" style="align-self:flex-end;">
+        <button class="btn-dark" onclick="bikinPeriodeBaru()">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> BUAT PERIODE
+        </button>
+      </div>
+      <div class="dock-group kelola-only" style="align-self:flex-end; flex-direction:row; gap:6px;">
+        <button class="btn-nav" onclick="bukaModalEdit()">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="16 3 21 8 8 21 3 21 3 16 16 3"/></svg> EDIT
+        </button>
+        <button class="btn-danger" onclick="doHapus()">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg> HAPUS
         </button>
       </div>
     </div>
 
-    <div class="kelola-only dock-group">
-      <label>TIPE UPLOAD</label>
-      <select id="selTipeUpload" onchange="ubahFormUpload()">
-        <option value="menu">Menu MBG (Mingguan)</option>
-        <option value="galeri">Galeri Kegiatan (Bulanan)</option>
-      </select>
+    <!-- Upload section — dua panel terpisah -->
+    <div id="uploadSection">
+      <!-- Panel Menu MBG -->
+      <div class="up-panel up-panel-menu">
+        <span class="up-badge up-badge-menu">📋 Upload Menu MBG — Per Mingguan</span>
+        <div class="dock-group">
+          <label>Tanggal Menu</label>
+          <input type="date" id="inTglMenu">
+        </div>
+        <div class="dock-group">
+          <label>Nama Menu</label>
+          <input type="text" id="inNama" placeholder="Nama menu..." style="width:128px;">
+        </div>
+        <div class="dock-group">
+          <label>Foto Menu</label>
+          <input type="file" id="inFileMenu" accept="image/*" style="width:175px;">
+        </div>
+        <div class="dock-group" style="align-self:flex-end;">
+          <button class="btn-action" onclick="doUploadMenu()">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            UPLOAD MENU
+          </button>
+        </div>
+      </div>
+
+      <!-- Panel Galeri Kegiatan -->
+      <div class="up-panel up-panel-galeri">
+        <span class="up-badge up-badge-galeri">📸 Upload Galeri Kegiatan — Per Bulanan</span>
+        <div class="dock-group">
+          <label>Tanggal Kegiatan</label>
+          <input type="date" id="inTglGaleri">
+        </div>
+        <div class="dock-group">
+          <label>Judul Kegiatan</label>
+          <input type="text" id="inJudulGaleri" placeholder="Judul..." style="width:128px;">
+        </div>
+        <div class="dock-group">
+          <label>Deskripsi</label>
+          <input type="text" id="inDescGaleri" placeholder="Deskripsi singkat..." style="width:138px;">
+        </div>
+        <div class="dock-group">
+          <label>Foto Kegiatan</label>
+          <input type="file" id="inFileGaleri" accept="image/*" style="width:175px;">
+        </div>
+        <div class="dock-group" style="align-self:flex-end;">
+          <button class="btn-nav" onclick="doUploadGaleri()">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            UPLOAD GALERI
+          </button>
+        </div>
+      </div>
     </div>
 
-    <div class="kelola-only dock-group">
-      <label>TANGGAL</label>
-      <input type="date" id="inTgl"> 
-    </div>
-
-    <div class="kelola-only dock-group" id="areaUploadMenu">
-      <label>NAMA MENU</label>
-      <input type="text" id="inNama" placeholder="Nama menu..." style="width: 120px;">
-    </div>
-    
-    <div class="kelola-only dock-group" id="areaUploadGaleri" style="display:none;">
-      <label>JUDUL & DESKRIPSI</label>
-      <input type="text" id="inJudulGaleri" placeholder="Judul..." style="margin-bottom:2px; width: 140px;">
-      <input type="text" id="inDescGaleri" placeholder="Deskripsi..." style="width: 140px;">
-    </div>
-
-    <div class="kelola-only dock-group">
-      <label>PILIH FOTO</label>
-      <input type="file" id="inFile" accept="image/*" style="width: 180px;">
-    </div>
-    
-    <div class="dock-group" style="flex-direction: row; gap: 5px;">
-      <button class="kelola-only" onclick="doUpload()">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg> UPLOAD
-      </button>
-      <button class="kelola-only btn-nav" onclick="bukaModalEdit()">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="16 3 21 8 8 21 3 21 3 16 16 3"></polygon></svg> EDIT
-      </button>
-      <button class="kelola-only btn-danger" onclick="doHapus()">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg> HAPUS
-      </button>
-      
-      <button class="btn-nav" onclick="prevSlide()">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
-      </button>
-      <button class="btn-nav" onclick="nextSlide()">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>
-      </button>
-      <button class="btn-action" id="btnSlide" onclick="runSlide()">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" id="iconPlay"><path d="M8 5v14l11-7z"/></svg> PLAY
-      </button>
-    </div>
-  </div>
-</div>
+  </div><!-- end dock-inner -->
+</div><!-- end dock -->
 
 <canvas id="posterCanvas" style="display:none;"></canvas>
-
-<div id="loaderFloat"><div class="spinner"></div><div style="color:white; font-weight:bold;" id="loaderMsg">MEMPROSES...</div></div>
+<div id="loaderFloat"><div class="spinner"></div><div id="loaderMsg">MEMPROSES...</div></div>
 <div id="toast">Notifikasi</div>
 
+<!-- MODAL LOGIN -->
 <div id="modalLogin" class="modal-overlay">
   <div class="modal-box">
-    <h3>Login Admin MAP</h3>
-    <input type="password" id="inPassword" placeholder="Masukkan Password">
+    <h3>LOGIN ADMIN</h3>
+    <input type="password" id="inPassword" placeholder="Masukkan Password" style="text-align:center; font-size:14px;">
     <div class="modal-actions">
       <button class="btn-secondary" onclick="tutupModal('modalLogin')">Batal</button>
       <button class="btn-action" onclick="prosesLogin()">Masuk</button>
@@ -229,10 +771,11 @@
   </div>
 </div>
 
+<!-- MODAL HAPUS -->
 <div id="modalConfirm" class="modal-overlay">
   <div class="modal-box">
-    <h3>Konfirmasi Hapus</h3>
-    <p id="modalText">Yakin ingin menghapus menu ini?</p>
+    <h3>KONFIRMASI HAPUS</h3>
+    <p id="modalText" style="color:#aaa; font-size:14px;">Yakin ingin menghapus menu ini?</p>
     <div class="modal-actions">
       <button class="btn-secondary" onclick="tutupModal('modalConfirm')">Batal</button>
       <button class="btn-danger" onclick="executeHapus()">Ya, Hapus</button>
@@ -240,12 +783,22 @@
   </div>
 </div>
 
+<!-- MODAL EDIT -->
 <div id="modalEdit" class="modal-overlay">
   <div class="modal-box">
-    <h3>Edit Menu</h3>
-    <input type="text" id="editNama" placeholder="Nama Menu Baru">
-    <input type="date" id="editTgl">
-    <input type="file" id="editFile" accept="image/*">
+    <h3>EDIT MENU</h3>
+    <div class="dock-group" style="align-items:flex-start; width:100%;">
+      <label>Nama Menu</label>
+      <input type="text" id="editNama" placeholder="Nama Menu Baru" style="width:100%;">
+    </div>
+    <div class="dock-group" style="align-items:flex-start; width:100%;">
+      <label>Tanggal</label>
+      <input type="date" id="editTgl" style="width:100%;">
+    </div>
+    <div class="dock-group" style="align-items:flex-start; width:100%;">
+      <label>Ganti Foto (opsional)</label>
+      <input type="file" id="editFile" accept="image/*" style="width:100%;">
+    </div>
     <div class="modal-actions">
       <button class="btn-secondary" onclick="tutupModal('modalEdit')">Batal</button>
       <button class="btn-action" onclick="executeEdit()">Simpan</button>
@@ -253,448 +806,541 @@
   </div>
 </div>
 
+<!-- ═══════════════════════════════════════════
+     JAVASCRIPT
+════════════════════════════════════════════ -->
 <script>
-  // ==========================================
-  // GANTI URL INI DENGAN URL WEB APP TERBARUMU !!!
-  // ==========================================
   const GAS_API_URL = "https://script.google.com/macros/s/AKfycbx354VV9soGQmEedc9h6ABFuwaArZWaWLGITlkiQ_SIP69aDKLAdKi3XvSgcz39UTQZ/exec";
 
   let isAdmin = false;
   let imageList = [];
   let currentIdx = 0;
-  let isPlaying = false, slideTimer, idleTimer;
-  let zoomScale = 1, translateX = 0, translateY = 0, isDragging = false, startX, startY;
-  let isGlobalPlayMode = true, isModeGrid = false, isModeGaleri = false, isDockHovered = false;
+  let isPlaying = false;
+  let slideTimer, idleTimerBottom, idleTimerTop, dlHideTimer;
+  let isGlobalPlayMode = true;
+  let isModeGaleri = false;
+  let isDockHovered = false, isTopDockHovered = false;
+  let currentView = 'menu'; // 'menu' | 'galeri'
 
-  async function fetchAPI(action, payload = {}) {
+  // ── FORMAT TANGGAL ──────────────────────────
+  const HARI  = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+  const BULAN = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+
+  function fmtTgl(str) {
+    if(!str || str==='-') return '-';
     try {
-      const response = await fetch(GAS_API_URL + "?action=" + action, {
-        method: "POST",
-        headers: { "Content-Type": "text/plain;charset=utf-8" },
-        body: JSON.stringify(payload)
-      });
-      return await response.json();
-    } catch(err) {
-      showToast("Gagal terhubung ke Server", true); return null;
-    }
+      const p = str.split('-');
+      const d = (p.length===3 && p[0].length===4)
+        ? new Date(+p[0], +p[1]-1, +p[2])
+        : new Date(str);
+      if(isNaN(d)) return str;
+      return `${HARI[d.getDay()]}, ${String(d.getDate()).padStart(2,'0')} ${BULAN[d.getMonth()]} ${d.getFullYear()}`;
+    } catch(e) { return str; }
   }
 
+  function fmtHariIni() {
+    const d = new Date();
+    return `${HARI[d.getDay()]}, ${String(d.getDate()).padStart(2,'0')} ${BULAN[d.getMonth()]} ${d.getFullYear()}`;
+  }
+
+  // ── API ──────────────────────────────────────
+  async function fetchAPI(action, payload={}) {
+    try {
+      const r = await fetch(GAS_API_URL + "?action=" + action, {
+        method: 'POST',
+        headers: {'Content-Type':'text/plain;charset=utf-8'},
+        body: JSON.stringify(payload)
+      });
+      return await r.json();
+    } catch(e) { showToast("Gagal terhubung ke server", true); return null; }
+  }
+
+  // ── INIT ─────────────────────────────────────
   window.onload = () => {
     setTimeout(() => {
       document.getElementById('welcomeScreen').style.opacity = '0';
       setTimeout(() => {
         document.getElementById('welcomeScreen').style.display = 'none';
         document.getElementById('mainView').style.display = 'flex';
-        setMode('playglobal'); 
+        setMode('playglobal');
       }, 1000);
     }, 2500);
-    
-    fetchAPI('getLogo', {namaFile: 'Logo Yayasan.png'}).then(res => { if(res) document.getElementById('boxLogo1').innerHTML = `<img src="${res}" class="logo-img">`; });
-    fetchAPI('getLogo', {namaFile: 'Logo Badan Gizi.png'}).then(res => { if(res) document.getElementById('boxLogo2').innerHTML = `<img src="${res}" class="logo-img">`; });
-    
-    fetchAPI('getDaftarDapur').then(res => {
-      let html = '<option value="">-- Pilih Dapur --</option>';
-      if(res) res.forEach(d => html += `<option value="${d.id}">${d.nama}</option>`);
-      document.getElementById('selDapur').innerHTML = html;
+
+    // Logo
+    fetchAPI('getLogo',{namaFile:'Logo Yayasan.png'}).then(r => {
+      if(r) document.getElementById('boxLogo1').innerHTML = `<img src="${r}" class="logo-img">`;
+    });
+    fetchAPI('getLogo',{namaFile:'Logo Badan Gizi.png'}).then(r => {
+      if(r) document.getElementById('boxLogo2').innerHTML = `<img src="${r}" class="logo-img">`;
     });
 
-    // SISTEM SENSOR KURSOR DOCK
+    // Dapur list
+    fetchAPI('getDaftarDapur').then(r => {
+      let h = '<option value="">-- Pilih Dapur --</option>';
+      if(r) r.forEach(d => h += `<option value="${d.id}">${d.nama}</option>`);
+      document.getElementById('selDapur').innerHTML = h;
+    });
+
+    // ─ Sensor aktivitas bottom dock ─
     const dock = document.getElementById('dock');
-    window.addEventListener('mousemove', resetIdleTimer);
-    window.addEventListener('touchstart', resetIdleTimer);
-    
+    const topDock = document.getElementById('topDock');
+
+    window.addEventListener('mousemove', onActivity);
+    window.addEventListener('touchstart', onActivity, {passive:true});
+
     dock.addEventListener('mouseenter', () => isDockHovered = true);
-    dock.addEventListener('mouseleave', () => { isDockHovered = false; resetIdleTimer(); });
+    dock.addEventListener('mouseleave', () => { isDockHovered = false; scheduleHideBottom(); });
+    topDock.addEventListener('mouseenter', () => isTopDockHovered = true);
+    topDock.addEventListener('mouseleave', () => { isTopDockHovered = false; scheduleHideTop(); });
+
+    // ─ Sensor download button ─
+    const ca = document.getElementById('contentArea');
+    ca.addEventListener('mousemove', showDl);
+    ca.addEventListener('touchstart', showDl, {passive:true});
+    ca.addEventListener('mouseleave', scheduleDlHide);
   };
 
-  function resetIdleTimer() {
-    const dock = document.getElementById('dock');
-    dock.classList.add('show-dock');
-    clearTimeout(idleTimer);
-    idleTimer = setTimeout(() => {
-      if(!isDockHovered) dock.classList.remove('show-dock');
-    }, 3000);
+  // ── ACTIVITY / SENSOR ────────────────────────
+  function onActivity() {
+    showBottomDock();
+    showTopDock();
   }
 
-  function showLoader(msg) { document.getElementById('loaderMsg').innerText = msg; document.getElementById('loaderFloat').classList.add('show'); }
-  function hideLoader() { document.getElementById('loaderFloat').classList.remove('show'); }
-  function showToast(msg, isErr=false) { const t = document.getElementById("toast"); t.innerText = msg; isErr ? t.classList.add("error") : t.classList.remove("error"); t.classList.add("show"); setTimeout(()=>t.classList.remove("show"), 3000); }
-  function tutupModal(id) { document.getElementById(id).style.display = 'none'; }
-
-  function cekStatusLogin() { if(!isAdmin) document.getElementById('modalLogin').style.display = 'flex'; else showToast("Anda sudah login sebagai Admin."); }
-  async function prosesLogin() {
-    const pwd = document.getElementById('inPassword').value;
-    showLoader("Mengecek...");
-    const res = await fetchAPI('login', { password: pwd });
-    hideLoader();
-    if(res && res.success) { isAdmin = true; tutupModal('modalLogin'); showToast("Berhasil Login!"); setMode('kelola'); } 
-    else { showToast("Password Salah!", true); }
+  function showBottomDock() {
+    document.getElementById('dock').classList.add('show-dock');
+    clearTimeout(idleTimerBottom);
+    idleTimerBottom = setTimeout(() => {
+      if(!isDockHovered) document.getElementById('dock').classList.remove('show-dock');
+    }, 3500);
+  }
+  function scheduleHideBottom() {
+    clearTimeout(idleTimerBottom);
+    idleTimerBottom = setTimeout(() => {
+      document.getElementById('dock').classList.remove('show-dock');
+    }, 1200);
   }
 
-  function setMode(mode) {
-    if(mode === 'kelola' && !isAdmin) { document.getElementById('modalLogin').style.display = 'flex'; return; }
-    
-    document.getElementById('btnModePlayGlobal').className = 'mode-btn';
-    document.getElementById('btnModeLihat').className = 'mode-btn';
-    document.getElementById('btnModeKelola').className = 'mode-btn';
-    
-    const kelolaElems = document.querySelectorAll('.kelola-only');
-    const areaFilter = document.getElementById('areaFilter');
+  function showTopDock() {
+    document.getElementById('topDock').classList.add('show-top');
+    clearTimeout(idleTimerTop);
+    idleTimerTop = setTimeout(() => {
+      if(!isTopDockHovered) document.getElementById('topDock').classList.remove('show-top');
+    }, 3200);
+  }
+  function scheduleHideTop() {
+    clearTimeout(idleTimerTop);
+    idleTimerTop = setTimeout(() => {
+      document.getElementById('topDock').classList.remove('show-top');
+    }, 1200);
+  }
 
-    if(mode === 'playglobal') {
-      document.getElementById('btnModePlayGlobal').classList.add('active', 'play-active');
-      kelolaElems.forEach(el => el.style.display = 'none');
-      areaFilter.style.display = 'none'; 
-      jalankanPlaySemua();
-    } else if(mode === 'lihat') {
-      document.getElementById('btnModeLihat').classList.add('active');
-      kelolaElems.forEach(el => el.style.display = 'none');
-      areaFilter.style.display = 'flex';
-      isGlobalPlayMode = false;
-    } else if(mode === 'kelola') {
-      document.getElementById('btnModeKelola').classList.add('active');
-      kelolaElems.forEach(el => el.style.display = 'flex');
-      areaFilter.style.display = 'flex';
-      isGlobalPlayMode = false;
-      ubahFormUpload();
+  // Download btn sensor
+  function showDl() {
+    const btn = document.getElementById('btnDownload');
+    const img = document.getElementById('displayImg');
+    if(!img.src || img.style.display==='none') return;
+    btn.classList.add('visible');
+    clearTimeout(dlHideTimer);
+    dlHideTimer = setTimeout(() => btn.classList.remove('visible'), 2800);
+  }
+  function scheduleDlHide() {
+    clearTimeout(dlHideTimer);
+    dlHideTimer = setTimeout(() => document.getElementById('btnDownload').classList.remove('visible'), 900);
+  }
+
+  // ── UTILS ────────────────────────────────────
+  function showLoader(m) { document.getElementById('loaderMsg').innerText=m; document.getElementById('loaderFloat').classList.add('show'); }
+  function hideLoader()  { document.getElementById('loaderFloat').classList.remove('show'); }
+  function showToast(m, err=false) {
+    const t = document.getElementById('toast');
+    t.innerText = m;
+    err ? t.classList.add('error') : t.classList.remove('error');
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3200);
+  }
+  function tutupModal(id) { document.getElementById(id).style.display='none'; }
+  function updateCounter() {
+    const el = document.getElementById('slideCounter');
+    el.innerText = imageList.length > 0 ? `${currentIdx+1}/${imageList.length}` : '';
+  }
+
+  // ── TOP DOCK SWITCH (Menu / Galeri) ──────────
+  function switchView(view) {
+    currentView = view;
+    document.getElementById('tabMenu').classList.toggle('tab-active', view==='menu');
+    document.getElementById('tabGaleri').classList.toggle('tab-active', view==='galeri');
+
+    if(view==='galeri') {
+      muatGaleri();
+    } else {
+      document.getElementById('galeriContainer').style.display='none';
+      document.getElementById('imgContainer').style.display='flex';
+      document.getElementById('slidePill').style.display='flex';
+      isModeGaleri = false;
+      setMode('playglobal');
     }
   }
 
-  function ubahFormUpload() {
-    const val = document.getElementById('selTipeUpload').value;
-    document.getElementById('areaUploadMenu').style.display = val === 'menu' ? 'flex' : 'none';
-    document.getElementById('areaUploadGaleri').style.display = val === 'galeri' ? 'flex' : 'none';
+  // ── AUTH ─────────────────────────────────────
+  function cekStatusLogin() {
+    if(!isAdmin) document.getElementById('modalLogin').style.display='flex';
+    else showToast("Anda sudah login sebagai Admin.");
+  }
+  async function prosesLogin() {
+    const pwd = document.getElementById('inPassword').value;
+    showLoader("Mengecek...");
+    const r = await fetchAPI('login',{password:pwd});
+    hideLoader();
+    if(r && r.success) {
+      isAdmin = true; tutupModal('modalLogin');
+      showToast("Berhasil Login!"); setMode('kelola');
+    } else { showToast("Password Salah!", true); }
   }
 
+  // ── MODE ─────────────────────────────────────
+  function setMode(mode) {
+    if(mode==='kelola' && !isAdmin) { document.getElementById('modalLogin').style.display='flex'; return; }
+
+    ['btnModePlayGlobal','btnModeLihat','btnModeKelola'].forEach(id =>
+      document.getElementById(id).className = 'mode-btn'
+    );
+    const kelolaElems = document.querySelectorAll('.kelola-only');
+    const areaFilter  = document.getElementById('areaFilter');
+    const uploadSect  = document.getElementById('uploadSection');
+
+    if(mode==='playglobal') {
+      document.getElementById('btnModePlayGlobal').classList.add('active','play-active');
+      kelolaElems.forEach(el => el.style.display='none');
+      areaFilter.style.display = 'none';
+      uploadSect.style.display = 'none';
+      jalankanPlaySemua();
+
+    } else if(mode==='lihat') {
+      document.getElementById('btnModeLihat').classList.add('active');
+      kelolaElems.forEach(el => el.style.display='none');
+      areaFilter.style.display = 'flex';
+      uploadSect.style.display = 'none';
+      isGlobalPlayMode = false;
+
+    } else if(mode==='kelola') {
+      document.getElementById('btnModeKelola').classList.add('active');
+      kelolaElems.forEach(el => el.style.display='flex');
+      areaFilter.style.display = 'flex';
+      uploadSect.style.display = 'flex';
+      isGlobalPlayMode = false;
+    }
+  }
+
+  // ── PLAY SEMUA HARI INI ──────────────────────
   async function jalankanPlaySemua() {
     isGlobalPlayMode = true; isModeGaleri = false;
-    document.getElementById('galeriContainer').style.display = 'none';
-    document.getElementById('imgContainer').style.display = 'flex';
+    document.getElementById('galeriContainer').style.display='none';
+    document.getElementById('imgContainer').style.display='flex';
+    document.getElementById('slidePill').style.display='flex';
     document.getElementById('txtDapur').innerText = "MEMUAT...";
+    document.getElementById('txtTgl').innerText = fmtHariIni();
     showLoader("Mengambil Menu Hari Ini...");
-    const res = await fetchAPI('getSemuaMenuHariIni');
+    const r = await fetchAPI('getSemuaMenuHariIni');
     hideLoader();
-    if(res) {
-      imageList = res.filter(item => !item.isPlaceholder);
-      if(imageList.length > 0) { updateDisplay(0); if(!isPlaying) runSlide(); } 
+    if(r) {
+      imageList = r.filter(i => !i.isPlaceholder);
+      if(imageList.length > 0) { updateDisplay(0); if(!isPlaying) runSlide(); }
       else {
-        document.getElementById('txtMenu').innerText = "BELUM ADA MENU HARI INI";
-        document.getElementById('displayImg').src = "";
+        document.getElementById('txtMenu').innerText  = "BELUM ADA MENU HARI INI";
+        document.getElementById('displayImg').src     = "";
         document.getElementById('txtDapur').innerText = "SEMUA DAPUR";
         document.getElementById('emptyState').style.display = 'flex';
       }
     }
+    updateCounter();
   }
 
+  // ── PERIODE & GAMBAR ─────────────────────────
   async function fetchPeriode() {
-    const dapurId = document.getElementById('selDapur').value;
-    if(!dapurId) return;
-    const dapurName = document.getElementById('selDapur').options[document.getElementById('selDapur').selectedIndex].text;
-    document.getElementById('txtDapur').innerText = dapurName;
+    const id = document.getElementById('selDapur').value;
+    if(!id) return;
+    document.getElementById('txtDapur').innerText =
+      document.getElementById('selDapur').options[document.getElementById('selDapur').selectedIndex].text;
     showLoader("Memuat Periode...");
-    const res = await fetchAPI('getDaftarPeriode', { dapurId: dapurId });
+    const r = await fetchAPI('getDaftarPeriode',{dapurId:id});
     hideLoader();
-    if(res) {
-      let html = '<option value="">Pilih Periode...</option>';
-      res.forEach(p => html += `<option value="${p.id}">${p.nama}</option>`);
-      document.getElementById('selPeriode').innerHTML = html;
+    if(r) {
+      let h = '<option value="">-- Pilih Periode --</option>';
+      r.forEach(p => h += `<option value="${p.id}">${p.nama}</option>`);
+      document.getElementById('selPeriode').innerHTML = h;
       document.getElementById('emptyState').style.display = 'none';
     }
   }
 
   async function bikinPeriodeBaru() {
-    const dapurId = document.getElementById('selDapur').value;
-    if(!dapurId) return showToast("Pilih Dapur dulu!", true);
+    const id = document.getElementById('selDapur').value;
+    if(!id) return showToast("Pilih Dapur dulu!", true);
     showLoader("Membuat Folder...");
-    const res = await fetchAPI('buatPeriodeMingguIni', { dapurId: dapurId });
+    const r = await fetchAPI('buatPeriodeMingguIni',{dapurId:id});
     hideLoader();
-    if(res) { showToast(res.status); fetchPeriode(); }
+    if(r) { showToast(r.status); fetchPeriode(); }
   }
 
   async function fetchGambar() {
-    const periodeId = document.getElementById('selPeriode').value;
-    if(!periodeId) return;
+    const id = document.getElementById('selPeriode').value;
+    if(!id) return;
     showLoader("Mengambil Gambar...");
-    const res = await fetchAPI('getGambarMenu', { periodeId: periodeId });
+    const r = await fetchAPI('getGambarMenu',{periodeId:id});
     hideLoader();
-    if(res) {
-      imageList = res;
-      if(res.length > 0) updateDisplay(0);
-      else {
-        document.getElementById('txtMenu').innerText = "BELUM ADA MENU";
-        document.getElementById('displayImg').src = "";
-        hideGrid();
-      }
+    if(r) {
+      imageList = r;
+      if(r.length > 0) updateDisplay(0);
+      else { document.getElementById('txtMenu').innerText="BELUM ADA MENU"; document.getElementById('displayImg').src=""; hideGrid(); }
     }
+    updateCounter();
   }
 
+  // ── DISPLAY ──────────────────────────────────
   function updateDisplay(idx) {
-    if(imageList[idx]) {
-      hideGrid(); isModeGrid = false;
-      const imgElem = document.getElementById('displayImg');
-      const data = imageList[idx];
-      if (isGlobalPlayMode || data.dapur) document.getElementById('txtDapur').innerText = data.dapur || "SEMUA DAPUR";
-      document.getElementById('emptyState').style.display = data.isPlaceholder ? 'flex' : 'none';
-      imgElem.style.display = data.isPlaceholder ? 'none' : 'block';
-      imgElem.src = data.src;
-      document.getElementById('txtMenu').innerText = data.nama;
-      document.getElementById('txtTgl').innerText = data.tanggal;
-      currentIdx = idx; zoomScale = 1; translateX = 0; translateY = 0;
-      imgElem.style.transform = `translate(0px, 0px) scale(1)`;
-    }
+    if(!imageList[idx]) return;
+    hideGrid();
+    const img  = document.getElementById('displayImg');
+    const data = imageList[idx];
+    if(isGlobalPlayMode || data.dapur)
+      document.getElementById('txtDapur').innerText = data.dapur || "SEMUA DAPUR";
+    document.getElementById('emptyState').style.display = data.isPlaceholder ? 'flex' : 'none';
+    img.style.display = data.isPlaceholder ? 'none' : 'block';
+    img.src = data.src;
+    document.getElementById('txtMenu').innerText = data.nama;
+    document.getElementById('txtTgl').innerText  = fmtTgl(data.tanggal);
+    currentIdx = idx;
+    img.style.transform = 'translate(0,0) scale(1)';
+    updateCounter();
   }
 
-  async function toggleGaleri() {
-    isModeGaleri = !isModeGaleri;
-    const btn = document.getElementById('btnToggleGaleri');
-    if(isModeGaleri) {
-      btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h18M3 6h18M3 18h18"/></svg> KEMBALI KE MENU MBG`;
-      document.getElementById('imgContainer').style.display = 'none';
-      document.getElementById('galeriContainer').style.display = 'flex';
-      document.getElementById('txtDapur').innerText = "GALERI KEGIATAN";
-      document.getElementById('txtMenu').innerText = "SEMUA DAPUR";
-      showLoader("Memuat Galeri...");
-      const res = await fetchAPI('getGaleri');
-      hideLoader();
-      let html = '';
-      if(res) {
-        res.forEach(g => {
-          html += `<div class="galeri-card">
-            <img src="${g.src}"><div class="galeri-title">${g.judul}</div>
-            <div class="galeri-desc">${g.deskripsi}</div>
-            <div class="meta-item"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg> ${g.tanggal}</div>
-            <div class="meta-item" style="margin-top:4px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg> ${g.dapur}</div>
-          </div>`;
-        });
-      }
-      document.getElementById('galeriContainer').innerHTML = html || "<p>Belum ada kegiatan.</p>";
+  // ── GALERI ───────────────────────────────────
+  async function muatGaleri() {
+    isModeGaleri = true;
+    document.getElementById('imgContainer').style.display  = 'none';
+    document.getElementById('slidePill').style.display     = 'none';
+    document.getElementById('galeriContainer').style.display = 'flex';
+    document.getElementById('txtDapur').innerText = "GALERI KEGIATAN";
+    document.getElementById('txtMenu').innerText  = "SEMUA DAPUR";
+    document.getElementById('txtTgl').innerText   = fmtHariIni();
+
+    showLoader("Memuat Galeri...");
+    const r = await fetchAPI('getGaleri');
+    hideLoader();
+
+    let html = '';
+    if(r && r.length > 0) {
+      r.forEach(g => {
+        html += `<div class="galeri-card">
+          <img src="${g.src}" loading="lazy">
+          <div class="galeri-title">${g.judul}</div>
+          <div class="galeri-desc">${g.deskripsi||''}</div>
+          <div class="meta-item">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            ${fmtTgl(g.tanggal)}
+          </div>
+          <div class="meta-item" style="margin-top:3px;">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            ${g.dapur||'Umum'}
+          </div>
+        </div>`;
+      });
     } else {
-      btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg> LIHAT GALERI KEGIATAN`;
-      document.getElementById('galeriContainer').style.display = 'none';
-      document.getElementById('imgContainer').style.display = 'flex';
-      setMode('playglobal'); 
+      html = `<div style="color:#666;font-style:italic;margin:auto;padding:40px;">Belum ada kegiatan.</div>`;
     }
+    document.getElementById('galeriContainer').innerHTML = html;
   }
 
-  function doUpload() {
-    const tipe = document.getElementById('selTipeUpload').value;
-    const tgl = document.getElementById('inTgl').value;
-    const file = document.getElementById('inFile').files[0];
-    
-    if(!tgl || !file) return showToast("Lengkapi tanggal & foto!", true);
-    
-    const reader = new FileReader();
-    reader.onload = async (e) => {
-      const base64Data = e.target.result;
-      let payload, action;
-      
-      if(tipe === 'menu') {
-        const periodeId = document.getElementById('selPeriode').value;
-        const nama = document.getElementById('inNama').value;
-        if(!periodeId || !nama) return showToast("Pilih periode & isi nama menu!", true);
-        payload = { periodeId, namaMenu: nama, tanggal: tgl, data: base64Data };
-        action = 'uploadMenu';
-      } else {
-        const dapurVal = document.getElementById('selDapur');
-        if(!dapurVal.value) return showToast("Pilih dapur untuk galeri!", true);
-        const dapurNama = dapurVal.options[dapurVal.selectedIndex].text;
-        const judul = document.getElementById('inJudulGaleri').value;
-        const desc = document.getElementById('inDescGaleri').value;
-        if(!judul) return showToast("Isi judul galeri!", true);
-        payload = { dapur: dapurNama, tanggal: tgl, judul, deskripsi: desc, data: base64Data };
-        action = 'uploadGaleri';
-      }
-
-      showLoader("MENGUPLOAD...");
-      const res = await fetchAPI(action, payload);
+  // ── UPLOAD ───────────────────────────────────
+  function doUploadMenu() {
+    const periodeId = document.getElementById('selPeriode').value;
+    const nama = document.getElementById('inNama').value.trim();
+    const tgl  = document.getElementById('inTglMenu').value;
+    const file = document.getElementById('inFileMenu').files[0];
+    if(!periodeId) return showToast("Pilih Periode dulu!", true);
+    if(!nama)      return showToast("Isi Nama Menu!", true);
+    if(!tgl)       return showToast("Isi Tanggal!", true);
+    if(!file)      return showToast("Pilih Foto!", true);
+    const rd = new FileReader();
+    rd.onload = async e => {
+      showLoader("MENGUPLOAD MENU...");
+      const r = await fetchAPI('uploadMenu',{periodeId, namaMenu:nama, tanggal:tgl, data:e.target.result});
       hideLoader();
-      if(res && res.status === "sukses") {
-        showToast("Berhasil!");
-        document.getElementById('inFile').value = "";
-        if(tipe === 'menu' && !isGlobalPlayMode) fetchGambar(); 
-      } else { showToast("Gagal Upload", true); }
+      if(r && r.status==='sukses') {
+        showToast("Menu berhasil diupload!");
+        document.getElementById('inFileMenu').value='';
+        document.getElementById('inNama').value='';
+        if(!isGlobalPlayMode) fetchGambar();
+      } else showToast("Gagal upload menu", true);
     };
-    reader.readAsDataURL(file);
+    rd.readAsDataURL(file);
   }
 
+  function doUploadGaleri() {
+    const dapurEl = document.getElementById('selDapur');
+    if(!dapurEl.value) return showToast("Pilih Dapur untuk Galeri!", true);
+    const dapurNama = dapurEl.options[dapurEl.selectedIndex].text;
+    const tgl   = document.getElementById('inTglGaleri').value;
+    const judul = document.getElementById('inJudulGaleri').value.trim();
+    const desc  = document.getElementById('inDescGaleri').value.trim();
+    const file  = document.getElementById('inFileGaleri').files[0];
+    if(!tgl)   return showToast("Isi Tanggal Kegiatan!", true);
+    if(!judul) return showToast("Isi Judul Kegiatan!", true);
+    if(!file)  return showToast("Pilih Foto!", true);
+    const rd = new FileReader();
+    rd.onload = async e => {
+      showLoader("MENGUPLOAD GALERI...");
+      const r = await fetchAPI('uploadGaleri',{dapur:dapurNama, tanggal:tgl, judul, deskripsi:desc, data:e.target.result});
+      hideLoader();
+      if(r && r.status==='sukses') {
+        showToast("Galeri berhasil diupload!");
+        document.getElementById('inFileGaleri').value='';
+        document.getElementById('inJudulGaleri').value='';
+        document.getElementById('inDescGaleri').value='';
+      } else showToast("Gagal upload galeri", true);
+    };
+    rd.readAsDataURL(file);
+  }
+
+  // ── EDIT & HAPUS ─────────────────────────────
   function bukaModalEdit() {
     if(imageList.length===0 || isModeGaleri) return showToast("Pilih menu dulu!", true);
     document.getElementById('editNama').value = imageList[currentIdx].nama;
-    document.getElementById('editTgl').value = imageList[currentIdx].tanggal;
+    document.getElementById('editTgl').value  = imageList[currentIdx].tanggal;
     document.getElementById('modalEdit').style.display = 'flex';
   }
-  
   async function executeEdit() {
-    const currentItem = imageList[currentIdx];
+    const curr = imageList[currentIdx];
     const file = document.getElementById('editFile').files[0];
-    tutupModal('modalEdit'); showLoader("MENYIMPAN...");
-    
-    let payload = { id: currentItem.id, nama: document.getElementById('editNama').value, tanggal: document.getElementById('editTgl').value, fileData: null };
-    
+    tutupModal('modalEdit');
+    showLoader("MENYIMPAN...");
+    let payload = {id:curr.id, nama:document.getElementById('editNama').value, tanggal:document.getElementById('editTgl').value, fileData:null};
     if(file) {
-      const reader = new FileReader();
-      reader.onload = async (e) => { payload.fileData = e.target.result; await kirimEdit(payload); };
-      reader.readAsDataURL(file);
-    } else { await kirimEdit(payload); }
+      const rd = new FileReader();
+      rd.onload = async e => { payload.fileData = e.target.result; await kirimEdit(payload); };
+      rd.readAsDataURL(file);
+    } else await kirimEdit(payload);
   }
   async function kirimEdit(payload) {
-    const res = await fetchAPI('editMenu', payload);
+    const r = await fetchAPI('editMenu', payload);
     hideLoader();
-    if(res && res.success) { showToast("Berhasil!"); imageList[currentIdx].nama = payload.nama; updateDisplay(currentIdx); }
+    if(r && r.success) { showToast("Berhasil disimpan!"); imageList[currentIdx].nama = payload.nama; updateDisplay(currentIdx); }
+    else showToast("Gagal menyimpan!", true);
   }
-
   function doHapus() {
     if(imageList.length===0 || isModeGaleri) return;
+    document.getElementById('modalText').innerText = `Yakin hapus "${imageList[currentIdx].nama}"?`;
     document.getElementById('modalConfirm').style.display = 'flex';
   }
-  
   async function executeHapus() {
-    tutupModal('modalConfirm'); showLoader("MENGHAPUS...");
-    const res = await fetchAPI('hapusMenu', { fileId: imageList[currentIdx].id });
+    tutupModal('modalConfirm');
+    showLoader("MENGHAPUS...");
+    const r = await fetchAPI('hapusMenu',{fileId:imageList[currentIdx].id});
     hideLoader();
-    if(res && res.success) { showToast("Dihapus!"); imageList.splice(currentIdx, 1); currentIdx=0; updateDisplay(currentIdx); }
+    if(r && r.success) {
+      showToast("Berhasil dihapus!");
+      imageList.splice(currentIdx,1);
+      currentIdx = 0;
+      if(imageList.length>0) updateDisplay(0);
+      else { document.getElementById('displayImg').src=''; document.getElementById('emptyState').style.display='flex'; }
+    } else showToast("Gagal menghapus!", true);
+    updateCounter();
   }
 
-  function hideGrid() { document.getElementById('gridContainer').style.display = 'none'; }
+  // ── SLIDE ────────────────────────────────────
+  function hideGrid() { document.getElementById('gridContainer').style.display='none'; }
+
   function runSlide() {
     if(isModeGaleri) return;
     isPlaying = !isPlaying;
-    const btn = document.getElementById('btnSlide');
-    if(isPlaying) { 
-      btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg> PAUSE`; 
-      btn.style.background = "#ff3b30"; 
-      slideTimer = setInterval(() => nextSlide(), 5000); 
-    } else { 
-      btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg> PLAY`; 
-      btn.style.background = "#34c759"; 
-      clearInterval(slideTimer); 
+    const btn   = document.getElementById('btnPlayPause');
+    const icon  = document.getElementById('iconPlay');
+    const label = document.getElementById('playLabel');
+    if(isPlaying) {
+      btn.classList.add('playing');
+      icon.innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
+      label.innerText = 'PAUSE';
+      slideTimer = setInterval(() => nextSlide(), 5000);
+    } else {
+      btn.classList.remove('playing');
+      icon.innerHTML = '<path d="M8 5v14l11-7z"/>';
+      label.innerText = 'PLAY SLIDESHOW';
+      clearInterval(slideTimer);
     }
   }
-  function nextSlide() { if(imageList.length > 0) updateDisplay(currentIdx === imageList.length - 1 ? 0 : currentIdx + 1); }
-  function prevSlide() { if(imageList.length > 0) updateDisplay(currentIdx === 0 ? imageList.length - 1 : currentIdx - 1); }
+  function nextSlide() { if(imageList.length>0) updateDisplay(currentIdx===imageList.length-1 ? 0 : currentIdx+1); }
+  function prevSlide() { if(imageList.length>0) updateDisplay(currentIdx===0 ? imageList.length-1 : currentIdx-1); }
 
-async function downloadPoster() {
-  const imgElem = document.getElementById('displayImg');
-  if (!imgElem || !imgElem.src) return alert("Belum ada gambar!");
+  // ── DOWNLOAD POSTER ──────────────────────────
+  async function downloadPoster() {
+    const imgElem = document.getElementById('displayImg');
+    if(!imgElem || !imgElem.src) return alert("Belum ada gambar!");
 
-  const canvas = document.getElementById('posterCanvas');
-  const ctx = canvas.getContext('2d');
+    const canvas = document.getElementById('posterCanvas');
+    const ctx    = canvas.getContext('2d');
+    canvas.width = 1080; canvas.height = 1920;
 
-  // Ukuran Portrait Poster
-  canvas.width = 1080;
-  canvas.height = 1920;
+    ctx.fillStyle = "#05233f";
+    ctx.fillRect(0,0,1080,1920);
 
-  // 1. Background
-  ctx.fillStyle = "#05233f";
-  ctx.fillRect(0, 0, 1080, 1920);
+    ctx.fillStyle = "rgba(255,255,255,0.05)";
+    ctx.beginPath();
+    ctx.moveTo(0,500);
+    ctx.quadraticCurveTo(540,300,1080,500);
+    ctx.lineTo(1080,1500);
+    ctx.quadraticCurveTo(540,1700,0,1500);
+    ctx.fill();
 
-  // 2. Shape Seni (Dekorasi Background)
-  ctx.fillStyle = "rgba(255, 255, 255, 0.05)";
-  ctx.beginPath();
-  ctx.moveTo(0, 500);
-  ctx.quadraticCurveTo(540, 300, 1080, 500);
-  ctx.lineTo(1080, 1500);
-  ctx.quadraticCurveTo(540, 1700, 0, 1500);
-  ctx.fill();
+    const loadImg = src => new Promise(res => {
+      const i = new Image(); i.crossOrigin="Anonymous";
+      i.onload = () => res(i); i.src = src;
+    });
 
-  // 3. Load Images
-  const loadImg = (src) => new Promise(resolve => {
-    const img = new Image();
-    img.crossOrigin = "Anonymous";
-    img.onload = () => resolve(img);
-    img.src = src;
-  });
+    const imgMenu = await loadImg(imgElem.src);
+    const l1src   = document.getElementById('boxLogo1')?.querySelector('img')?.src;
+    const l2src   = document.getElementById('boxLogo2')?.querySelector('img')?.src;
+    if(!l1src || !l2src) return alert("Gagal memuat logo!");
 
-  const imgMenu = await loadImg(imgElem.src);
-  const logo1Src = document.getElementById('boxLogo1')?.querySelector('img')?.src;
-  const logo2Src = document.getElementById('boxLogo2')?.querySelector('img')?.src;
-  
-  if (!logo1Src || !logo2Src) return alert("Gagal memuat logo!");
+    const logo1 = await loadImg(l1src);
+    const logo2 = await loadImg(l2src);
 
-  const logo1 = await loadImg(logo1Src);
-  const logo2 = await loadImg(logo2Src);
+    const lw = 160;
+    ctx.drawImage(logo1, 80,  80, lw, lw/(logo1.width/logo1.height));
+    ctx.drawImage(logo2, 840, 80, lw, lw/(logo2.width/logo2.height));
 
-  // 4. Gambar Logo (Proporsional / Tidak Gepeng)
-  const logoTargetWidth = 160; 
-  const logoTopY = 80;
+    ctx.shadowColor = "rgba(0,0,0,0.5)"; ctx.shadowBlur = 40;
+    ctx.fillStyle = "#fff";
+    ctx.fillRect(100,600,880,600);
+    ctx.drawImage(imgMenu,120,620,840,560);
+    ctx.shadowBlur = 0;
 
-  const aspectRatio1 = logo1.width / logo1.height;
-  const logo1Height = logoTargetWidth / aspectRatio1;
-  ctx.drawImage(logo1, 80, logoTopY, logoTargetWidth, logo1Height);
+    ctx.textAlign = "center"; ctx.textBaseline = "top";
 
-  const aspectRatio2 = logo2.width / logo2.height;
-  const logo2Height = logoTargetWidth / aspectRatio2;
-  ctx.drawImage(logo2, 800, logoTopY, logoTargetWidth, logo2Height);
+    ctx.fillStyle = "#ffcc00"; ctx.font = "bold 55px Arial";
+    ctx.fillText(document.getElementById('txtDapur')?.innerText||"SPPG", 540, 430);
 
-  // 5. Gambar Menu (Tetap Estetik dengan Drop Shadow)
-  ctx.shadowColor = "rgba(0,0,0,0.5)";
-  ctx.shadowBlur = 40;
-  ctx.fillStyle = "#ffffff";
-  ctx.fillRect(100, 600, 880, 600); // Frame putih
-  ctx.drawImage(imgMenu, 120, 620, 840, 560); // Foto makanan
-  ctx.shadowBlur = 0; // Reset shadow untuk elemen selanjutnya
-
-  // --- BAGIAN TEKS YANG DIPERBAIKI ---
-  
-  ctx.textAlign = "center";
-  ctx.textBaseline = "top"; // Membantu mengatur presisi Y (vertikal)
-
-  // A. Judul Dapur
-  const dapurText = document.getElementById('txtDapur')?.innerText || "SPPG PALOH LADA";
-  ctx.fillStyle = "#ffcc00";
-  ctx.font = "bold 55px Arial";
-  ctx.fillText(dapurText, 540, 430); // Posisi X di tengah (540), Y di atas frame makanan
-
-  // FUNGSI HELPER: Untuk membuat teks panjang otomatis turun ke bawah (Word Wrap)
-  function wrapText(context, text, x, y, maxWidth, lineHeight) {
-    const words = text.split(' ');
-    let line = '';
-    let currentY = y;
-
-    for (let n = 0; n < words.length; n++) {
-      const testLine = line + words[n] + ' ';
-      const metrics = context.measureText(testLine);
-      const testWidth = metrics.width;
-      
-      if (testWidth > maxWidth && n > 0) {
-        context.fillText(line, x, currentY);
-        line = words[n] + ' ';
-        currentY += lineHeight; // Turun 1 baris
-      } else {
-        line = testLine;
+    function wrapText(ctx, text, x, y, maxW, lh) {
+      const words = text.split(' ');
+      let line = '', cy = y;
+      for(let n=0; n<words.length; n++) {
+        const test = line + words[n] + ' ';
+        if(ctx.measureText(test).width > maxW && n>0) { ctx.fillText(line,x,cy); line=words[n]+' '; cy+=lh; }
+        else line=test;
       }
+      ctx.fillText(line,x,cy);
+      return cy+lh;
     }
-    context.fillText(line, x, currentY);
-    return currentY + lineHeight; // Mengembalikan posisi Y terakhir untuk menempatkan tanggal
+
+    ctx.fillStyle = "#fff"; ctx.font = "bold 60px Arial";
+    const endY = wrapText(ctx, document.getElementById('txtMenu')?.innerText||"Menu MBG", 540, 1320, 900, 80);
+
+    ctx.fillStyle="#ffcc00"; ctx.font="italic 36px Arial";
+    ctx.fillText(document.getElementById('txtTgl')?.innerText||fmtHariIni(), 540, endY+28);
+
+    const a = document.createElement('a');
+    a.download = "Poster_Premium_MBG.png";
+    a.href = canvas.toDataURL("image/png");
+    a.click();
   }
-
-  // B. Teks Menu (Bisa menjadi beberapa baris tanpa terpotong)
-  const menuText = document.getElementById('txtMenu')?.innerText || "Nasi Goreng, Telur Mata Sapi, Kacang Tanah Goreng, Lalapan Timun, Pisang";
-  ctx.fillStyle = "#ffffff";
-  ctx.font = "bold 60px Arial";
-  
-  const maxTextWidth = 900; // Sisa margin 90px di kiri dan kanan agar tidak mentok
-  const lineHeight = 80;    // Jarak spasi antar baris
-  const menuStartY = 1320;  // Posisi Y awal di bawah foto makanan
-  
-  // Eksekusi fungsi wrap, sekaligus simpan posisi Y terakhirnya
-  const finalYPosition = wrapText(ctx, menuText, 540, menuStartY, maxTextWidth, lineHeight);
-
-  // C. Tanggal (Otomatis menyesuaikan seberapa panjang teks menu di atasnya)
-  const tgl = new Date();
-  const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
-  const tglStr = tgl.toLocaleDateString('id-ID', options);
-
-  ctx.fillStyle = "#ffcc00";
-  ctx.font = "italic 35px Arial";
-  ctx.fillText(tglStr, 540, finalYPosition + 30); // Jarak 30px dari baris teks menu terakhir
-
-  // Trigger Download
-  const link = document.createElement('a');
-  link.download = "Poster_Premium_MBG_Final.png";
-  link.href = canvas.toDataURL("image/png");
-  link.click();
-}
 </script>
 </body>
 </html>
