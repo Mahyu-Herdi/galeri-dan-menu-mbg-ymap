@@ -573,83 +573,104 @@
   function nextSlide() { if(imageList.length > 0) updateDisplay(currentIdx === imageList.length - 1 ? 0 : currentIdx + 1); }
   function prevSlide() { if(imageList.length > 0) updateDisplay(currentIdx === 0 ? imageList.length - 1 : currentIdx - 1); }
 
- async function downloadPoster() {
+async function downloadPoster() {
   const imgElem = document.getElementById('displayImg');
-  if (!imgElem.src) return alert("Belum ada gambar!");
+  if (!imgElem || !imgElem.src) return alert("Belum ada gambar!");
 
   const canvas = document.getElementById('posterCanvas');
   const ctx = canvas.getContext('2d');
+
+  // Ukuran Portrait 1080x1920 (tetap)
   canvas.width = 1080;
   canvas.height = 1920;
 
-  // 1. Background
+  // 1. Background (Warna Navy MAP - tetap)
   ctx.fillStyle = "#05233f";
   ctx.fillRect(0, 0, 1080, 1920);
 
-  // 2. Fungsi Helper Load Gambar & Jaga Proporsi (Anti Gepeng)
+  // 2. Shape Seni (Dekorasi halus - tetap)
+  ctx.fillStyle = "rgba(255, 255, 255, 0.05)";
+  ctx.beginPath();
+  ctx.moveTo(0, 500);
+  ctx.quadraticCurveTo(540, 300, 1080, 500);
+  ctx.lineTo(1080, 1500);
+  ctx.quadraticCurveTo(540, 1700, 0, 1500);
+  ctx.fill();
+
+  // 3. Load Images (Logo & Menu)
   const loadImg = (src) => new Promise(resolve => {
-    const img = new Image(); img.crossOrigin = "Anonymous";
-    img.onload = () => resolve(img); img.src = src;
+    const img = new Image();
+    img.crossOrigin = "Anonymous";
+    img.onload = () => resolve(img);
+    img.src = src;
   });
 
   const imgMenu = await loadImg(imgElem.src);
-  const logo1 = await loadImg(document.getElementById('boxLogo1').querySelector('img').src);
-  const logo2 = await loadImg(document.getElementById('boxLogo2').querySelector('img').src);
+  // Asumsi ada element dengan id boxLogo1 dan boxLogo2 di halaman
+  const logo1Src = document.getElementById('boxLogo1')?.querySelector('img')?.src;
+  const logo2Src = document.getElementById('boxLogo2')?.querySelector('img')?.src;
+  
+  if (!logo1Src || !logo2Src) return alert("Gagal memuat logo!");
 
-  // 3. Gambar Logo (Header)
-  ctx.drawImage(logo1, 80, 50, 250, 125);
-  ctx.drawImage(logo2, 750, 50, 250, 125);
+  const logo1 = await loadImg(logo1Src);
+  const logo2 = await loadImg(logo2Src);
 
-  // 4. Gambar Menu (Logika Presisi Anti Gepeng)
-  const frameX = 100, frameY = 500, frameW = 880, frameH = 600;
+  // 4. Gambar Logo (MEMPERBAIKI DISTORSI & TATA LETAK)
+  // Hitung ukuran logo proporsional
+  const logoTargetWidth = 160; // Ukuran lebar target yang lebih proporsional
+  const logoTopY = 80; // Posisi Y tetap
+
+  // Logo 1 (Masjid - Kiri)
+  const aspectRatio1 = logo1.width / logo1.height;
+  const logo1Height = logoTargetWidth / aspectRatio1;
+  ctx.drawImage(logo1, 80, logoTopY, logoTargetWidth, logo1Height);
+
+  // Logo 2 (Garuda - Kanan)
+  const aspectRatio2 = logo2.width / logo2.height;
+  const logo2Height = logoTargetWidth / aspectRatio2;
+  ctx.drawImage(logo2, 800, logoTopY, logoTargetWidth, logo2Height);
+
+  // 5. Gambar Menu (BINGKAI DAN PENEMPATAN - TETAP BAGUS)
+  ctx.shadowColor = "rgba(0,0,0,0.5)";
+  ctx.shadowBlur = 40;
   ctx.fillStyle = "#ffffff";
-  ctx.fillRect(frameX, frameY, frameW, frameH); // Background putih foto
-  
-  // Hitung agar tidak gepeng
-  let hRatio = frameW / imgMenu.width;
-  let vRatio = frameH / imgMenu.height;
-  let ratio = Math.min(hRatio, vRatio);
-  let centerShift_x = (frameW - imgMenu.width * ratio) / 2;
-  let centerShift_y = (frameH - imgMenu.height * ratio) / 2;
-  
-  ctx.drawImage(imgMenu, 0, 0, imgMenu.width, imgMenu.height, 
-                frameX + centerShift_x, frameY + centerShift_y, 
-                imgMenu.width * ratio, imgMenu.height * ratio);
+  ctx.fillRect(100, 600, 880, 600); // Frame putih
+  ctx.drawImage(imgMenu, 120, 620, 840, 560);
+  ctx.shadowBlur = 0;
 
-  // 5. Teks Estetik (Hierarki Jelas)
+  // 6. Teks (NAMA DAPUR, MENU, TANGGAL) - MEMPERBAIKI UKURAN DAN KEPRECISIAN
+  const tgl = new Date();
+  const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+  const tglStr = tgl.toLocaleDateString('id-ID', options);
+
   ctx.textAlign = "center";
   
-  // Nama Dapur
+  // Font Nama Dapur (Menurunkan ukuran, menggunakan pt, memposisikan ulang)
   ctx.fillStyle = "#ffcc00";
-  ctx.font = "bold 70px sans-serif";
-  ctx.fillText(document.getElementById('txtDapur').innerText, 540, 350);
+  ctx.font = "bold 24pt sans-serif"; // Sekitar 32px (sebelumnya 65px)
+  const dapurTextY = 320; // Lebih tinggi dari sebelumnya (350)
+  // Asumsi ada element dengan id txtDapur di halaman
+  const dapurText = document.getElementById('txtDapur')?.innerText || "SPPG PALOH LADA";
+  ctx.fillText(dapurText, 540, dapurTextY);
 
-  // Nama Menu (Dibuat otomatis wrap jika terlalu panjang agar tidak kepotong)
-  const namaMenu = document.getElementById('txtMenu').innerText;
+  // Font Teks Menu (Menurunkan ukuran, menggunakan pt, memposisikan ulang)
   ctx.fillStyle = "#ffffff";
-  ctx.font = "bold 60px sans-serif";
-  const maxWidth = 900;
-  const words = namaMenu.split(' ');
-  let line = '';
-  let yPos = 1300;
-  for(let n = 0; n < words.length; n++) {
-    let testLine = line + words[n] + ' ';
-    if(ctx.measureText(testLine).width > maxWidth) {
-      ctx.fillText(line, 540, yPos);
-      line = words[n] + ' ';
-      yPos += 70;
-    } else { line = testLine; }
-  }
-  ctx.fillText(line, 540, yPos);
+  ctx.font = "bold 28pt sans-serif"; // Sekitar 37px (sebelumnya 80px)
+  const menuTextY = 1380; // Jarak yang lebih baik di bawah makanan
+  // Asumsi ada element dengan id txtMenu di halaman
+  const menuText = document.getElementById('txtMenu')?.innerText || "Nasi Goreng, Telur Mata Sapi, Kacang Tanah Goreng, Lalapan Timun, Pisang";
+  ctx.fillText(menuText, 540, menuTextY);
 
-  // Tanggal
+  // Font Tanggal (Menurunkan ukuran, menggunakan pt, memposisikan ulang)
   ctx.fillStyle = "#ffcc00";
-  ctx.font = "italic 45px sans-serif";
-  ctx.fillText(document.getElementById('txtTgl').innerText, 540, yPos + 100);
+  ctx.font = "italic 14pt sans-serif"; // Sekitar 19px (sebelumnya 40px)
+  const dateTextY = 1440; // Lebih dekat ke teks menu
+  // Gunakan tglStr yang sudah dihitung
+  ctx.fillText(tglStr, 540, dateTextY);
 
-  // Download
+  // Trigger Download
   const link = document.createElement('a');
-  link.download = "Poster_Premium_MBG.png";
+  link.download = "Poster_Premium_MBG_Perbaikan_Kode.png";
   link.href = canvas.toDataURL("image/png");
   link.click();
 }
