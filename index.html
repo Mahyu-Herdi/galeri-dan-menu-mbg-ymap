@@ -7,8 +7,8 @@
   <link rel="manifest" href="manifest.json">
   
   <!-- Meta Tags untuk Share ke WhatsApp/Sosmed -->
-  <meta property="og:title" content="Portal Menu Sppg - Yayasan Muslim Aceh Peduli">
-  <meta property="og:description" content="Informasi Menu Makan Bergizi Gratis dan Galeri Kegiatan Sppg Dan Yayasan.">
+  <meta property="og:title" content="Portal Menu MBG - Yayasan Muslim Aceh Peduli">
+  <meta property="og:description" content="Informasi Menu Makan Bergizi Gratis dan Galeri Kegiatan SPPG Yayasan Muslim Aceh Peduli.">
   <meta property="og:image" content="https://galeri-dan-menu-mbg-ymap.vercel.app/"> <!-- GANTI DENGAN URL DOMAINMU NANTI -->
   <meta property="og:type" content="website">
 
@@ -335,6 +335,7 @@
     #navPrev { left: 16px; }
     #navNext { right: 16px; }
 
+    /* TOMBOL UNDUH */
     #btnDownload {
       position: absolute;
       bottom: 24px; right: 24px;
@@ -353,6 +354,27 @@
     }
     #btnDownload.visible { opacity: 1; pointer-events: all; transform: translateY(0); }
     #btnDownload:hover { filter: brightness(1.1); transform: translateY(-2px); }
+
+    /* TOMBOL SHARE */
+    #btnShare {
+      position: absolute;
+      bottom: 24px; left: 24px;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(8px);
+      color: #fff;
+      font-weight: 800; font-family: var(--fb); font-size: 12px;
+      border: 1px solid var(--glass-b);
+      padding: 10px 20px; border-radius: 20px;
+      cursor: pointer;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+      z-index: 50;
+      display: flex; align-items: center; gap: 8px;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.35s ease, transform 0.3s ease, background 0.2s;
+      transform: translateY(15px);
+    }
+    #btnShare.visible { opacity: 1; pointer-events: all; transform: translateY(0); }
+    #btnShare:hover { background: var(--green); border-color: var(--green); transform: translateY(-2px); }
 
     #emptyState {
       display: none;
@@ -639,7 +661,7 @@
     }
 
     /* ─────────────────────────────────────────
-       FULL SCREEN GALERI CSS
+       FULL SCREEN GALERI CSS & TOMBOL SHARE
     ───────────────────────────────────────── */
     .full-galeri-box { position: relative; display: flex; align-items: center; justify-content: center; max-width: 95vw; max-height: 90vh; width: 100%; height: 100%;}
     .full-galeri-box .nav-arrow-gal { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.6); color: white; border: none; padding: 15px; cursor: pointer; border-radius: 50%; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; z-index: 10; transition: 0.3s; }
@@ -650,6 +672,17 @@
       #navPrevGal { left: 10px; }
       #navNextGal { right: 10px; }
     }
+    
+    /* Tombol share di Fullscreen modal */
+    .btn-share-modal {
+      position: absolute; top: 20px; right: 20px;
+      background: rgba(0,0,0,0.7); backdrop-filter: blur(8px);
+      color: white; border: 1px solid var(--glass-b);
+      width: 45px; height: 45px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; z-index: 20; transition: 0.2s;
+    }
+    .btn-share-modal:hover { background: var(--green); border-color: var(--green); transform: scale(1.1); }
   </style>
 </head>
 <body>
@@ -823,6 +856,12 @@
       <div id="imgContainer">
         <img id="displayImg" src="" alt="" class="fade-anim">
 
+        <!-- TOMBOL SHARE MUNCUL DISINI -->
+        <button id="btnShare" onclick="bagikanWeb()">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+          Bagikan
+        </button>
+
         <button id="btnDownload" onclick="downloadPoster()">
           <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
           Unduh Poster
@@ -845,10 +884,17 @@
 <div id="loaderFloat"><div class="spinner"></div><div id="loaderMsg">MEMPROSES...</div></div>
 <div id="toast">Notifikasi</div>
 
-<!-- Modal Galeri Full Screen dengan dukungan SWIPE -->
+<!-- Modal Galeri Full Screen dengan dukungan SWIPE dan SHARE -->
 <div id="modalFullGaleri" class="modal-overlay" onclick="tutupModalFull()">
   <div class="full-galeri-box" onclick="event.stopPropagation()">
+    
+    <!-- Tombol Share di dalam Modal Galeri -->
+    <button class="btn-share-modal" onclick="bagikanWeb()" title="Bagikan">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+    </button>
+
     <div id="fullGaleriContent" style="display:flex; justify-content:center; align-items:center; width:100%; height:100%;"></div>
+    
     <button class="nav-arrow-gal" id="navPrevGal" onclick="slideGal(false)">
       <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
     </button>
@@ -991,6 +1037,9 @@
 </div>
 
 <script>
+  // =====================================
+  // GANTI URL DI BAWAH INI DENGAN URL GAS-MU
+  // =====================================
   const GAS_API_URL = "https://script.google.com/macros/s/AKfycbyOVIv7gaMKYfkOu8IERI5uwoeENZibdyq11EsGkco-h8kcqzrLoPm2VE_TWgQUUiwL/exec";
 
   let isAdmin = false;
@@ -1118,16 +1167,26 @@
   }
 
   function showDl() {
-    const btn = document.getElementById('btnDownload');
+    const btnDl = document.getElementById('btnDownload');
+    const btnShare = document.getElementById('btnShare');
     const img = document.getElementById('displayImg');
     if(isGridView || isModeGaleri || !img.src || img.style.display==='none') return;
-    btn.classList.add('visible');
+    
+    btnDl.classList.add('visible');
+    btnShare.classList.add('visible');
+    
     clearTimeout(dlHideTimer);
-    dlHideTimer = setTimeout(() => btn.classList.remove('visible'), 2800);
+    dlHideTimer = setTimeout(() => {
+      btnDl.classList.remove('visible');
+      btnShare.classList.remove('visible');
+    }, 2800);
   }
   function scheduleDlHide() {
     clearTimeout(dlHideTimer);
-    dlHideTimer = setTimeout(() => document.getElementById('btnDownload').classList.remove('visible'), 900);
+    dlHideTimer = setTimeout(() => {
+      document.getElementById('btnDownload').classList.remove('visible');
+      document.getElementById('btnShare').classList.remove('visible');
+    }, 900);
   }
 
   function showLoader(m) { document.getElementById('loaderMsg').innerText=m; document.getElementById('loaderFloat').classList.add('show'); }
@@ -1143,6 +1202,32 @@
   function updateCounter() {
     const el = document.getElementById('slideCounter');
     el.innerText = (imageList.length > 0 && !isGridView) ? `${currentIdx+1}/${imageList.length}` : '';
+  }
+
+  // ── FUNGSI BAGIKAN (SHARE) NATIVE ────────────
+  function bagikanWeb() {
+    const urlString = window.location.href;
+    const titleString = document.title;
+    const textString = "Halo! Cek Menu Makanan Bergizi Gratis (MBG) dan Galeri Kegiatan MAP hari ini.";
+
+    if (navigator.share) {
+      navigator.share({
+        title: titleString,
+        text: textString,
+        url: urlString
+      }).catch(err => {
+        console.log('Error sharing:', err);
+      });
+    } else {
+      // Fallback: Copy link ke clipboard
+      const dummy = document.createElement('input');
+      document.body.appendChild(dummy);
+      dummy.value = urlString;
+      dummy.select();
+      document.execCommand('copy');
+      document.body.removeChild(dummy);
+      showToast("Link berhasil disalin! Silakan paste di WhatsApp/Sosmed.");
+    }
   }
 
   function switchView(view) {
@@ -1483,7 +1568,6 @@
           `;
         }
 
-        // Thumbnail logic kalau video
         let mediaTag = `<img src="${g.src}" loading="lazy">`;
         if (g.src.includes('data:video') || g.src.includes('video/mp4')) {
            mediaTag = `<div style="position:relative; width:100%; height:180px; background:#000; display:flex; align-items:center; justify-content:center; border-radius:12px; margin-bottom:12px;">
@@ -1491,7 +1575,6 @@
                        </div>`;
         }
 
-        // onclick memanggil bukaGaleriFull 
         html += `<div class="galeri-card" onclick="bukaGaleriFull(${originalIndex})" style="cursor:pointer;">
           ${mediaTag}
           <div class="galeri-title">${g.judul}</div>
@@ -1542,16 +1625,15 @@
 
   function tutupModalFull() { 
     document.getElementById('modalFullGaleri').style.display='none'; 
-    document.getElementById('fullGaleriContent').innerHTML = ''; // hentikan video berjalan
+    document.getElementById('fullGaleriContent').innerHTML = ''; 
   }
 
-  // Deteksi Swipe Kanan Kiri di Modal Galeri
   let touchstartX = 0;
   let touchendX = 0;
   
   function handleSwipe() {
-    if (touchendX < touchstartX - 40) slideGal(true); // Geser ke Kiri (Next)
-    if (touchendX > touchstartX + 40) slideGal(false); // Geser ke Kanan (Prev)
+    if (touchendX < touchstartX - 40) slideGal(true); 
+    if (touchendX > touchstartX + 40) slideGal(false); 
   }
 
   document.getElementById('modalFullGaleri').addEventListener('touchstart', e => {
@@ -1805,7 +1887,6 @@
     ctx.fillStyle = "#fff";
     ctx.fillRect(100,600,880,600);
     
-    // Fitur Proporsi (Anti Gepeng) untuk Download Poster
     let hRatio = 840 / imgMenu.width;
     let vRatio = 560 / imgMenu.height;
     let ratio = Math.min(hRatio, vRatio);
