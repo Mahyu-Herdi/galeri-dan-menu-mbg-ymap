@@ -573,31 +573,20 @@
   function nextSlide() { if(imageList.length > 0) updateDisplay(currentIdx === imageList.length - 1 ? 0 : currentIdx + 1); }
   function prevSlide() { if(imageList.length > 0) updateDisplay(currentIdx === 0 ? imageList.length - 1 : currentIdx - 1); }
 
-  async function downloadPoster() {
+ async function downloadPoster() {
   const imgElem = document.getElementById('displayImg');
-  if(!imgElem.src) return alert("Belum ada gambar!");
+  if (!imgElem.src) return alert("Belum ada gambar!");
 
   const canvas = document.getElementById('posterCanvas');
   const ctx = canvas.getContext('2d');
-  
-  // Ukuran Portrait 1080x1920
   canvas.width = 1080;
   canvas.height = 1920;
 
-  // 1. Background (Warna Navy MAP)
+  // 1. Background
   ctx.fillStyle = "#05233f";
   ctx.fillRect(0, 0, 1080, 1920);
 
-  // 2. Shape Seni (Elemen Dekoratif di belakang foto)
-  ctx.fillStyle = "rgba(255, 255, 255, 0.05)";
-  ctx.beginPath();
-  ctx.moveTo(0, 500);
-  ctx.quadraticCurveTo(540, 300, 1080, 500);
-  ctx.lineTo(1080, 1500);
-  ctx.quadraticCurveTo(540, 1700, 0, 1500);
-  ctx.fill();
-
-  // 3. Load Images (Logo & Menu)
+  // 2. Fungsi Helper Load Gambar & Jaga Proporsi (Anti Gepeng)
   const loadImg = (src) => new Promise(resolve => {
     const img = new Image(); img.crossOrigin = "Anonymous";
     img.onload = () => resolve(img); img.src = src;
@@ -607,36 +596,58 @@
   const logo1 = await loadImg(document.getElementById('boxLogo1').querySelector('img').src);
   const logo2 = await loadImg(document.getElementById('boxLogo2').querySelector('img').src);
 
-  // 4. Gambar Logo
-  ctx.drawImage(logo1, 80, 80, 200, 100);
-  ctx.drawImage(logo2, 800, 80, 200, 100);
+  // 3. Gambar Logo (Header)
+  ctx.drawImage(logo1, 80, 50, 250, 125);
+  ctx.drawImage(logo2, 750, 50, 250, 125);
 
-  // 5. Gambar Menu (dengan bingkai rounded)
-  ctx.shadowColor = "rgba(0,0,0,0.5)"; ctx.shadowBlur = 40;
+  // 4. Gambar Menu (Logika Presisi Anti Gepeng)
+  const frameX = 100, frameY = 500, frameW = 880, frameH = 600;
   ctx.fillStyle = "#ffffff";
-  ctx.fillRect(100, 600, 880, 600); // Frame putih
-  ctx.drawImage(imgMenu, 120, 620, 840, 560);
-  ctx.shadowBlur = 0;
+  ctx.fillRect(frameX, frameY, frameW, frameH); // Background putih foto
+  
+  // Hitung agar tidak gepeng
+  let hRatio = frameW / imgMenu.width;
+  let vRatio = frameH / imgMenu.height;
+  let ratio = Math.min(hRatio, vRatio);
+  let centerShift_x = (frameW - imgMenu.width * ratio) / 2;
+  let centerShift_y = (frameH - imgMenu.height * ratio) / 2;
+  
+  ctx.drawImage(imgMenu, 0, 0, imgMenu.width, imgMenu.height, 
+                frameX + centerShift_x, frameY + centerShift_y, 
+                imgMenu.width * ratio, imgMenu.height * ratio);
 
-  // 6. Teks (Nama Dapur, Menu, Tanggal)
-  const tgl = new Date();
-  const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
-  const tglStr = tgl.toLocaleDateString('id-ID', options);
-
+  // 5. Teks Estetik (Hierarki Jelas)
   ctx.textAlign = "center";
+  
+  // Nama Dapur
   ctx.fillStyle = "#ffcc00";
-  ctx.font = "bold 65px Arial";
+  ctx.font = "bold 70px sans-serif";
   ctx.fillText(document.getElementById('txtDapur').innerText, 540, 350);
 
+  // Nama Menu (Dibuat otomatis wrap jika terlalu panjang agar tidak kepotong)
+  const namaMenu = document.getElementById('txtMenu').innerText;
   ctx.fillStyle = "#ffffff";
-  ctx.font = "bold 80px Arial";
-  ctx.fillText(document.getElementById('txtMenu').innerText, 540, 1400);
+  ctx.font = "bold 60px sans-serif";
+  const maxWidth = 900;
+  const words = namaMenu.split(' ');
+  let line = '';
+  let yPos = 1300;
+  for(let n = 0; n < words.length; n++) {
+    let testLine = line + words[n] + ' ';
+    if(ctx.measureText(testLine).width > maxWidth) {
+      ctx.fillText(line, 540, yPos);
+      line = words[n] + ' ';
+      yPos += 70;
+    } else { line = testLine; }
+  }
+  ctx.fillText(line, 540, yPos);
 
+  // Tanggal
   ctx.fillStyle = "#ffcc00";
-  ctx.font = "italic 40px Arial";
-  ctx.fillText(tglStr, 540, 1480);
+  ctx.font = "italic 45px sans-serif";
+  ctx.fillText(document.getElementById('txtTgl').innerText, 540, yPos + 100);
 
-  // Trigger Download
+  // Download
   const link = document.createElement('a');
   link.download = "Poster_Premium_MBG.png";
   link.href = canvas.toDataURL("image/png");
