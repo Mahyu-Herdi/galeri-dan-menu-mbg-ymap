@@ -1926,6 +1926,87 @@
     a.href = canvas.toDataURL("image/png");
     a.click();
   }
+  // ==========================================
+  // FITUR AUTO UPDATE (SILENT REFRESH)
+  // ==========================================
+  let isFetchingSilent = false;
+  
+  // Mengecek data baru ke server setiap 60 detik (60000 ms)
+  setInterval(autoRefreshDiamDiam, 60000); 
+
+  async function autoRefreshDiamDiam() {
+    // 1. Jangan nge-cek kalau sistem lagi sibuk ngambil data
+    if (isFetchingSilent) return;
+    
+    // 2. Jangan nge-cek kalau Admin lagi buka popup/modal (biar ketikan gak hilang)
+    const isModalOpen = Array.from(document.querySelectorAll('.modal-overlay')).some(el => el.style.display === 'flex');
+    if (isModalOpen) return;
+
+    isFetchingSilent = true;
+
+    try {
+      if (currentView === 'menu') {
+        if (isGlobalPlayMode) {
+          // Cek menu hari ini (Global)
+          const r = await fetchAPI('getSemuaMenuHariIni');
+          if (r) prosesUpdateMenu(r);
+        } else {
+          // Cek menu berdasarkan periode yang lagi dipilih
+          const periodeId = document.getElementById('selPeriode').value;
+          if (periodeId) {
+            const r = await fetchAPI('getGambarMenu', {periodeId: periodeId});
+            if (r) prosesUpdateMenu(r);
+          }
+        }
+      } 
+      else if (currentView === 'galeri') {
+        // Cek data galeri
+        const r = await fetchAPI('getGaleri');
+        if (r) {
+          // Bandingkan data dari server dengan data yang lagi tampil
+          if (JSON.stringify(r) !== JSON.stringify(galeriAllData)) {
+            galeriAllData = r;
+            applyGaleriFilter(); // Render ulang dengan tenang
+            showToast("Ada kegiatan baru dari SPPG! Layar diperbarui.");
+          }
+        }
+      }
+    } catch (e) {
+      // Kalau sinyal tiba-tiba putus saat ngecek, biarkan saja (jangan pusingkan user)
+    }
+
+    isFetchingSilent = false;
+  }
+
+  function prosesUpdateMenu(newData) {
+    // Buang placeholder agar perbandingannya akurat
+    const oldDataStr = JSON.stringify(imageList.filter(i => !i.isPlaceholder));
+    const newDataFiltered = newData.filter(i => !i.isPlaceholder);
+    const newDataStr = JSON.stringify(newDataFiltered);
+
+    // Kalau ada beda (ada yang nambah/kehapus/diedit)
+    if (oldDataStr !== newDataStr) {
+      imageList = newDataFiltered;
+
+      if (imageList.length === 0) {
+         document.getElementById('txtMenu').innerText = "BELUM ADA MENU";
+         document.getElementById('displayImg').src = "";
+         document.getElementById('displayImg').style.display = 'none';
+         document.getElementById('emptyState').style.display = 'flex';
+         if(isGridView) document.getElementById('gridContainer').innerHTML = '';
+      } else {
+         if (isGridView) {
+           renderMenuGrid(); // Update mode kotak-kotak
+         } else {
+           // Mencegah error kalau menu yang lagi dilihat ternyata dihapus admin lain
+           if (currentIdx >= imageList.length) currentIdx = 0;
+           updateDisplay(currentIdx); // Update gambar utamanya
+         }
+      }
+      updateCounter();
+      showToast("Data Dapur terbaru masuk! Layar diperbarui otomatis.");
+    }
+  }
 </script>
 </body>
 </html>
