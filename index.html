@@ -5,6 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <title>Portal Menu MBG MAP</title>
   <link rel="manifest" href="manifest.json">
+  
+  <!-- Meta Tags untuk Share ke WhatsApp/Sosmed -->
+  <meta property="og:title" content="Portal Menu Sppg - Yayasan Muslim Aceh Peduli">
+  <meta property="og:description" content="Informasi Menu Makan Bergizi Gratis dan Galeri Kegiatan Sppg Dan Yayasan.">
+  <meta property="og:image" content="https://galeri-dan-menu-mbg-ymap.vercel.app/"> <!-- GANTI DENGAN URL DOMAINMU NANTI -->
+  <meta property="og:type" content="website">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Nunito:ital,wght@0,400;0,600;0,700;0,900;1,400&display=swap" rel="stylesheet">
@@ -71,22 +78,20 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 24px 0; /* Padding atas bawah diperbesar */
-      gap: 16px; /* Jarak antar grup diperbesar agar tidak padat */
+      padding: 24px 0; 
+      gap: 16px; 
       box-shadow: 8px 0 32px rgba(0,0,0,0.7);
       transition: left 0.38s cubic-bezier(0.2,0.9,0.2,1);
     }
     #sideDock.show-dock { left: 0; }
 
-    /* Separator */
     .dock-sep {
       width: 46px; height: 1px;
       background: var(--glass-b);
-      margin: 10px 0; /* Jarak separator diperbesar */
+      margin: 10px 0; 
       flex-shrink: 0;
     }
 
-    /* Dock button */
     .dock-btn {
       width: 60px; height: 60px;
       border-radius: 14px;
@@ -133,7 +138,6 @@
     .dock-btn svg { width: 22px; height: 22px; flex-shrink: 0; }
     .dock-btn-label { font-size: 8px; font-weight: 800; letter-spacing: 0.5px; line-height: 1; text-align: center; }
 
-    /* Page switcher tabs at top of dock */
     .dock-view-tab {
       width: 60px; height: 50px;
       border-radius: 12px;
@@ -159,7 +163,7 @@
     .dock-view-tab span { font-size: 7px; font-weight: 800; letter-spacing: 0.5px; }
 
     /* ─────────────────────────────────────────
-       MAIN BODY (right of dock)
+       MAIN BODY
     ───────────────────────────────────────── */
     #mainBody {
       flex: 1;
@@ -169,9 +173,6 @@
       position: relative;
     }
 
-    /* ─────────────────────────────────────────
-       HEADER
-    ───────────────────────────────────────── */
     #header {
       width: 100%;
       flex-shrink: 0;
@@ -225,7 +226,6 @@
       font-style: italic; letter-spacing: 0.3px;
     }
 
-    /* Secret admin btn */
     #secretLoginBtn {
       position: absolute; top: 12px; right: 16px;
       width: 40px; height: 40px;
@@ -238,9 +238,6 @@
       border: 1px solid rgba(255,204,0,0.35);
     }
 
-    /* ─────────────────────────────────────────
-       CONTENT AREA
-    ───────────────────────────────────────── */
     #contentArea {
       flex: 1;
       position: relative;
@@ -249,9 +246,6 @@
       flex-direction: column;
     }
 
-    /* ─────────────────────────────────────────
-       SLIDE CONTROLS bar (top of content)
-    ───────────────────────────────────────── */
     #slideBar {
       position: absolute;
       top: 14px;
@@ -300,9 +294,6 @@
       font-size: 11px; font-weight: 700; color: #aaa; font-style: italic; min-width: 36px; text-align: center;
     }
 
-    /* ─────────────────────────────────────────
-       IMG + NAV
-    ───────────────────────────────────────── */
     #imgContainer {
       width: 100%; flex: 1;
       display: flex;
@@ -319,16 +310,12 @@
       position: absolute;
     }
     
-    /* ANIMASI TRANSISI LEMBUT */
-    .fade-anim {
-      animation: smoothFade 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-    }
+    .fade-anim { animation: smoothFade 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
     @keyframes smoothFade {
       0% { opacity: 0; transform: scale(0.96); filter: blur(4px); }
       100% { opacity: 1; transform: scale(1); filter: blur(0); }
     }
 
-    /* Nav arrows */
     .nav-arrow {
       position: absolute;
       top: 50%; transform: translateY(-50%);
@@ -348,7 +335,6 @@
     #navPrev { left: 16px; }
     #navNext { right: 16px; }
 
-    /* Download btn */
     #btnDownload {
       position: absolute;
       bottom: 24px; right: 24px;
@@ -368,7 +354,6 @@
     #btnDownload.visible { opacity: 1; pointer-events: all; transform: translateY(0); }
     #btnDownload:hover { filter: brightness(1.1); transform: translateY(-2px); }
 
-    /* Empty state */
     #emptyState {
       display: none;
       flex-direction: column;
@@ -388,9 +373,6 @@
       margin-top: 16px;
     }
 
-    /* ─────────────────────────────────────────
-       GRID VIEW (MENU)
-    ───────────────────────────────────────── */
     #gridContainer {
       width: 100%; height: 100%;
       display: none; 
@@ -416,9 +398,6 @@
     .grid-title { margin-top: 10px; font-family: var(--fd); font-size: 15px; font-weight: 700; color: var(--gold); text-transform: uppercase; letter-spacing: 1px; text-align: center; }
     .grid-date { margin-top: 4px; font-size: 11px; font-weight: 600; color: #ccc; font-style: italic; text-align: center; }
 
-    /* ─────────────────────────────────────────
-       GALERI (KIRI KE KANAN)
-    ───────────────────────────────────────── */
     #galeriContainer {
       width: 100%; height: 100%;
       display: none;
@@ -435,7 +414,7 @@
       border-radius: 18px; padding: 14px;
       box-shadow: 0 10px 24px rgba(0,0,0,0.5);
       color: white; transition: 0.25s;
-      display: flex; flex-direction: column;
+      display: flex; flex-direction: column; cursor: pointer;
     }
     .galeri-card:hover { border-color: var(--gold); background: var(--glass-h); transform: translateY(-3px); }
     .galeri-card img { width: 100%; height: 180px; object-fit: cover; border-radius: 12px; margin-bottom: 12px; }
@@ -443,7 +422,6 @@
     .galeri-desc { font-size: 12px; color: #ddd; margin: 8px 0; line-height: 1.5; flex-grow: 1; }
     .meta-item { display: flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 600; color: #aaa; font-style: italic; margin-top: 4px; }
 
-    /* Galeri Admin Actions */
     .galeri-admin-actions {
       display: flex; gap: 8px; margin-top: 12px; padding-top: 12px; border-top: 1px dashed var(--glass-b);
     }
@@ -451,9 +429,6 @@
       flex: 1; padding: 7px; font-size: 10px; border-radius: 8px;
     }
 
-    /* ─────────────────────────────────────────
-       FILTER PANELS
-    ───────────────────────────────────────── */
     #galeriFilterBar, #menuFilterBar {
       display: none;
       align-items: center;
@@ -471,9 +446,6 @@
     }
     .galeri-filter-group, .menu-filter-group { display: flex; flex-direction: column; gap: 4px; }
 
-    /* ─────────────────────────────────────────
-       INPUT styles
-    ───────────────────────────────────────── */
     select, input[type="text"], input[type="date"] {
       background: rgba(255,255,255,0.07);
       color: white;
@@ -515,9 +487,6 @@
     .btn-dark    { background: #213e58; border: 1px solid var(--glass-b); }
     .btn-secondary { background: #444; }
 
-    /* ─────────────────────────────────────────
-       WELCOME
-    ───────────────────────────────────────── */
     #welcomeScreen {
       position: fixed; top: 0; left: 0;
       width: 100%; height: 100%;
@@ -533,9 +502,6 @@
     }
     @keyframes pulse { 100% { filter: drop-shadow(0 0 28px rgba(0,234,255,0.75)); transform: scale(1.08); } }
 
-    /* ─────────────────────────────────────────
-       MODAL
-    ───────────────────────────────────────── */
     .modal-overlay {
       display: none; position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
@@ -582,9 +548,6 @@
     .badge-menu   { background: rgba(52,199,89,0.15); color: var(--green); border: 1px solid rgba(52,199,89,0.25); }
     .badge-galeri { background: rgba(255,149,0,0.15); color: var(--orange); border: 1px solid rgba(255,149,0,0.25); }
 
-    /* ─────────────────────────────────────────
-       LOADER & TOAST
-    ───────────────────────────────────────── */
     @keyframes spin { to { transform: rotate(360deg); } }
     #loaderFloat, #toast {
       visibility: hidden; opacity: 0;
@@ -630,9 +593,8 @@
     ::-webkit-scrollbar-thumb:hover { background: rgba(255,204,0,0.5); }
 
     /* ─────────────────────────────────────────
-       ADAPTIF & RESPONSIVE (PC, Mobile, Landscape)
+       ADAPTIF & RESPONSIVE
     ───────────────────────────────────────── */
-    /* Tablet & Landscape Kecil */
     @media (max-width: 1024px) {
       #txtDapur { font-size: 22px; }
       .logo-box { height: 50px; width: 70px; }
@@ -640,7 +602,6 @@
       #galeriContainer { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
     }
 
-    /* Mobile Portrait */
     @media (max-width: 680px) {
       :root { --dock-w: 64px; }
       #mainView { width: 100%; height: 100%; border-radius: 0; border: none; }
@@ -666,7 +627,6 @@
       select, input[type="date"] { padding: 6px 10px; font-size: 12px; }
     }
 
-    /* Mobile Landscape Khusus */
     @media (max-width: 900px) and (orientation: landscape) {
       #header { padding: 6px 16px; }
       .logo-box { height: 36px; }
@@ -676,6 +636,19 @@
       .grid-item { height: 100px; }
       #galeriContainer { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); padding: 10px; }
       .galeri-card img { height: 120px; }
+    }
+
+    /* ─────────────────────────────────────────
+       FULL SCREEN GALERI CSS
+    ───────────────────────────────────────── */
+    .full-galeri-box { position: relative; display: flex; align-items: center; justify-content: center; max-width: 95vw; max-height: 90vh; width: 100%; height: 100%;}
+    .full-galeri-box .nav-arrow-gal { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.6); color: white; border: none; padding: 15px; cursor: pointer; border-radius: 50%; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; z-index: 10; transition: 0.3s; }
+    .full-galeri-box .nav-arrow-gal:hover { background: var(--gold); color: black; }
+    #navPrevGal { left: -60px; }
+    #navNextGal { right: -60px; }
+    @media (max-width: 680px) {
+      #navPrevGal { left: 10px; }
+      #navNextGal { right: 10px; }
     }
   </style>
 </head>
@@ -866,9 +839,24 @@
       <div id="galeriContainer"></div>
     </div>
 
-  </div></div><canvas id="posterCanvas" style="display:none;"></canvas>
+  </div>
+</div>
+<canvas id="posterCanvas" style="display:none;"></canvas>
 <div id="loaderFloat"><div class="spinner"></div><div id="loaderMsg">MEMPROSES...</div></div>
 <div id="toast">Notifikasi</div>
+
+<!-- Modal Galeri Full Screen dengan dukungan SWIPE -->
+<div id="modalFullGaleri" class="modal-overlay" onclick="tutupModalFull()">
+  <div class="full-galeri-box" onclick="event.stopPropagation()">
+    <div id="fullGaleriContent" style="display:flex; justify-content:center; align-items:center; width:100%; height:100%;"></div>
+    <button class="nav-arrow-gal" id="navPrevGal" onclick="slideGal(false)">
+      <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+    <button class="nav-arrow-gal" id="navNextGal" onclick="slideGal(true)">
+      <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+  </div>
+</div>
 
 <div id="modalLogin" class="modal-overlay">
   <div class="modal-box">
@@ -992,8 +980,8 @@
       <input type="text" id="upGaleriDesc" placeholder="Deskripsi singkat...">
     </div>
     <div class="modal-form-row">
-      <label>Foto Kegiatan</label>
-      <input type="file" id="upGaleriFile" accept="image/*">
+      <label>Foto/Video Kegiatan</label>
+      <input type="file" id="upGaleriFile" accept="image/*,video/mp4">
     </div>
     <div class="modal-actions">
       <button class="btn-secondary" onclick="tutupModal('modalUploadGaleri')">Batal</button>
@@ -1016,11 +1004,10 @@
   let isModeGaleri = false;
   let currentView = 'menu'; 
   let isGaleriKelola = false;
-  let isGridView = false; // Status Grid View
+  let isGridView = false; 
   let dapurList = []; 
   
-  // Variabel Global Hapus Target
-  let deleteTargetType = 'menu'; // 'menu' atau 'galeri'
+  let deleteTargetType = 'menu'; 
   let deleteTargetIndex = 0;
 
   // ── FORMAT TANGGAL ──────────────────────────
@@ -1067,7 +1054,6 @@
       }, 1000);
     }, 2500);
 
-    // Logo
     fetchAPI('getLogo',{namaFile:'Logo Yayasan.png'}).then(r => {
       if(r) document.getElementById('boxLogo1').innerHTML = `<img src="${r}" class="logo-img">`;
     });
@@ -1075,7 +1061,6 @@
       if(r) document.getElementById('boxLogo2').innerHTML = `<img src="${r}" class="logo-img">`;
     });
 
-    // Dapur list (cached)
     fetchAPI('getDaftarDapur').then(r => {
       if(r) {
         dapurList = r;
@@ -1083,7 +1068,6 @@
       }
     });
 
-    // Sensor aktivitas untuk side dock
     const dock = document.getElementById('sideDock');
     window.addEventListener('mousemove', onActivity);
     window.addEventListener('touchstart', onActivity, {passive:true});
@@ -1091,18 +1075,15 @@
     dock.addEventListener('mouseenter', () => { isDockHovered = true; showDock(); });
     dock.addEventListener('mouseleave', () => { isDockHovered = false; scheduleHideDock(); });
 
-    // Sensor download button
     const ca = document.getElementById('contentArea');
     ca.addEventListener('mousemove', showDl);
     ca.addEventListener('touchstart', showDl, {passive:true});
     ca.addEventListener('mouseleave', scheduleDlHide);
 
-    // Show slide bar on content hover
     ca.addEventListener('mouseenter', () => { if(!isModeGaleri) document.getElementById('slideBar').classList.add('visible'); });
     ca.addEventListener('mouseleave', () => { document.getElementById('slideBar').classList.remove('visible'); });
   };
 
-  // ── POPULATE DAPUR SELECTS ─────────────────
   function populateDapurSelects() {
     let h = '<option value="">-- Pilih Dapur --</option>';
     dapurList.forEach(d => h += `<option value="${d.id}">${d.nama}</option>`);
@@ -1121,11 +1102,7 @@
     document.getElementById('selGaleriDapur').innerHTML = h4;
   }
 
-  // ── ACTIVITY / DOCK SENSOR ───────────────────
-  function onActivity(e) {
-    // Tampilkan dock jika mouse ke kiri layar
-    if(e.clientX < 40) showDock();
-  }
+  function onActivity(e) { if(e.clientX < 40) showDock(); }
   function showDock() {
     document.getElementById('sideDock').classList.add('show-dock');
     clearTimeout(idleDockTimer);
@@ -1153,7 +1130,6 @@
     dlHideTimer = setTimeout(() => document.getElementById('btnDownload').classList.remove('visible'), 900);
   }
 
-  // ── UTILS ────────────────────────────────────
   function showLoader(m) { document.getElementById('loaderMsg').innerText=m; document.getElementById('loaderFloat').classList.add('show'); }
   function hideLoader()  { document.getElementById('loaderFloat').classList.remove('show'); }
   function showToast(m, err=false) {
@@ -1169,7 +1145,6 @@
     el.innerText = (imageList.length > 0 && !isGridView) ? `${currentIdx+1}/${imageList.length}` : '';
   }
 
-  // ── VIEW SWITCHER (Menu / Galeri) ────────────
   function switchView(view) {
     currentView = view;
     document.getElementById('tabMenu').classList.toggle('tab-on', view==='menu');
@@ -1177,7 +1152,7 @@
     document.getElementById('menuDockBtns').style.display = view==='menu' ? 'flex' : 'none';
     document.getElementById('menuDockBtns').style.flexDirection = 'column';
     document.getElementById('menuDockBtns').style.alignItems = 'center';
-    document.getElementById('menuDockBtns').style.gap = '16px'; /* GAP diperbesar */
+    document.getElementById('menuDockBtns').style.gap = '16px'; 
     document.getElementById('menuDockBtns').style.width = '100%';
     document.getElementById('galeriDockBtns').style.display = view==='galeri' ? 'flex' : 'none';
 
@@ -1195,13 +1170,11 @@
       document.getElementById('galeriFilterDapur').style.display = 'none';
       document.getElementById('galeriFilterBulan').style.display = 'none';
       
-      // Update toggle button galeri kelola jika admin
       if(isAdmin) document.querySelectorAll('.galeri-kelola-only').forEach(el => el.style.display='flex');
       else document.querySelectorAll('.galeri-kelola-only').forEach(el => el.style.display='none');
       document.getElementById('btnKelolGaleri').className = 'dock-btn';
 
       muatGaleri();
-
     } else {
       document.getElementById('galeriContainer').style.display = 'none';
       document.getElementById('galeriFilterBar').style.display = 'none';
@@ -1213,7 +1186,6 @@
     }
   }
 
-  // ── AUTH ─────────────────────────────────────
   function cekStatusLogin() {
     if(!isAdmin) document.getElementById('modalLogin').style.display='flex';
     else showToast("Anda sudah login sebagai Admin.");
@@ -1231,7 +1203,6 @@
     } else { showToast("Password Salah!", true); }
   }
 
-  // ── MODE (Menu View) ─────────────────────────
   function setMode(mode) {
     if(mode==='kelola' && !isAdmin) { document.getElementById('modalLogin').style.display='flex'; return; }
 
@@ -1245,30 +1216,27 @@
       kelolaElems.forEach(el => el.style.display='none');
       document.getElementById('menuFilterBar').style.display = 'none';
       jalankanPlaySemua();
-
     } else if(mode==='lihat') {
       document.getElementById('btnModeLihat').className = 'dock-btn active';
       kelolaElems.forEach(el => el.style.display='none');
-      document.getElementById('menuFilterBar').style.display = 'flex'; // Munculkan bar untuk filter kembali
+      document.getElementById('menuFilterBar').style.display = 'flex'; 
       isGlobalPlayMode = false;
       stopSlide();
-
     } else if(mode==='kelola') {
       document.getElementById('btnModeKelola').className = 'dock-btn active';
       kelolaElems.forEach(el => el.style.display='flex');
-      document.getElementById('menuFilterBar').style.display = 'flex'; // Munculkan bar untuk filter kembali
+      document.getElementById('menuFilterBar').style.display = 'flex'; 
       isGlobalPlayMode = false;
       stopSlide();
     }
   }
 
-  // ── GALERI KELOLA ────────────────────────────
   function setGaleriKelola() {
     if(!isAdmin) { document.getElementById('modalLogin').style.display='flex'; return; }
     isGaleriKelola = true;
     document.getElementById('btnKelolGaleri').className = 'dock-btn active';
     document.querySelectorAll('.galeri-kelola-only').forEach(el => el.style.display='flex');
-    renderGaleri(galeriAllData); // Re-render untuk memunculkan tombol edit/hapus
+    renderGaleri(galeriAllData); 
   }
 
   function filterGaleri(mode) {
@@ -1306,7 +1274,6 @@
     renderGaleri(filtered);
   }
 
-  // ── MENU DATA FETCHING ───────────────────────
   async function jalankanPlaySemua() {
     isGlobalPlayMode = true; isModeGaleri = false; isGridView = false;
     document.getElementById('galeriContainer').style.display='none';
@@ -1370,11 +1337,9 @@
       if(r.length > 0) {
         if(isGridView) {
           renderMenuGrid();
-          // Jika dalam mode Grid, tetap biarkan Filter Bar terbuka
           document.getElementById('menuFilterBar').style.display = 'flex'; 
         } else {
           updateDisplay(0);
-          // ── FITUR BARU: Hide Menu Filter Bar agar tampilan bersih saat mode slide
           document.getElementById('menuFilterBar').style.display = 'none'; 
         }
       } else { 
@@ -1403,7 +1368,6 @@
     updateCounter();
   }
 
-  // ── TOGGLE GRID/SLIDE VIEW MENU ──────────────────
   function toggleGridSlide() {
     if(imageList.length === 0) return;
     isGridView = !isGridView;
@@ -1418,7 +1382,6 @@
       btn.classList.add('tab-on');
       btn.style.color = 'var(--gold)';
       
-      // Jika kembali ke Grid View (dan bukan main global hari ini), munculkan bar filter lagi
       if(!isGlobalPlayMode) document.getElementById('menuFilterBar').style.display = 'flex';
       renderMenuGrid();
     } else {
@@ -1428,7 +1391,6 @@
       btn.classList.remove('tab-on');
       btn.style.color = 'white';
 
-      // Sembunyikan bar filter lagi supaya bersih saat Slide
       if(!isGlobalPlayMode) document.getElementById('menuFilterBar').style.display = 'none';
       updateDisplay(currentIdx);
     }
@@ -1453,16 +1415,14 @@
 
   function pilihMenuDariGrid(index) {
     currentIdx = index;
-    toggleGridSlide(); // Kembali ke tampilan Slide di index yg dipilih
+    toggleGridSlide(); 
   }
 
-  // ── DISPLAY SLIDE ────────────────────────────
   function updateDisplay(idx) {
     if(!imageList[idx]) return;
     const img  = document.getElementById('displayImg');
     const data = imageList[idx];
     
-    // Trigger Reflow for Animation
     img.classList.remove('fade-anim');
     void img.offsetWidth; 
 
@@ -1482,7 +1442,6 @@
     updateCounter();
   }
 
-  // ── GALERI DATA & RENDER ─────────────────────
   async function muatGaleri() {
     document.getElementById('txtDapur').innerText = "GALERI KEGIATAN";
     document.getElementById('txtMenu').innerText  = "SEMUA DAPUR";
@@ -1494,7 +1453,6 @@
 
     galeriAllData = r || [];
 
-    // Filter Dropdowns
     const bulanSet = new Set();
     galeriAllData.forEach(g => {
       if(g.tanggal && g.tanggal!=='-') {
@@ -1513,21 +1471,29 @@
     let html = '';
     if(data && data.length > 0) {
       data.forEach((g) => {
-        // Cari index asli dari galeriAllData agar edit/hapus presisi
         const originalIndex = galeriAllData.findIndex(item => item.id === g.id);
         
         let actionHtml = '';
         if(isAdmin && isGaleriKelola) {
           actionHtml = `
-            <div class="galeri-admin-actions">
+            <div class="galeri-admin-actions" onclick="event.stopPropagation()">
               <button class="btn-dark" onclick="bukaModalEditGaleri(${originalIndex})">Edit</button>
               <button class="btn-danger" onclick="doHapus('galeri', ${originalIndex})">Hapus</button>
             </div>
           `;
         }
 
-        html += `<div class="galeri-card">
-          <img src="${g.src}" loading="lazy">
+        // Thumbnail logic kalau video
+        let mediaTag = `<img src="${g.src}" loading="lazy">`;
+        if (g.src.includes('data:video') || g.src.includes('video/mp4')) {
+           mediaTag = `<div style="position:relative; width:100%; height:180px; background:#000; display:flex; align-items:center; justify-content:center; border-radius:12px; margin-bottom:12px;">
+                          <svg viewBox="0 0 24 24" width="40" height="40" fill="rgba(255,255,255,0.7)"><path d="M8 5v14l11-7z"/></svg>
+                       </div>`;
+        }
+
+        // onclick memanggil bukaGaleriFull 
+        html += `<div class="galeri-card" onclick="bukaGaleriFull(${originalIndex})" style="cursor:pointer;">
+          ${mediaTag}
           <div class="galeri-title">${g.judul}</div>
           <div class="galeri-desc">${g.deskripsi||''}</div>
           <div class="meta-item">
@@ -1547,7 +1513,57 @@
     document.getElementById('galeriContainer').innerHTML = html;
   }
 
-  // ── UPLOAD MENU & GALERI ─────────────────────
+  // ── FITUR FULL SCREEN GALERI SWIPE & VIDEO ──
+  let galeriListFullscreen = []; 
+  let galIdx = 0;
+
+  function bukaGaleriFull(index) {
+    galeriListFullscreen = galeriAllData;
+    galIdx = index;
+    renderFullGaleri();
+    document.getElementById('modalFullGaleri').style.display = 'flex';
+  }
+
+  function renderFullGaleri() {
+    const item = galeriListFullscreen[galIdx];
+    const container = document.getElementById('fullGaleriContent');
+    
+    if(item.src.includes('data:video') || item.src.includes('video/mp4')) {
+      container.innerHTML = `<video src="${item.src}" controls autoplay playsinline style="max-width:100%; max-height:85vh; border-radius:12px; box-shadow: 0 10px 30px rgba(0,0,0,0.8); background:black;"></video>`;
+    } else {
+      container.innerHTML = `<img src="${item.src}" style="max-width:100%; max-height:85vh; border-radius:12px; box-shadow: 0 10px 30px rgba(0,0,0,0.8); object-fit: contain;">`;
+    }
+  }
+
+  function slideGal(next) {
+    galIdx = next ? (galIdx + 1) % galeriListFullscreen.length : (galIdx - 1 + galeriListFullscreen.length) % galeriListFullscreen.length;
+    renderFullGaleri();
+  }
+
+  function tutupModalFull() { 
+    document.getElementById('modalFullGaleri').style.display='none'; 
+    document.getElementById('fullGaleriContent').innerHTML = ''; // hentikan video berjalan
+  }
+
+  // Deteksi Swipe Kanan Kiri di Modal Galeri
+  let touchstartX = 0;
+  let touchendX = 0;
+  
+  function handleSwipe() {
+    if (touchendX < touchstartX - 40) slideGal(true); // Geser ke Kiri (Next)
+    if (touchendX > touchstartX + 40) slideGal(false); // Geser ke Kanan (Prev)
+  }
+
+  document.getElementById('modalFullGaleri').addEventListener('touchstart', e => {
+    touchstartX = e.changedTouches[0].screenX;
+  }, {passive: true});
+
+  document.getElementById('modalFullGaleri').addEventListener('touchend', e => {
+    touchendX = e.changedTouches[0].screenX;
+    handleSwipe();
+  }, {passive: true});
+
+
   function bukaModalUploadMenu() { document.getElementById('modalUploadMenu').style.display='flex'; }
   function bukaModalUploadGaleri() { document.getElementById('modalUploadGaleri').style.display='flex'; }
 
@@ -1589,7 +1605,7 @@
     if(!dapurEl.value) return showToast("Pilih Dapur!", true);
     if(!tgl)   return showToast("Isi Tanggal!", true);
     if(!judul) return showToast("Isi Judul!", true);
-    if(!file)  return showToast("Pilih Foto!", true);
+    if(!file)  return showToast("Pilih File!", true);
 
     const rd = new FileReader();
     rd.onload = async e => {
@@ -1608,7 +1624,6 @@
     rd.readAsDataURL(file);
   }
 
-  // ── EDIT MENU ─────────────────────────────
   function bukaModalEdit() {
     if(imageList.length===0 || isModeGaleri) return showToast("Pilih menu dulu!", true);
     document.getElementById('editNama').value = imageList[currentIdx].nama;
@@ -1636,10 +1651,9 @@
     else showToast("Gagal menyimpan!", true);
   }
 
-  // ── EDIT GALERI ─────────────────────────────
   function bukaModalEditGaleri(index) {
     const curr = galeriAllData[index];
-    deleteTargetIndex = index; // simpan index untuk proses edit
+    deleteTargetIndex = index; 
     document.getElementById('editGaleriJudul').value = curr.judul;
     document.getElementById('editGaleriTgl').value  = curr.tanggal;
     document.getElementById('editGaleriDesc').value = curr.deskripsi || '';
@@ -1668,7 +1682,7 @@
   }
 
   async function kirimEditGaleri(payload) {
-    const r = await fetchAPI('editGaleri', payload); // Pastikan Apps Script punya fungsi ini
+    const r = await fetchAPI('editGaleri', payload); 
     hideLoader();
     if(r && r.success) { 
       showToast("Galeri berhasil diperbarui!"); 
@@ -1676,7 +1690,6 @@
     } else showToast("Gagal memperbarui galeri", true);
   }
 
-  // ── HAPUS GLOBAL (Menu & Galeri) ──────────────
   function doHapus(type, index=null) {
     deleteTargetType = type;
     if(type === 'menu') {
@@ -1708,7 +1721,7 @@
 
     } else if(deleteTargetType === 'galeri') {
       const targetId = galeriAllData[deleteTargetIndex].id;
-      const r = await fetchAPI('hapusGaleri', {fileId: targetId}); // Pastikan Apps script merespon hapusGaleri
+      const r = await fetchAPI('hapusGaleri', {fileId: targetId}); 
       hideLoader();
       if(r && r.success) {
         showToast("Kegiatan dihapus!");
@@ -1717,7 +1730,6 @@
     }
   }
 
-  // ── SLIDE CONTROLS ───────────────────────────
   function stopSlide() {
     if(!isPlaying) return;
     isPlaying = false;
@@ -1741,7 +1753,7 @@
       btn.classList.add('playing');
       icon.innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
       label.innerText = 'PAUSE';
-      slideTimer = setInterval(() => nextSlide(), 5500); // Waktu diatur 5.5 detik agar animasi berasa
+      slideTimer = setInterval(() => nextSlide(), 5500); 
     } else {
       btn.classList.remove('playing');
       icon.innerHTML = '<path d="M8 5v14l11-7z"/>';
@@ -1753,7 +1765,6 @@
   function nextSlide() { if(imageList.length>0 && !isGridView) updateDisplay(currentIdx===imageList.length-1 ? 0 : currentIdx+1); }
   function prevSlide() { if(imageList.length>0 && !isGridView) updateDisplay(currentIdx===0 ? imageList.length-1 : currentIdx-1); }
 
-  // ── DOWNLOAD POSTER ──────────────────────────
   async function downloadPoster() {
     const imgElem = document.getElementById('displayImg');
     if(!imgElem || !imgElem.src) return alert("Belum ada gambar!");
@@ -1793,7 +1804,18 @@
     ctx.shadowColor = "rgba(0,0,0,0.5)"; ctx.shadowBlur = 40;
     ctx.fillStyle = "#fff";
     ctx.fillRect(100,600,880,600);
-    ctx.drawImage(imgMenu,120,620,840,560);
+    
+    // Fitur Proporsi (Anti Gepeng) untuk Download Poster
+    let hRatio = 840 / imgMenu.width;
+    let vRatio = 560 / imgMenu.height;
+    let ratio = Math.min(hRatio, vRatio);
+    let centerShift_x = (840 - imgMenu.width * ratio) / 2;
+    let centerShift_y = (560 - imgMenu.height * ratio) / 2;
+    
+    ctx.drawImage(imgMenu, 0, 0, imgMenu.width, imgMenu.height, 
+                  120 + centerShift_x, 620 + centerShift_y, 
+                  imgMenu.width * ratio, imgMenu.height * ratio);
+    
     ctx.shadowBlur = 0;
 
     ctx.textAlign = "center"; ctx.textBaseline = "top";
