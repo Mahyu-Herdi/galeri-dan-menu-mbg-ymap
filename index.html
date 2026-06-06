@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Portal Menu MBG MAP</title>
+  <link rel="manifest" href="manifest.json">
+  <style>
+    /* CSS BAWAAN & GLASSMORPHISM */
+    body { margin: 0; background: #213e58; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif; overflow: hidden; height: 100vh; display: flex; justify-content: center; align-items: center; }
+    #mainView { width: 96%; height: 95%; background: #05233f; border-radius: 24px; position: relative; overflow: hidden; box-shadow: 0 30px 60px rgba(0,0,0,0.8); display: flex; flex-direction: column; align-items: center; border: 1px solid rgba(255,255,255,0.1); padding: 20px; box-sizing: border-box; display: none; }
+    #header { width: 100%; height: 95px; flex-shrink: 0; background: rgba(255,255,255,0.1); backdrop-filter: blur(20px); border-radius: 18px; display: flex; justify-content: space-between; align-items: center; padding: 10px 25px; border: 1px solid rgba(255,255,255,0.2); box-sizing: border-box; color: white; margin-bottom: 20px; z-index: 10; }
+    .logo-box { height: 75px; width: 130px; display: flex; align-items: center; justify-content: center; }
+    .logo-img { height: 100%; width: 100%; object-fit: contain; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.5)); }
+    .header-info { text-align: center; flex: 1; display: flex; flex-direction: column; justify-content: center; }
+    #txtDapur { font-size: 26px; font-weight: 900; letter-spacing: 1.5px; text-transform: uppercase; text-shadow: 0 2px 5px rgba(0,0,0,0.8); }
+    #txtMenu { font-size: 18px; font-weight: 600; color: #ffcc00; margin: 3px 0; text-shadow: 0 1px 3px rgba(0,0,0,0.8); }
+    #txtTgl { font-size: 14px; opacity: 0.9; font-style: italic; letter-spacing: 0.5px; }
+    
+    #imgContainer { width: 100%; flex: 1; display: flex; justify-content: center; align-items: center; overflow: hidden; position: relative; }
+    #displayImg { max-width: 100%; max-height: 100%; object-fit: contain; transform-origin: center; cursor: pointer; position: absolute; transition: transform 0.1s ease-out; }
+    
+    #emptyState { display: none; flex-direction: column; align-items: center; justify-content: center; position: absolute; width: 100%; height: 100%; text-align: center; }
+    #emptyIcon { font-size: 80px; filter: drop-shadow(0 10px 10px rgba(0,0,0,0.5)); margin-bottom: 15px; }
+    #emptyPesan { color: #ff3b30; font-size: 28px; font-weight: 900; background: rgba(0,0,0,0.4); padding: 15px 30px; border-radius: 16px; border: 1px solid rgba(255,59,48,0.3); text-transform: uppercase;}
+
+    #gridContainer { width: 100%; height: 100%; display: none; flex-wrap: wrap; justify-content: center; align-content: center; gap: 20px; position: absolute; top: 0; left: 0; box-sizing: border-box; padding: 10px; overflow-y: auto; }
+    .grid-card { display: flex; flex-direction: column; align-items: center; justify-content: center; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 15px; border-radius: 16px; width: calc(33.33% - 20px); max-width: 320px; min-width: 240px; box-shadow: 0 10px 20px rgba(0,0,0,0.5); cursor: pointer; transition: 0.3s; }
+    .grid-card:hover { background: rgba(255,255,255,0.1); border-color: #ffcc00; }
+    .grid-item { width: 100%; height: 180px; object-fit: contain; border-radius: 8px; }
+    .grid-title { margin-top: 12px; font-size: 15px; font-weight: bold; color: #ffcc00; text-align: center; text-transform: uppercase; }
+    .grid-date { margin-top: 4px; font-size: 12px; color: #ccc; text-align: center; font-style: italic; }
+    
+    /* DOCK MENU */
+    #dock { position: fixed; bottom: -150px; left: 50%; transform: translateX(-50%); background: rgba(30,30,30,0.9); backdrop-filter: blur(25px); padding: 15px 20px; border-radius: 20px 20px 0 0; transition: bottom 0.5s ease, right 0.4s ease; display: flex; flex-direction: column; gap: 10px; border: 1px solid rgba(255,255,255,0.1); z-index: 1000; color: white; width: max-content;}
+    #dock.show-dock { bottom: 0; }
+    .dock-row { display: flex; gap: 15px; align-items: flex-end; }
+    .dock-group { display: flex; flex-direction: column; gap: 5px; }
+    label { font-size: 10px; opacity: 0.6; font-weight: 600; text-transform: uppercase; color: white; }
+    select, input, button { background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 10px; font-size: 12px; outline: none; }
+    input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(1); cursor: pointer; }
+    button { background: #007aff; border: none; font-weight: bold; cursor: pointer; transition: 0.2s; }
+    button:hover { filter: brightness(1.2); }
+    .btn-action { background: #34c759; }
+    .btn-nav { background: #ff9500; }
+    .btn-danger { background: #ff3b30; }
+    .btn-secondary { background: #555; }
+    .kelola-only { display: none; } /* Default hidden until login */
+    
+    .mode-switch { display: flex; background: rgba(0,0,0,0.5); border-radius: 10px; padding: 3px; width: fit-content; align-self: center; margin-bottom: 5px; gap: 2px;}
+    .mode-btn { background: transparent; color: #aaa; padding: 8px 15px; border-radius: 8px; border: none; cursor: pointer; font-size: 11px; font-weight: bold; transition: 0.3s; }
+    .mode-btn.active { background: #007aff; color: white; }
+    .mode-btn.play-active { background: #ff3b30; color: white; }
+
+    /* FITUR BARU */
+    #welcomeScreen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #05233f; z-index: 9999; display: flex; justify-content: center; align-items: center; text-align: center; padding: 20px; transition: opacity 1s ease-out; }
+    .neon-text { font-size: 36px; font-weight: 900; color: #fff; text-transform: uppercase; text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #ff00de, 0 0 40px #ff00de, 0 0 80px #00eaff, 0 0 100px #00eaff; animation: pulsate 1.5s infinite alternate; }
+    @keyframes pulsate { 100% { text-shadow: 0 0 2px #fff, 0 0 5px #fff, 0 0 10px #ff00de, 0 0 20px #00eaff, 0 0 40px #00eaff; } }
+
+    #btnToggleGaleri { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3); padding: 5px 15px; border-radius: 12px; cursor: pointer; color: #ffcc00; font-weight: bold; margin-top: 5px; transition: 0.3s; }
+    #btnToggleGaleri:hover { background: #ffcc00; color: #000; }
+
+    #galeriContainer { width: 100%; height: 100%; display: none; flex-wrap: wrap; justify-content: center; align-content: flex-start; gap: 20px; position: absolute; top: 0; left: 0; box-sizing: border-box; padding: 20px; overflow-y: auto; background: #05233f; z-index: 5;}
+    .galeri-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; width: 300px; padding: 15px; box-shadow: 0 10px 20px rgba(0,0,0,0.5); text-align: left; }
+    .galeri-card img { width: 100%; height: 200px; object-fit: cover; border-radius: 8px; margin-bottom: 10px; }
+    .galeri-title { color: #ffcc00; font-weight: bold; font-size: 16px; text-transform: uppercase; }
+    .galeri-desc { font-size: 12px; color: #ccc; margin: 8px 0; line-height: 1.4; }
+    
+    #secretLoginBtn { position: absolute; top: 15px; right: 15px; width: 40px; height: 40px; border-radius: 50%; background: transparent; cursor: pointer; border: none; z-index: 100; transition: 0.3s; }
+    #secretLoginBtn:hover { background: rgba(255, 204, 0, 0.3); border: 1px solid rgba(255, 204, 0, 0.5); backdrop-filter: blur(5px); }
+
+    #btnDownloadEstetik { position: absolute; bottom: 30px; right: 30px; background: linear-gradient(45deg, #ffcc00, #ff9500); color: #000; font-weight: bold; border: none; padding: 12px 25px; border-radius: 20px; cursor: pointer; box-shadow: 0 10px 20px rgba(0,0,0,0.5); z-index: 50; display: none; opacity: 0; transition: 0.3s ease; }
+    #imgContainer:hover #btnDownloadEstetik { display: block; opacity: 1; }
+
+    /* MODAL LAMA & BARU */
+    .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); z-index: 10001; justify-content: center; align-items: center; }
+    .modal-box { background: rgba(30,30,30,0.9); border: 1px solid rgba(255,255,255,0.2); border-radius: 20px; padding: 25px; width: 320px; text-align: center; color: white; display: flex; flex-direction: column; gap: 15px; }
+    .modal-box h3 { margin: 0; color: #ffcc00; font-size: 20px; }
+    .modal-actions { display: flex; justify-content: space-between; gap: 10px; margin-top: 10px;}
+    .modal-actions button { flex: 1; padding: 12px; font-size: 14px; }
+
+    #loaderFloat, #toast { visibility: hidden; opacity: 0; position: fixed; transition: all 0.3s ease; z-index: 10005; }
+    #loaderFloat { top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(20, 20, 20, 0.85); backdrop-filter: blur(15px); padding: 20px 30px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.2); display: flex; flex-direction: column; align-items: center; }
+    #loaderFloat.show { visibility: visible; opacity: 1; }
+    .spinner { width: 40px; height: 40px; border: 4px solid rgba(255, 204, 0, 0.3); border-top: 4px solid #ffcc00; border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 10px; }
+    #toast { background: rgba(52, 199, 89, 0.9); color: #fff; padding: 15px; border-radius: 12px; left: 50%; bottom: 90px; transform: translateX(-50%) translateY(20px); font-weight: bold; }
+    #toast.show { visibility: visible; opacity: 1; transform: translateX(-50%) translateY(0); }
+    #toast.error { background: rgba(255, 59, 48, 0.9); }
+  </style>
+</head>
+<body>
+
+<div id="welcomeScreen">
+  <div class="neon-text">Selamat Datang di Portal<br>Makan Bergizi Gratis (MBG)<br>Yayasan Muslim Aceh Peduli</div>
+</div>
+
+<div id="mainView">
+  <button id="secretLoginBtn" onclick="cekStatusLogin()" title="Login Admin"></button>
+
+  <div id="header">
+    <div class="logo-box" id="boxLogo1"></div>
+    <div class="header-info">
+      <div id="txtDapur">PILIH DAPUR DI BAWAH</div>
+      <div id="txtMenu">MENU MAKANAN MBG</div>
+      <div id="txtTgl">-</div>
+      <button id="btnToggleGaleri" onclick="toggleGaleri()">LIHAT GALERI KEGIATAN</button>
+    </div>
+    <div class="logo-box" id="boxLogo2"></div>
+  </div>
+
+  <div id="imgContainer">
+    <img id="displayImg" src="" alt="">
+    <button id="btnDownloadEstetik" onclick="downloadPoster()">↓ Unduh Poster Premium</button>
+    
+    <div id="emptyState">
+      <div id="emptyIcon">⚠️</div>
+      <div id="emptyPesan">Belum di update oleh SPPI</div>
+    </div>
+    <div id="gridContainer"></div>
+  </div>
+
+  <div id="galeriContainer"></div>
+</div>
+
+<div id="dock">
+  <div class="mode-switch">
+    <button class="mode-btn active" id="btnModePlayGlobal" onclick="setMode('playglobal')">▶ PLAY HARI INI</button>
+    <button class="mode-btn" id="btnModeLihat" onclick="setMode('lihat')">👀 LIHAT MENU</button>
+    <button class="mode-btn" id="btnModeKelola" onclick="setMode('kelola')">⚙️ KELOLA DATA</button>
+  </div>
+
+  <div class="dock-row">
+    <div class="dock-group" id="areaFilter">
+      <label>1. DAPUR & PERIODE</label>
+      <div style="display:flex; gap:5px;">
+        <select id="selDapur" onchange="fetchPeriode()"><option value="">Pilih Dapur...</option></select>
+        <select id="selPeriode" onchange="fetchGambar()"><option value="">Pilih Periode...</option></select>
+        <button class="kelola-only" onclick="bikinPeriodeBaru()" style="background:#213e58;">+ BUAT</button>
+      </div>
+    </div>
+
+    <div class="kelola-only dock-group">
+      <label>Tipe Upload</label>
+      <select id="selTipeUpload" onchange="ubahFormUpload()">
+        <option value="menu">Menu MBG</option>
+        <option value="galeri">Galeri Kegiatan</option>
+      </select>
+    </div>
+
+    <div class="kelola-only dock-group">
+      <label>TANGGAL</label>
+      <input type="date" id="inTgl"> 
+    </div>
+
+    <div class="kelola-only dock-group" id="areaUploadMenu">
+      <label>NAMA MENU</label>
+      <input type="text" id="inNama" placeholder="Nama menu..." style="width: 120px;">
+    </div>
+    <div class="kelola-only dock-group" id="areaUploadGaleri" style="display:none;">
+      <label>JUDUL & DESKRIPSI</label>
+      <input type="text" id="inJudulGaleri" placeholder="Judul..." style="margin-bottom:2px; width: 140px;">
+      <input type="text" id="inDescGaleri" placeholder="Deskripsi..." style="width: 140px;">
+    </div>
+
+    <div class="kelola-only dock-group">
+      <label>FOTO</label>
+      <input type="file" id="inFile" accept="image/*" style="width: 150px;">
+    </div>
+    
+    <div class="dock-group" style="flex-direction: row; gap: 5px;">
+      <button class="kelola-only" onclick="doUpload()">↑ UPLOAD</button>
+      <button class="kelola-only btn-nav" onclick="bukaModalEdit()">✏️ EDIT (MENU)</button>
+      <button class="kelola-only btn-danger" onclick="doHapus()">🗑 HAPUS (MENU)</button>
+      
+      <button class="btn-nav slide-btn" onclick="prevSlide()">⏮</button>
+      <button class="btn-nav slide-btn" onclick="nextSlide()">⏭</button>
+      <button class="btn-action slide-btn" id="btnSlide" onclick="runSlide()">▶ PLAY</button>
+    </div>
+  </div>
+</div>
+
+<canvas id="posterCanvas" style="display:none;"></canvas>
+
+<div id="loaderFloat"><div class="spinner"></div><div style="color:white; font-weight:bold;" id="loaderMsg">MEMPROSES...</div></div>
+<div id="toast">Notifikasi</div>
+
+<div id="modalLogin" class="modal-overlay">
+  <div class="modal-box">
+    <h3>Login Admin MAP</h3>
+    <input type="password" id="inPassword" placeholder="Masukkan Password">
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="tutupModal('modalLogin')">Batal</button>
+      <button class="btn-action" onclick="prosesLogin()">Masuk</button>
+    </div>
+  </div>
+</div>
+
+<div id="modalConfirm" class="modal-overlay">
+  <div class="modal-box">
+    <h3>Konfirmasi Hapus</h3>
+    <p id="modalText">Yakin ingin menghapus menu ini?</p>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="tutupModal('modalConfirm')">Batal</button>
+      <button class="btn-danger" onclick="executeHapus()">Ya, Hapus</button>
+    </div>
+  </div>
+</div>
+
+<div id="modalEdit" class="modal-overlay">
+  <div class="modal-box">
+    <h3>Edit Menu</h3>
+    <input type="text" id="editNama" placeholder="Nama Menu Baru">
+    <input type="date" id="editTgl">
+    <input type="file" id="editFile" accept="image/*">
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="tutupModal('modalEdit')">Batal</button>
+      <button class="btn-action" onclick="executeEdit()">Simpan</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ==========================================
+  // GANTI URL INI DENGAN URL WEB APP KAMU !!!
+  // ==========================================
+  const GAS_API_URL = "https://script.google.com/macros/s/AKfycbxwxY4J4uUDpgJHK49XG4ny2wduAbo9sCDVz-Un6WToQatBapuQd2fhqkrNK7n00iNk/exec"; // CONTOH
+
+  let isAdmin = false;
+  let imageList = [];
+  let currentIdx = 0;
+  let isPlaying = false, slideTimer, syncTimer, idleTimer;
+  let zoomScale = 1, translateX = 0, translateY = 0, isDragging = false, startX, startY;
+  let isGlobalPlayMode = true, isModeGrid = false, isModeGaleri = false;
+  let isDockHovered = false;
+
+  // FUNGSI FETCH API UTAMA
+  async function fetchAPI(action, payload = null) {
+    try {
+      const response = await fetch(GAS_API_URL + "?action=" + action, {
+        method: "POST",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: payload ? JSON.stringify(payload) : null
+      });
+      return await response.json();
+    } catch(err) {
+      showToast("Error Koneksi API", true); return null;
+    }
+  }
+
+  window.onload = () => {
+    setTimeout(() => {
+      document.getElementById('welcomeScreen').style.opacity = '0';
+      setTimeout(() => {
+        document.getElementById('welcomeScreen').style.display = 'none';
+        document.getElementById('mainView').style.display = 'flex';
+        setMode('playglobal'); 
+      }, 1000);
+    }, 2500);
+    
+    // Init Logo (Pakai API kalau ada, atau ganti src lokal)
+    fetchAPI('getLogo', 'Logo Yayasan.png').then(res => { if(res) document.getElementById('boxLogo1').innerHTML = `<img src="${res}" class="logo-img">`; });
+    fetchAPI('getLogo', 'Logo Badan Gizi.png').then(res => { if(res) document.getElementById('boxLogo2').innerHTML = `<img src="${res}" class="logo-img">`; });
+    fetchAPI('getDaftarDapur').then(res => {
+      let html = '<option value="">-- Pilih Dapur --</option>';
+      if(res) res.forEach(d => html += `<option value="${d.id}">${d.nama}</option>`);
+      document.getElementById('selDapur').innerHTML = html;
+    });
+
+    const dock = document.getElementById('dock');
+    dock.addEventListener('mouseenter', () => isDockHovered = true);
+    dock.addEventListener('mouseleave', () => { isDockHovered = false; resetIdleTimer(); });
+    window.addEventListener('mousemove', resetIdleTimer);
+  };
+
+  // UI HELPERS
+  function showLoader(msg) { document.getElementById('loaderMsg').innerText = msg; document.getElementById('loaderFloat').classList.add('show'); }
+  function hideLoader() { document.getElementById('loaderFloat').classList.remove('show'); }
+  function showToast(msg, isErr=false) { const t = document.getElementById("toast"); t.innerText = msg; isErr ? t.classList.add("error") : t.classList.remove("error"); t.classList.add("show"); setTimeout(()=>t.classList.remove("show"), 3000); }
+  function tutupModal(id) { document.getElementById(id).style.display = 'none'; }
+  function resetIdleTimer() { const dock = document.getElementById('dock'); dock.classList.add('show-dock'); clearTimeout(idleTimer); idleTimer = setTimeout(() => { if(!isDockHovered) dock.classList.remove('show-dock'); }, 3000); }
+
+  // LOGIN & MODE KELOLA
+  function cekStatusLogin() { if(!isAdmin) document.getElementById('modalLogin').style.display = 'flex'; else showToast("Anda sudah login sebagai Admin."); }
+  async function prosesLogin() {
+    const pwd = document.getElementById('inPassword').value;
+    showLoader("Mengecek...");
+    const res = await fetchAPI('login', { password: pwd });
+    hideLoader();
+    if(res && res.success) { isAdmin = true; tutupModal('modalLogin'); showToast("Berhasil Login!"); setMode('kelola'); } 
+    else { showToast("Password Salah!", true); }
+  }
+
+  function setMode(mode) {
+    if(mode === 'kelola' && !isAdmin) { document.getElementById('modalLogin').style.display = 'flex'; return; }
+    
+    document.getElementById('btnModePlayGlobal').className = 'mode-btn';
+    document.getElementById('btnModeLihat').className = 'mode-btn';
+    document.getElementById('btnModeKelola').className = 'mode-btn';
+    
+    const kelolaElems = document.querySelectorAll('.kelola-only');
+    const areaFilter = document.getElementById('areaFilter');
+
+    if(mode === 'playglobal') {
+      document.getElementById('btnModePlayGlobal').classList.add('active', 'play-active');
+      kelolaElems.forEach(el => el.style.display = 'none');
+      areaFilter.style.display = 'none'; 
+      jalankanPlaySemua();
+    } else if(mode === 'lihat') {
+      document.getElementById('btnModeLihat').classList.add('active');
+      kelolaElems.forEach(el => el.style.display = 'none');
+      areaFilter.style.display = 'flex';
+      isGlobalPlayMode = false;
+    } else if(mode === 'kelola') {
+      document.getElementById('btnModeKelola').classList.add('active');
+      kelolaElems.forEach(el => el.style.display = 'flex');
+      areaFilter.style.display = 'flex';
+      isGlobalPlayMode = false;
+      ubahFormUpload(); // reset tampilan upload
+    }
+  }
+
+  function ubahFormUpload() {
+    const val = document.getElementById('selTipeUpload').value;
+    document.getElementById('areaUploadMenu').style.display = val === 'menu' ? 'flex' : 'none';
+    document.getElementById('areaUploadGaleri').style.display = val === 'galeri' ? 'flex' : 'none';
+  }
+
+  // FETCHER DATA 
+  async function jalankanPlaySemua() {
+    isGlobalPlayMode = true; isModeGaleri = false;
+    document.getElementById('galeriContainer').style.display = 'none';
+    document.getElementById('imgContainer').style.display = 'flex';
+    document.getElementById('txtDapur').innerText = "MEMUAT...";
+    showLoader("Mengambil Menu Hari Ini...");
+    const res = await fetchAPI('getSemuaMenuHariIni');
+    hideLoader();
+    if(res) {
+      imageList = res.filter(item => !item.isPlaceholder);
+      if(imageList.length > 0) { updateDisplay(0); if(!isPlaying) runSlide(); } 
+      else {
+        document.getElementById('txtMenu').innerText = "BELUM ADA MENU HARI INI";
+        document.getElementById('displayImg').src = "";
+        document.getElementById('txtDapur').innerText = "SEMUA DAPUR";
+        document.getElementById('emptyState').style.display = 'flex';
+      }
+    }
+  }
+
+  async function fetchPeriode() {
+    const dapurId = document.getElementById('selDapur').value;
+    if(!dapurId) return;
+    const dapurName = document.getElementById('selDapur').options[document.getElementById('selDapur').selectedIndex].text;
+    document.getElementById('txtDapur').innerText = dapurName;
+    showLoader("Memuat Periode...");
+    const res = await fetchAPI('getDaftarPeriode', { dapurId });
+    hideLoader();
+    if(res) {
+      let html = '<option value="">Pilih Periode...</option>';
+      res.forEach(p => html += `<option value="${p.id}">${p.nama}</option>`);
+      document.getElementById('selPeriode').innerHTML = html;
+      document.getElementById('emptyState').style.display = 'none';
+    }
+  }
+
+  async function bikinPeriodeBaru() {
+    const dapurId = document.getElementById('selDapur').value;
+    if(!dapurId) return showToast("Pilih Dapur dulu!", true);
+    showLoader("Membuat Folder...");
+    const res = await fetchAPI('buatPeriodeMingguIni', { dapurId });
+    hideLoader();
+    if(res) { showToast(res.status); fetchPeriode(); }
+  }
+
+  async function fetchGambar() {
+    const periodeId = document.getElementById('selPeriode').value;
+    if(!periodeId) return;
+    showLoader("Mengambil Gambar...");
+    const res = await fetchAPI('getGambarMenu', { periodeId });
+    hideLoader();
+    if(res) {
+      imageList = res;
+      if(res.length > 0) updateDisplay(0);
+      else {
+        document.getElementById('txtMenu').innerText = "BELUM ADA MENU";
+        document.getElementById('displayImg').src = "";
+        hideGrid();
+      }
+    }
+  }
+
+  function updateDisplay(idx) {
+    if(imageList[idx]) {
+      hideGrid(); isModeGrid = false;
+      const imgElem = document.getElementById('displayImg');
+      const data = imageList[idx];
+      if (isGlobalPlayMode || data.dapur) document.getElementById('txtDapur').innerText = data.dapur || "SEMUA DAPUR";
+      document.getElementById('emptyState').style.display = data.isPlaceholder ? 'flex' : 'none';
+      imgElem.style.display = data.isPlaceholder ? 'none' : 'block';
+      imgElem.src = data.src;
+      document.getElementById('txtMenu').innerText = data.nama;
+      document.getElementById('txtTgl').innerText = data.tanggal;
+      currentIdx = idx; zoomScale = 1; translateX = 0; translateY = 0;
+      imgElem.style.transform = `translate(0px, 0px) scale(1)`;
+    }
+  }
+
+  // GALERI
+  async function toggleGaleri() {
+    isModeGaleri = !isModeGaleri;
+    const btn = document.getElementById('btnToggleGaleri');
+    if(isModeGaleri) {
+      btn.innerText = "KEMBALI KE MENU MBG";
+      document.getElementById('imgContainer').style.display = 'none';
+      document.getElementById('galeriContainer').style.display = 'flex';
+      document.getElementById('txtDapur').innerText = "GALERI KEGIATAN";
+      document.getElementById('txtMenu').innerText = "SEMUA DAPUR";
+      showLoader("Memuat Galeri...");
+      const res = await fetchAPI('getGaleri');
+      hideLoader();
+      let html = '';
+      if(res) {
+        res.forEach(g => {
+          html += `<div class="galeri-card">
+            <img src="${g.src}"><div class="galeri-title">${g.judul}</div>
+            <div class="galeri-desc">${g.deskripsi}</div>
+            <div class="grid-date">📅 ${g.tanggal} | 📍 ${g.dapur}</div>
+          </div>`;
+        });
+      }
+      document.getElementById('galeriContainer').innerHTML = html || "<p>Belum ada kegiatan.</p>";
+    } else {
+      btn.innerText = "LIHAT GALERI KEGIATAN";
+      document.getElementById('galeriContainer').style.display = 'none';
+      document.getElementById('imgContainer').style.display = 'flex';
+      setMode('playglobal'); // Kembali auto main
+    }
+  }
+
+  // UPLOAD
+  function doUpload() {
+    const tipe = document.getElementById('selTipeUpload').value;
+    const tgl = document.getElementById('inTgl').value;
+    const file = document.getElementById('inFile').files[0];
+    
+    if(!tgl || !file) return showToast("Lengkapi tanggal & foto!", true);
+    
+    const reader = new FileReader();
+    reader.onload = async (e) => {
+      const base64Data = e.target.result;
+      let payload, action;
+      
+      if(tipe === 'menu') {
+        const periodeId = document.getElementById('selPeriode').value;
+        const nama = document.getElementById('inNama').value;
+        if(!periodeId || !nama) return showToast("Pilih periode & isi nama menu!", true);
+        payload = { periodeId, namaMenu: nama, tanggal: tgl, data: base64Data };
+        action = 'uploadMenu';
+      } else {
+        const dapurVal = document.getElementById('selDapur');
+        if(!dapurVal.value) return showToast("Pilih dapur untuk galeri!", true);
+        const dapurNama = dapurVal.options[dapurVal.selectedIndex].text;
+        const judul = document.getElementById('inJudulGaleri').value;
+        const desc = document.getElementById('inDescGaleri').value;
+        if(!judul) return showToast("Isi judul galeri!", true);
+        payload = { dapur: dapurNama, tanggal: tgl, judul, deskripsi: desc, data: base64Data };
+        action = 'uploadGaleri';
+      }
+
+      showLoader("MENGUPLOAD...");
+      const res = await fetchAPI(action, payload);
+      hideLoader();
+      if(res && res.status === "sukses") {
+        showToast("Berhasil!");
+        document.getElementById('inFile').value = "";
+        if(tipe === 'menu' && !isGlobalPlayMode) fetchGambar(); // Refresh current list
+      } else { showToast("Gagal Upload", true); }
+    };
+    reader.readAsDataURL(file);
+  }
+
+  // EDIT & DELETE (Khusus Menu)
+  function bukaModalEdit() {
+    if(imageList.length===0 || isModeGaleri) return showToast("Pilih menu dulu!", true);
+    document.getElementById('editNama').value = imageList[currentIdx].nama;
+    document.getElementById('editTgl').value = imageList[currentIdx].tanggal;
+    document.getElementById('modalEdit').style.display = 'flex';
+  }
+  async function executeEdit() {
+    const currentItem = imageList[currentIdx];
+    const file = document.getElementById('editFile').files[0];
+    tutupModal('modalEdit'); showLoader("MENYIMPAN...");
+    
+    let payload = { id: currentItem.id, nama: document.getElementById('editNama').value, tanggal: document.getElementById('editTgl').value, fileData: null };
+    
+    if(file) {
+      const reader = new FileReader();
+      reader.onload = async (e) => { payload.fileData = e.target.result; await kirimEdit(payload); };
+      reader.readAsDataURL(file);
+    } else { await kirimEdit(payload); }
+  }
+  async function kirimEdit(payload) {
+    const res = await fetchAPI('editMenu', payload);
+    hideLoader();
+    if(res && res.success) { showToast("Berhasil!"); imageList[currentIdx].nama = payload.nama; updateDisplay(currentIdx); }
+  }
+
+  function doHapus() {
+    if(imageList.length===0 || isModeGaleri) return;
+    document.getElementById('modalConfirm').style.display = 'flex';
+  }
+  async function executeHapus() {
+    tutupModal('modalConfirm'); showLoader("MENGHAPUS...");
+    const res = await fetchAPI('hapusMenu', { fileId: imageList[currentIdx].id });
+    hideLoader();
+    if(res && res.success) { showToast("Dihapus!"); imageList.splice(currentIdx, 1); currentIdx=0; updateDisplay(currentIdx); }
+  }
+
+  // SLIDER & GRID & ZOOM LOGIC 
+  function hideGrid() { document.getElementById('gridContainer').style.display = 'none'; }
+  function runSlide() {
+    if(isModeGaleri) return;
+    isPlaying = !isPlaying;
+    const btn = document.getElementById('btnSlide');
+    if(isPlaying) { btn.innerText = "⏸ PAUSE"; btn.style.background = "#ff3b30"; slideTimer = setInterval(() => nextSlide(), 5000); } 
+    else { btn.innerText = "▶ PLAY"; btn.style.background = "#34c759"; clearInterval(slideTimer); }
+  }
+  function nextSlide() { if(imageList.length > 0) updateDisplay(currentIdx === imageList.length - 1 ? 0 : currentIdx + 1); }
+  function prevSlide() { if(imageList.length > 0) updateDisplay(currentIdx === 0 ? imageList.length - 1 : currentIdx - 1); }
+
+  // DOWNLOAD PREMIUM
+  function downloadPoster() {
+    const imgElem = document.getElementById('displayImg');
+    if(!imgElem.src) return alert("Belum ada gambar!");
+    const canvas = document.getElementById('posterCanvas');
+    const ctx = canvas.getContext('2d');
+    const img = new Image(); img.crossOrigin = "Anonymous"; img.src = imgElem.src;
+    img.onload = () => {
+      canvas.width = 1080; canvas.height = 1920;
+      const grad = ctx.createLinearGradient(0, 0, 1080, 1920);
+      grad.addColorStop(0, "#05233f"); grad.addColorStop(1, "#213e58");
+      ctx.fillStyle = grad; ctx.fillRect(0, 0, 1080, 1920);
+      
+      let scale = Math.min(980 / img.width, 1320 / img.height);
+      let newW = img.width * scale, newH = img.height * scale;
+      ctx.shadowColor = "rgba(0,0,0,0.8)"; ctx.shadowBlur = 30; ctx.shadowOffsetY = 15;
+      ctx.drawImage(img, (1080 - newW)/2, (1920 - newH)/2, newW, newH);
+      
+      ctx.shadowColor = "transparent"; ctx.fillStyle = "#ffcc00"; ctx.font = "bold 60px Arial"; ctx.textAlign = "center";
+      ctx.fillText("YAYASAN MUSLIM ACEH PEDULI", 540, 150);
+      ctx.fillStyle = "#ffffff"; ctx.font = "40px Arial"; ctx.fillText("Menu MBG Hari Ini", 540, 220);
+      
+      const link = document.createElement('a'); link.download = "Poster_MBG.png"; link.href = canvas.toDataURL("image/png"); link.click();
+    };
+  }
+
+  // ZOOM MOUSE WHEEL
+  const imgElem = document.getElementById('displayImg');
+  imgElem.addEventListener('wheel', e => {
+    if(isModeGrid || isModeGaleri) return; e.preventDefault();
+    zoomScale += e.deltaY < 0 ? 0.1 : -0.1; zoomScale = Math.min(Math.max(1, zoomScale), 4); 
+    if(zoomScale === 1) { translateX = 0; translateY = 0; }
+    imgElem.style.transform = `translate(${translateX}px, ${translateY}px) scale(${zoomScale})`;
+  });
+</script>
+</body>
+</html>
