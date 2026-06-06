@@ -6,9 +6,11 @@
   <title>Portal Menu MBG MAP</title>
   <link rel="manifest" href="manifest.json">
   
+  <!-- Meta Tags untuk Share ke WhatsApp/Sosmed -->
   <meta property="og:title" content="Portal Menu MBG - Yayasan Muslim Aceh Peduli">
   <meta property="og:description" content="Informasi Menu Makan Bergizi Gratis dan Galeri Kegiatan SPPG Yayasan Muslim Aceh Peduli.">
-  <meta property="og:image" content="https://drive.google.com/file/d/1szTBISMW2P7qaxNpQRauGt03C_7GlGnC/view?usp=drivesdk"> <meta property="og:type" content="https://galeri-dan-menu-mbg-ymap.vercel.app/">
+  <meta property="og:image" content="https://drive.google.com/file/d/1szTBISMW2P7qaxNpQRauGt03C_7GlGnC/view?usp=drivesdk"> <!-- GANTI DENGAN URL DOMAINMU NANTI -->
+  <meta property="og:type" content="https://galeri-dan-menu-mbg-ymap.vercel.app/">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -449,22 +451,6 @@
       flex: 1; padding: 7px; font-size: 10px; border-radius: 8px;
     }
 
-    /* CSS Tambahan untuk Grid Multi-Foto di Kartu Kegiatan */
-    .galeri-media-container {
-      width: 100%; height: 180px; border-radius: 12px; margin-bottom: 12px; overflow: hidden; display: grid; gap: 4px;
-    }
-    .galeri-media-container.grid-1 { grid-template-columns: 1fr; }
-    .galeri-media-container.grid-2 { grid-template-columns: 1fr 1fr; }
-    .galeri-media-container.grid-3 { grid-template-columns: 1fr 1fr 1fr; }
-    .galeri-media-container.grid-multi { grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; }
-    .galeri-media-img { width: 100%; height: 100%; object-fit: cover; border-radius: 4px; }
-    .galeri-media-more { position: relative; width: 100%; height: 100%; overflow: hidden; }
-    .galeri-media-more::after {
-      content: attr(data-more); position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.65); color: var(--gold); font-family: var(--fd); font-size: 18px;
-      font-weight: 700; display: flex; align-items: center; justify-content: center; border-radius: 4px;
-    }
-
     #galeriFilterBar, #menuFilterBar {
       display: none;
       align-items: center;
@@ -870,6 +856,7 @@
       <div id="imgContainer">
         <img id="displayImg" src="" alt="" class="fade-anim">
 
+        <!-- TOMBOL SHARE MUNCUL DISINI -->
         <button id="btnShare" onclick="bagikanWeb()">
           <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
           Bagikan
@@ -897,9 +884,11 @@
 <div id="loaderFloat"><div class="spinner"></div><div id="loaderMsg">MEMPROSES...</div></div>
 <div id="toast">Notifikasi</div>
 
+<!-- Modal Galeri Full Screen dengan dukungan SWIPE dan SHARE -->
 <div id="modalFullGaleri" class="modal-overlay" onclick="tutupModalFull()">
   <div class="full-galeri-box" onclick="event.stopPropagation()">
     
+    <!-- Tombol Share di dalam Modal Galeri -->
     <button class="btn-share-modal" onclick="bagikanWeb()" title="Bagikan">
       <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
     </button>
@@ -1037,8 +1026,8 @@
       <input type="text" id="upGaleriDesc" placeholder="Deskripsi singkat...">
     </div>
     <div class="modal-form-row">
-      <label>Foto/Video Kegiatan (Maksimal 6 Foto)</label>
-      <input type="file" id="upGaleriFile" accept="image/*,video/mp4" multiple>
+      <label>Foto/Video Kegiatan</label>
+      <input type="file" id="upGaleriFile" accept="image/*,video/mp4">
     </div>
     <div class="modal-actions">
       <button class="btn-secondary" onclick="tutupModal('modalUploadGaleri')">Batal</button>
@@ -1070,10 +1059,6 @@
   let deleteTargetType = 'menu'; 
   let deleteTargetIndex = 0;
 
-  let galeriListFullscreen = []; 
-  let galIdx = 0;
-  let subGalIdx = 0; // Indeks foto internal untuk media beruntun di modal fullscreen
-
   // ── FORMAT TANGGAL ──────────────────────────
   const HARI  = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
   const BULAN = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
@@ -1093,47 +1078,6 @@
   function fmtHariIni() {
     const d = new Date();
     return `${HARI[d.getDay()]}, ${String(d.getDate()).padStart(2,'0')} ${BULAN[d.getMonth()]} ${d.getFullYear()}`;
-  }
-
-  // ── FUNGSI KOMPRESI GAMBAR CLIENT-SIDE ──────
-  function compressImage(file) {
-    return new Promise((resolve) => {
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        const img = new Image();
-        img.onload = function () {
-          const canvas = document.createElement('canvas');
-          let width = img.width;
-          let height = img.height;
-          
-          // Batas dimensi maksimal agar tidak pecah tapi tetap ringan
-          const MAX_WIDTH = 1200;
-          const MAX_HEIGHT = 1200;
-          
-          if (width > height) {
-            if (width > MAX_WIDTH) {
-              height *= MAX_WIDTH / width;
-              width = MAX_WIDTH;
-            }
-          } else {
-            if (height > MAX_HEIGHT) {
-              width *= MAX_HEIGHT / height;
-              height = MAX_HEIGHT;
-            }
-          }
-          
-          canvas.width = width;
-          canvas.height = height;
-          const ctx = canvas.getContext('2d');
-          ctx.drawImage(img, 0, 0, width, height);
-          
-          // Output kualitas 75% JPEG (Sangat optimal, kompresi tinggi tanpa pecah)
-          resolve(canvas.toDataURL('image/jpeg', 0.75));
-        };
-        img.src = e.target.result;
-      };
-      reader.readAsDataURL(file);
-    });
   }
 
   // ── API ──────────────────────────────────────
@@ -1624,34 +1568,11 @@
           `;
         }
 
-        // Memisah data foto berdasarkan delimiter '|||'
-        let srcs = g.src ? g.src.split('|||') : [];
-        let mediaTag = '';
-
-        if (srcs.length > 0 && (srcs[0].includes('data:video') || srcs[0].includes('video/mp4'))) {
-           mediaTag = `<div class="galeri-media-container grid-1">
-                          <div style="position:relative; width:100%; height:100%; background:#000; display:flex; align-items:center; justify-content:center; border-radius:12px;">
-                            <svg viewBox="0 0 24 24" width="40" height="40" fill="rgba(255,255,255,0.7)"><path d="M8 5v14l11-7z"/></svg>
-                          </div>
+        let mediaTag = `<img src="${g.src}" loading="lazy">`;
+        if (g.src.includes('data:video') || g.src.includes('video/mp4')) {
+           mediaTag = `<div style="position:relative; width:100%; height:180px; background:#000; display:flex; align-items:center; justify-content:center; border-radius:12px; margin-bottom:12px;">
+                          <svg viewBox="0 0 24 24" width="40" height="40" fill="rgba(255,255,255,0.7)"><path d="M8 5v14l11-7z"/></svg>
                        </div>`;
-        } else if (srcs.length > 0) {
-           let gridClass = 'grid-1';
-           if (srcs.length === 2) gridClass = 'grid-2';
-           else if (srcs.length === 3) gridClass = 'grid-3';
-           else if (srcs.length > 3) gridClass = 'grid-multi';
-
-           mediaTag = `<div class="galeri-media-container ${gridClass}">`;
-           let maxShow = gridClass === 'grid-multi' ? 4 : srcs.length;
-           for(let i=0; i<maxShow; i++) {
-             if (i === 3 && srcs.length > 4) {
-               mediaTag += `<div class="galeri-media-more" data-more="+${srcs.length - 3}"><img class="galeri-media-img" src="${srcs[i]}" loading="lazy"></div>`;
-             } else {
-               mediaTag += `<img class="galeri-media-img" src="${srcs[i]}" loading="lazy">`;
-             }
-           }
-           mediaTag += `</div>`;
-        } else {
-          mediaTag = `<div class="galeri-media-container grid-1"><div style="width:100%; height:100%; background:#222; border-radius:12px;"></div></div>`;
         }
 
         html += `<div class="galeri-card" onclick="bukaGaleriFull(${originalIndex})" style="cursor:pointer;">
@@ -1676,10 +1597,12 @@
   }
 
   // ── FITUR FULL SCREEN GALERI SWIPE & VIDEO ──
+  let galeriListFullscreen = []; 
+  let galIdx = 0;
+
   function bukaGaleriFull(index) {
     galeriListFullscreen = galeriAllData;
     galIdx = index;
-    subGalIdx = 0; // Reset ke gambar pertama di dalam pos kegiatan yang dipilih
     renderFullGaleri();
     document.getElementById('modalFullGaleri').style.display = 'flex';
   }
@@ -1687,39 +1610,16 @@
   function renderFullGaleri() {
     const item = galeriListFullscreen[galIdx];
     const container = document.getElementById('fullGaleriContent');
-    let srcs = item.src ? item.src.split('|||') : [];
     
-    if (subGalIdx >= srcs.length) subGalIdx = 0;
-    let currentSrc = srcs[subGalIdx] || '';
-    
-    if(currentSrc.includes('data:video') || currentSrc.includes('video/mp4')) {
-      container.innerHTML = `<video src="${currentSrc}" controls autoplay playsinline style="max-width:100%; max-height:85vh; border-radius:12px; box-shadow: 0 10px 30px rgba(0,0,0,0.8); background:black;"></video>`;
-    } else if (currentSrc) {
-      container.innerHTML = `<img src="${currentSrc}" style="max-width:100%; max-height:85vh; border-radius:12px; box-shadow: 0 10px 30px rgba(0,0,0,0.8); object-fit: contain;">`;
+    if(item.src.includes('data:video') || item.src.includes('video/mp4')) {
+      container.innerHTML = `<video src="${item.src}" controls autoplay playsinline style="max-width:100%; max-height:85vh; border-radius:12px; box-shadow: 0 10px 30px rgba(0,0,0,0.8); background:black;"></video>`;
     } else {
-      container.innerHTML = `<div style="color:#aaa;">Tidak ada media</div>`;
+      container.innerHTML = `<img src="${item.src}" style="max-width:100%; max-height:85vh; border-radius:12px; box-shadow: 0 10px 30px rgba(0,0,0,0.8); object-fit: contain;">`;
     }
   }
 
   function slideGal(next) {
-    let item = galeriListFullscreen[galIdx];
-    let srcs = item.src ? item.src.split('|||') : [];
-    
-    if (next) {
-      subGalIdx++;
-      if (subGalIdx >= srcs.length) {
-        subGalIdx = 0;
-        galIdx = (galIdx + 1) % galeriListFullscreen.length;
-      }
-    } else {
-      subGalIdx--;
-      if (subGalIdx < 0) {
-        galIdx = (galIdx - 1 + galeriListFullscreen.length) % galeriListFullscreen.length;
-        let prevItem = galeriListFullscreen[galIdx];
-        let prevSrcs = prevItem.src ? prevItem.src.split('|||') : [];
-        subGalIdx = prevSrcs.length > 0 ? prevSrcs.length - 1 : 0;
-      }
-    }
+    galIdx = next ? (galIdx + 1) % galeriListFullscreen.length : (galIdx - 1 + galeriListFullscreen.length) % galeriListFullscreen.length;
     renderFullGaleri();
   }
 
@@ -1782,38 +1682,18 @@
     const tgl       = document.getElementById('upGaleriTgl').value;
     const judul     = document.getElementById('upGaleriJudul').value.trim();
     const desc      = document.getElementById('upGaleriDesc').value.trim();
-    const files     = document.getElementById('upGaleriFile').files;
+    const file      = document.getElementById('upGaleriFile').files[0];
 
     if(!dapurEl.value) return showToast("Pilih Dapur!", true);
     if(!tgl)   return showToast("Isi Tanggal!", true);
     if(!judul) return showToast("Isi Judul!", true);
-    if(files.length === 0)  return showToast("Pilih File!", true);
-    if(files.length > 6) return showToast("Maksimal pilih 6 foto saja!", true);
+    if(!file)  return showToast("Pilih File!", true);
 
-    showLoader("MENGOMPRES FOTO...");
-    tutupModal('modalUploadGaleri');
-
-    // Memproses kompresi seluruh gambar terpilih secara paralel (Concurrently)
-    let compressionPromises = [];
-    for (let i = 0; i < files.length; i++) {
-      let f = files[i];
-      if (f.type.includes('video/mp4')) {
-        compressionPromises.push(new Promise((res) => {
-          let rd = new FileReader();
-          rd.onload = e => res(e.target.result);
-          rd.readAsDataURL(f);
-        }));
-      } else {
-        compressionPromises.push(compressImage(f));
-      }
-    }
-
-    Promise.all(compressionPromises).then(async (results) => {
+    const rd = new FileReader();
+    rd.onload = async e => {
       showLoader("MENGUPLOAD GALERI...");
-      // Menggabungkan string data Base64 dengan pembatas khusus
-      const finalDataString = results.join('|||');
-      
-      const r = await fetchAPI('uploadGaleri',{dapur:dapurNama, tanggal:tgl, judul, deskripsi:desc, data:finalDataString});
+      tutupModal('modalUploadGaleri');
+      const r = await fetchAPI('uploadGaleri',{dapur:dapurNama, tanggal:tgl, judul, deskripsi:desc, data:e.target.result});
       hideLoader();
       if(r && r.status==='sukses') {
         showToast("✓ Galeri berhasil diupload!");
@@ -1822,10 +1702,8 @@
         document.getElementById('upGaleriDesc').value='';
         if(currentView==='galeri') muatGaleri();
       } else showToast("Gagal upload galeri", true);
-    }).catch(err => {
-      hideLoader();
-      showToast("Gagal memproses gambar", true);
-    });
+    };
+    rd.readAsDataURL(file);
   }
 
   function bukaModalEdit() {
