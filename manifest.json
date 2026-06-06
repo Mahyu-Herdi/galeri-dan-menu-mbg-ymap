@@ -6,17 +6,18 @@
   "background_color": "#05233f",
   "theme_color": "#05233f",
   "description": "Aplikasi Menu Makan Bergizi Gratis (MBG) Yayasan Muslim Aceh Peduli",
-  "orientation": "portrait",
   "icons": [
     {
       "src": "icon.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
     },
     {
       "src": "icon.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
     }
   ]
 }
