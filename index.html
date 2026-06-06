@@ -6,11 +6,9 @@
   <title>Portal Menu MBG MAP</title>
   <link rel="manifest" href="manifest.json">
   
-  <!-- Meta Tags untuk Share ke WhatsApp/Sosmed -->
   <meta property="og:title" content="Portal Menu MBG - Yayasan Muslim Aceh Peduli">
-  <meta property="og:description" content="Informasi Menu Makan Bergizi Gratis dan Galeri Kegiatan SPPG Yayasan Muslim Aceh Peduli.">
-  <meta property="og:image" content="https://drive.google.com/file/d/1szTBISMW2P7qaxNpQRauGt03C_7GlGnC/view?usp=drivesdk"> <!-- GANTI DENGAN URL DOMAINMU NANTI -->
-  <meta property="og:type" content="https://galeri-dan-menu-mbg-ymap.vercel.app/">
+  <meta property="og:description" content="Informasi Menu Makan Bergizi Gratis dan Galeri Kegiatan MBG.">
+  <meta property="og:image" content="https://domainkamu.com/icon.png"> <meta property="og:type" content="website">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -45,9 +43,7 @@
       align-items: center;
     }
 
-    /* ─────────────────────────────────────────
-       MAIN CARD
-    ───────────────────────────────────────── */
+    /* MAIN CARD */
     #mainView {
       width: 98%; height: 96%;
       max-width: 1600px;
@@ -61,9 +57,7 @@
       border: 1px solid var(--glass-b);
     }
 
-    /* ─────────────────────────────────────────
-       LEFT DOCK — slide dari kiri, vertikal
-    ───────────────────────────────────────── */
+    /* LEFT DOCK */
     #sideDock {
       position: absolute;
       left: calc(var(--dock-w) * -1.5);
@@ -162,9 +156,7 @@
     .dock-view-tab svg { width: 18px; height: 18px; }
     .dock-view-tab span { font-size: 7px; font-weight: 800; letter-spacing: 0.5px; }
 
-    /* ─────────────────────────────────────────
-       MAIN BODY
-    ───────────────────────────────────────── */
+    /* MAIN BODY */
     #mainBody {
       flex: 1;
       display: flex;
@@ -335,7 +327,6 @@
     #navPrev { left: 16px; }
     #navNext { right: 16px; }
 
-    /* TOMBOL UNDUH */
     #btnDownload {
       position: absolute;
       bottom: 24px; right: 24px;
@@ -355,7 +346,6 @@
     #btnDownload.visible { opacity: 1; pointer-events: all; transform: translateY(0); }
     #btnDownload:hover { filter: brightness(1.1); transform: translateY(-2px); }
 
-    /* TOMBOL SHARE */
     #btnShare {
       position: absolute;
       bottom: 24px; left: 24px;
@@ -614,55 +604,7 @@
     ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 6px; }
     ::-webkit-scrollbar-thumb:hover { background: rgba(255,204,0,0.5); }
 
-    /* ─────────────────────────────────────────
-       ADAPTIF & RESPONSIVE
-    ───────────────────────────────────────── */
-    @media (max-width: 1024px) {
-      #txtDapur { font-size: 22px; }
-      .logo-box { height: 50px; width: 70px; }
-      #gridContainer { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
-      #galeriContainer { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
-    }
-
-    @media (max-width: 680px) {
-      :root { --dock-w: 64px; }
-      #mainView { width: 100%; height: 100%; border-radius: 0; border: none; }
-      #header { padding: 10px 16px; gap: 8px; }
-      #txtDapur { font-size: 18px; letter-spacing: 1.5px; }
-      #txtMenu { font-size: 12px; }
-      .logo-box { height: 40px; width: 50px; }
-      
-      .dock-btn { width: 50px; height: 50px; }
-      .dock-view-tab { width: 50px; height: 42px; }
-      .dock-btn svg { width: 18px; height: 18px; }
-      .dock-btn-label { font-size: 7px; }
-      
-      #slideBar { padding: 6px 12px; gap: 6px; width: 90%; justify-content: center; top: 10px; }
-      #btnPlayPause { padding: 8px 14px; font-size: 10px; }
-      
-      #gridContainer { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); padding: 16px; gap: 12px; }
-      .grid-item { height: 120px; }
-      
-      #galeriContainer { grid-template-columns: repeat(auto-fill, minmax(100%, 1fr)); padding: 16px; }
-      
-      #galeriFilterBar, #menuFilterBar { padding: 10px 16px; gap: 8px; justify-content: center; }
-      select, input[type="date"] { padding: 6px 10px; font-size: 12px; }
-    }
-
-    @media (max-width: 900px) and (orientation: landscape) {
-      #header { padding: 6px 16px; }
-      .logo-box { height: 36px; }
-      #txtDapur { font-size: 16px; }
-      #slideBar { top: 6px; padding: 4px 12px; }
-      #gridContainer { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); padding: 10px; }
-      .grid-item { height: 100px; }
-      #galeriContainer { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); padding: 10px; }
-      .galeri-card img { height: 120px; }
-    }
-
-    /* ─────────────────────────────────────────
-       FULL SCREEN GALERI CSS & TOMBOL SHARE
-    ───────────────────────────────────────── */
+    /* FULL SCREEN GALERI & TOMBOL SHARE */
     .full-galeri-box { position: relative; display: flex; align-items: center; justify-content: center; max-width: 95vw; max-height: 90vh; width: 100%; height: 100%;}
     .full-galeri-box .nav-arrow-gal { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.6); color: white; border: none; padding: 15px; cursor: pointer; border-radius: 50%; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; z-index: 10; transition: 0.3s; }
     .full-galeri-box .nav-arrow-gal:hover { background: var(--gold); color: black; }
@@ -673,7 +615,6 @@
       #navNextGal { right: 10px; }
     }
     
-    /* Tombol share di Fullscreen modal */
     .btn-share-modal {
       position: absolute; top: 20px; right: 20px;
       background: rgba(0,0,0,0.7); backdrop-filter: blur(8px);
@@ -692,11 +633,9 @@
 </div>
 
 <div id="mainView">
-
   <button id="secretLoginBtn" onclick="cekStatusLogin()" title="Login Admin"></button>
 
   <div id="sideDock">
-
     <button class="dock-view-tab tab-on" id="tabMenu" onclick="switchView('menu')" title="Menu MBG">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
       <span>MENU</span>
@@ -772,11 +711,9 @@
         <span class="dock-btn-label" style="color:var(--orange);">UPLOAD</span>
       </button>
     </div>
-
   </div>
 
   <div id="mainBody">
-
     <div id="header">
       <div class="logo-box" id="boxLogo1"></div>
       <div class="header-info">
@@ -830,16 +767,13 @@
         <button class="pill-btn" id="btnToggleGrid" onclick="toggleGridSlide()" title="Tampilan Grid Menu">
           <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
         </button>
-        
         <button class="pill-btn" onclick="prevSlide()" title="Sebelumnya">
           <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/></svg>
         </button>
-        
         <button id="btnPlayPause" onclick="runSlide()">
           <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" id="iconPlay"><path d="M8 5v14l11-7z"/></svg>
           <span id="playLabel">PLAY SLIDESHOW</span>
         </button>
-        
         <button class="pill-btn" onclick="nextSlide()" title="Berikutnya">
           <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M6 18l8.5-6L6 6v12zm10-12v12h2V6h-2z"/></svg>
         </button>
@@ -855,13 +789,10 @@
 
       <div id="imgContainer">
         <img id="displayImg" src="" alt="" class="fade-anim">
-
-        <!-- TOMBOL SHARE MUNCUL DISINI -->
         <button id="btnShare" onclick="bagikanWeb()">
           <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
           Bagikan
         </button>
-
         <button id="btnDownload" onclick="downloadPoster()">
           <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
           Unduh Poster
@@ -872,29 +803,22 @@
           <div id="emptyPesan">Belum ada menu hari ini</div>
         </div>
       </div>
-      
       <div id="gridContainer"></div>
-
       <div id="galeriContainer"></div>
     </div>
-
   </div>
 </div>
+
 <canvas id="posterCanvas" style="display:none;"></canvas>
 <div id="loaderFloat"><div class="spinner"></div><div id="loaderMsg">MEMPROSES...</div></div>
 <div id="toast">Notifikasi</div>
 
-<!-- Modal Galeri Full Screen dengan dukungan SWIPE dan SHARE -->
 <div id="modalFullGaleri" class="modal-overlay" onclick="tutupModalFull()">
   <div class="full-galeri-box" onclick="event.stopPropagation()">
-    
-    <!-- Tombol Share di dalam Modal Galeri -->
     <button class="btn-share-modal" onclick="bagikanWeb()" title="Bagikan">
       <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
     </button>
-
     <div id="fullGaleriContent" style="display:flex; justify-content:center; align-items:center; width:100%; height:100%;"></div>
-    
     <button class="nav-arrow-gal" id="navPrevGal" onclick="slideGal(false)">
       <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
     </button>
@@ -980,9 +904,7 @@
     <span class="modal-badge badge-menu">📋 Per Mingguan — Folder Otomatis</span>
     <div class="modal-form-row">
       <label>Pilih Dapur</label>
-      <select id="upMenuDapur" style="width:100%;">
-        <option value="">-- Pilih Dapur --</option>
-      </select>
+      <select id="upMenuDapur" style="width:100%;"><option value="">-- Pilih Dapur --</option></select>
     </div>
     <div class="modal-form-row">
       <label>Tanggal Menu</label>
@@ -1009,9 +931,7 @@
     <span class="modal-badge badge-galeri">📸 Per Bulanan — Folder Otomatis</span>
     <div class="modal-form-row">
       <label>Pilih Dapur</label>
-      <select id="upGaleriDapur" style="width:100%;">
-        <option value="">-- Pilih Dapur --</option>
-      </select>
+      <select id="upGaleriDapur" style="width:100%;"><option value="">-- Pilih Dapur --</option></select>
     </div>
     <div class="modal-form-row">
       <label>Tanggal Kegiatan</label>
@@ -1037,50 +957,88 @@
 </div>
 
 <script>
-  // =====================================
-  // GANTI URL DI BAWAH INI DENGAN URL GAS-MU
-  // =====================================
+  // Taruh URL API Apps Script kamu di sini
   const GAS_API_URL = "https://script.google.com/macros/s/AKfycbyOVIv7gaMKYfkOu8IERI5uwoeENZibdyq11EsGkco-h8kcqzrLoPm2VE_TWgQUUiwL/exec";
 
   let isAdmin = false;
   let imageList = [];
   let galeriAllData = []; 
   let currentIdx = 0;
-  let isPlaying = false;
-  let slideTimer, idleDockTimer, dlHideTimer;
-  let isDockHovered = false;
-  let isGlobalPlayMode = true;
-  let isModeGaleri = false;
-  let currentView = 'menu'; 
-  let isGaleriKelola = false;
-  let isGridView = false; 
-  let dapurList = []; 
-  
-  let deleteTargetType = 'menu'; 
-  let deleteTargetIndex = 0;
+  let isPlaying = false, slideTimer, idleDockTimer, dlHideTimer;
+  let isDockHovered = false, isGlobalPlayMode = true, isModeGaleri = false, currentView = 'menu', isGaleriKelola = false, isGridView = false;
+  let dapurList = [], deleteTargetType = 'menu', deleteTargetIndex = 0;
+  let isFetchingSilent = false;
 
-  // ── FORMAT TANGGAL ──────────────────────────
   const HARI  = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
   const BULAN = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+
+  // DATABASE OFFLINE (IndexedDB)
+  const DB_NAME = "MAP_Offline_Storage";
+  function bukaDatabase() {
+    return new Promise((resolve, reject) => {
+      let req = indexedDB.open(DB_NAME, 1);
+      req.onupgradeneeded = e => {
+        let db = e.target.result;
+        if (!db.objectStoreNames.contains("antreanUpload")) {
+          db.createObjectStore("antreanUpload", { keyPath: "id", autoIncrement: true });
+        }
+      };
+      req.onsuccess = e => resolve(e.target.result);
+      req.onerror = e => reject(e.target.error);
+    });
+  }
+
+  async function simpanKeAntrean(dataJob) {
+    let db = await bukaDatabase();
+    let tx = db.transaction("antreanUpload", "readwrite");
+    tx.objectStore("antreanUpload").add(dataJob);
+    showToast("Koneksi bermasalah. Upload diamankan di HP kamu!", true);
+  }
+
+  async function prosesAntreanOffline() {
+    if (!navigator.onLine) return;
+    let db = await bukaDatabase();
+    let tx = db.transaction("antreanUpload", "readwrite");
+    let store = tx.objectStore("antreanUpload");
+    let req = store.openCursor();
+    
+    req.onsuccess = async e => {
+      let cursor = e.target.result;
+      if (cursor) {
+        let job = cursor.value;
+        showToast("Menyambungkan kembali... Mengirim antrean lokal.");
+        let r = await fetchAPI(job.action, job.payload);
+        if (r && (r.status === 'sukses' || r.success)) {
+          let delTx = db.transaction("antreanUpload", "readwrite");
+          delTx.objectStore("antreanUpload").delete(job.id); // Bersihkan cache setelah sukses
+          showToast(`✓ Antrean '${job.nama}' sukses terkirim ke Drive!`);
+          if (currentView === 'menu') fetchGambar(); else muatGaleri();
+        }
+        cursor.continue();
+      }
+    };
+  }
+
+  // SENSOR ONLINE STATUS
+  window.addEventListener('online', prosesAntreanOffline);
+
+  function saveAppState() {
+    const activeModal = Array.from(document.querySelectorAll('.modal-overlay')).find(m => m.style.display === 'flex');
+    const state = { currentView, isGridView, isGlobalPlayMode, isGaleriKelola, currentIdx, modalOpenId: activeModal ? activeModal.id : null };
+    localStorage.setItem('map_app_state', JSON.stringify(state));
+  }
 
   function fmtTgl(str) {
     if(!str || str==='-') return '-';
     try {
       const p = str.split('-');
-      const d = (p.length===3 && p[0].length===4)
-        ? new Date(+p[0], +p[1]-1, +p[2])
-        : new Date(str);
+      const d = (p.length===3 && p[0].length===4) ? new Date(+p[0], +p[1]-1, +p[2]) : new Date(str);
       if(isNaN(d)) return str;
       return `${HARI[d.getDay()]}, ${String(d.getDate()).padStart(2,'0')} ${BULAN[d.getMonth()]} ${d.getFullYear()}`;
     } catch(e) { return str; }
   }
+  function fmtHariIni() { const d = new Date(); return `${HARI[d.getDay()]}, ${String(d.getDate()).padStart(2,'0')} ${BULAN[d.getMonth()]} ${d.getFullYear()}`; }
 
-  function fmtHariIni() {
-    const d = new Date();
-    return `${HARI[d.getDay()]}, ${String(d.getDate()).padStart(2,'0')} ${BULAN[d.getMonth()]} ${d.getFullYear()}`;
-  }
-
-  // ── API ──────────────────────────────────────
   async function fetchAPI(action, payload={}) {
     try {
       const r = await fetch(GAS_API_URL + "?action=" + action, {
@@ -1089,38 +1047,26 @@
         body: JSON.stringify(payload)
       });
       return await r.json();
-    } catch(e) { showToast("Gagal terhubung ke server", true); return null; }
+    } catch(e) { return null; }
   }
 
-  // ── INIT ─────────────────────────────────────
   window.onload = () => {
-    setTimeout(() => {
-      document.getElementById('welcomeScreen').style.opacity = '0';
-      setTimeout(() => {
-        document.getElementById('welcomeScreen').style.display = 'none';
-        document.getElementById('mainView').style.display = 'flex';
-        setMode('playglobal');
-      }, 1000);
-    }, 2500);
+    if ('serviceWorker' in navigator) { navigator.serviceWorker.register('./sw.js'); }
 
-    fetchAPI('getLogo',{namaFile:'Logo Yayasan.png'}).then(r => {
-      if(r) document.getElementById('boxLogo1').innerHTML = `<img src="${r}" class="logo-img">`;
-    });
-    fetchAPI('getLogo',{namaFile:'Logo Badan Gizi.png'}).then(r => {
-      if(r) document.getElementById('boxLogo2').innerHTML = `<img src="${r}" class="logo-img">`;
-    });
+    // CEK PERSISTENT LOGIN
+    if (localStorage.getItem('map_is_admin') === 'true') {
+      isAdmin = true;
+    }
 
-    fetchAPI('getDaftarDapur').then(r => {
-      if(r) {
-        dapurList = r;
-        populateDapurSelects();
-      }
-    });
+    // AMBIL DATA LOGO & LIST DAPUR
+    fetchAPI('getLogo',{namaFile:'Logo Yayasan.png'}).then(r => { if(r) document.getElementById('boxLogo1').innerHTML = `<img src="${r}" class="logo-img">`; });
+    fetchAPI('getLogo',{namaFile:'Logo Badan Gizi.png'}).then(r => { if(r) document.getElementById('boxLogo2').innerHTML = `<img src="${r}" class="logo-img">`; });
+    fetchAPI('getDaftarDapur').then(r => { if(r) { dapurList = r; populateDapurSelects(); } });
 
+    // SENSOR DOCK & DOWNLOAD BUTTON
     const dock = document.getElementById('sideDock');
-    window.addEventListener('mousemove', onActivity);
-    window.addEventListener('touchstart', onActivity, {passive:true});
-
+    window.addEventListener('mousemove', e => { if(e.clientX < 40) showDock(); });
+    window.addEventListener('touchstart', e => { if(e.touches[0].clientX < 40) showDock(); }, {passive:true});
     dock.addEventListener('mouseenter', () => { isDockHovered = true; showDock(); });
     dock.addEventListener('mouseleave', () => { isDockHovered = false; scheduleHideDock(); });
 
@@ -1128,110 +1074,90 @@
     ca.addEventListener('mousemove', showDl);
     ca.addEventListener('touchstart', showDl, {passive:true});
     ca.addEventListener('mouseleave', scheduleDlHide);
-
     ca.addEventListener('mouseenter', () => { if(!isModeGaleri) document.getElementById('slideBar').classList.add('visible'); });
     ca.addEventListener('mouseleave', () => { document.getElementById('slideBar').classList.remove('visible'); });
+
+    // RESTORE STATE HALAMAN TERAKHIR
+    setTimeout(() => {
+      document.getElementById('welcomeScreen').style.opacity = '0';
+      setTimeout(() => {
+        document.getElementById('welcomeScreen').style.display = 'none';
+        document.getElementById('mainView').style.display = 'flex';
+        
+        const savedState = localStorage.getItem('map_app_state');
+        if (savedState) {
+          const s = JSON.parse(savedState);
+          currentIdx = s.currentIdx || 0;
+          isGridView = s.isGridView || false;
+          if (s.currentView === 'galeri') {
+            switchView('galeri');
+            if (s.isGaleriKelola && isAdmin) setGaleriKelola();
+          } else {
+            if (s.isGlobalPlayMode) setMode('playglobal');
+            else if (isAdmin && s.isGaleriKelola) setMode('kelola');
+            else setMode('lihat');
+          }
+          if (s.modalOpenId) {
+            const m = document.getElementById(s.modalOpenId);
+            if (m) m.style.display = 'flex';
+          }
+        } else {
+          setMode('playglobal');
+        }
+        prosesAntreanOffline(); // Cek jika ada sisa antrean tertinggal
+      }, 1000);
+    }, 2500);
   };
 
   function populateDapurSelects() {
     let h = '<option value="">-- Pilih Dapur --</option>';
     dapurList.forEach(d => h += `<option value="${d.id}">${d.nama}</option>`);
     document.getElementById('selDapur').innerHTML = h;
-
-    let h2 = '<option value="">-- Pilih Dapur --</option>';
-    dapurList.forEach(d => h2 += `<option value="${d.id}">${d.nama}</option>`);
-    document.getElementById('upMenuDapur').innerHTML = h2;
-
-    let h3 = '<option value="">-- Pilih Dapur --</option>';
-    dapurList.forEach(d => h3 += `<option value="${d.id}">${d.nama}</option>`);
-    document.getElementById('upGaleriDapur').innerHTML = h3;
-
+    document.getElementById('upMenuDapur').innerHTML = h;
+    document.getElementById('upGaleriDapur').innerHTML = h;
     let h4 = '<option value="">-- Semua Dapur --</option>';
     dapurList.forEach(d => h4 += `<option value="${d.nama}">${d.nama}</option>`);
     document.getElementById('selGaleriDapur').innerHTML = h4;
   }
 
-  function onActivity(e) { if(e.clientX < 40) showDock(); }
   function showDock() {
     document.getElementById('sideDock').classList.add('show-dock');
     clearTimeout(idleDockTimer);
-    idleDockTimer = setTimeout(() => {
-      if(!isDockHovered) document.getElementById('sideDock').classList.remove('show-dock');
-    }, 3500);
+    idleDockTimer = setTimeout(() => { if(!isDockHovered) document.getElementById('sideDock').classList.remove('show-dock'); }, 3500);
   }
-  function scheduleHideDock() {
-    clearTimeout(idleDockTimer);
-    idleDockTimer = setTimeout(() => {
-      document.getElementById('sideDock').classList.remove('show-dock');
-    }, 800);
-  }
+  function scheduleHideDock() { clearTimeout(idleDockTimer); idleDockTimer = setTimeout(() => { document.getElementById('sideDock').classList.remove('show-dock'); }, 800); }
 
   function showDl() {
-    const btnDl = document.getElementById('btnDownload');
-    const btnShare = document.getElementById('btnShare');
-    const img = document.getElementById('displayImg');
+    const btnDl = document.getElementById('btnDownload'), btnShare = document.getElementById('btnShare'), img = document.getElementById('displayImg');
     if(isGridView || isModeGaleri || !img.src || img.style.display==='none') return;
-    
-    btnDl.classList.add('visible');
-    btnShare.classList.add('visible');
-    
+    btnDl.classList.add('visible'); btnShare.classList.add('visible');
     clearTimeout(dlHideTimer);
-    dlHideTimer = setTimeout(() => {
-      btnDl.classList.remove('visible');
-      btnShare.classList.remove('visible');
-    }, 2800);
+    dlHideTimer = setTimeout(() => { btnDl.classList.remove('visible'); btnShare.classList.remove('visible'); }, 2800);
   }
-  function scheduleDlHide() {
-    clearTimeout(dlHideTimer);
-    dlHideTimer = setTimeout(() => {
-      document.getElementById('btnDownload').classList.remove('visible');
-      document.getElementById('btnShare').classList.remove('visible');
-    }, 900);
-  }
+  function scheduleDlHide() { clearTimeout(dlHideTimer); dlHideTimer = setTimeout(() => { document.getElementById('btnDownload').classList.remove('visible'); document.getElementById('btnShare').classList.remove('visible'); }, 900); }
 
   function showLoader(m) { document.getElementById('loaderMsg').innerText=m; document.getElementById('loaderFloat').classList.add('show'); }
   function hideLoader()  { document.getElementById('loaderFloat').classList.remove('show'); }
   function showToast(m, err=false) {
-    const t = document.getElementById('toast');
-    t.innerText = m;
+    const t = document.getElementById('toast'); t.innerText = m;
     err ? t.classList.add('error') : t.classList.remove('error');
-    t.classList.add('show');
-    setTimeout(() => t.classList.remove('show'), 3200);
+    t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 3200);
   }
-  function tutupModal(id) { document.getElementById(id).style.display='none'; }
-  function updateCounter() {
-    const el = document.getElementById('slideCounter');
-    el.innerText = (imageList.length > 0 && !isGridView) ? `${currentIdx+1}/${imageList.length}` : '';
-  }
+  
+  function tutupModal(id) { document.getElementById(id).style.display='none'; saveAppState(); }
+  function updateCounter() { document.getElementById('slideCounter').innerText = (imageList.length > 0 && !isGridView) ? `${currentIdx+1}/${imageList.length}` : ''; }
 
-  // ── FUNGSI BAGIKAN (SHARE) NATIVE ────────────
   function bagikanWeb() {
-    const urlString = window.location.href;
-    const titleString = document.title;
-    const textString = "Halo! Cek Menu Makanan Bergizi Gratis (MBG) dan Galeri Kegiatan MAP hari ini.";
-
-    if (navigator.share) {
-      navigator.share({
-        title: titleString,
-        text: textString,
-        url: urlString
-      }).catch(err => {
-        console.log('Error sharing:', err);
-      });
-    } else {
-      // Fallback: Copy link ke clipboard
-      const dummy = document.createElement('input');
-      document.body.appendChild(dummy);
-      dummy.value = urlString;
-      dummy.select();
-      document.execCommand('copy');
-      document.body.removeChild(dummy);
-      showToast("Link berhasil disalin! Silakan paste di WhatsApp/Sosmed.");
+    const urlString = window.location.href, titleString = document.title, textString = "Halo! Cek Menu Makanan Bergizi Gratis (MBG) dan Galeri Kegiatan MAP hari ini.";
+    if (navigator.share) { navigator.share({ title: titleString, text: textString, url: urlString }).catch(() => {}); } 
+    else {
+      const dummy = document.createElement('input'); document.body.appendChild(dummy); dummy.value = urlString; dummy.select(); document.execCommand('copy'); document.body.removeChild(dummy);
+      showToast("Link disalin! Silakan paste di WA.");
     }
   }
 
   function switchView(view) {
-    currentView = view;
+    currentView = view; saveAppState();
     document.getElementById('tabMenu').classList.toggle('tab-on', view==='menu');
     document.getElementById('tabGaleri').classList.toggle('tab-on', view==='galeri');
     document.getElementById('menuDockBtns').style.display = view==='menu' ? 'flex' : 'none';
@@ -1246,55 +1172,42 @@
       document.getElementById('imgContainer').style.display = 'none';
       document.getElementById('gridContainer').style.display = 'none';
       document.getElementById('slideBar').classList.remove('visible');
-      isModeGaleri = true;
-      isGaleriKelola = false;
-      stopSlide();
-
+      isModeGaleri = true; isGaleriKelola = false; stopSlide();
       document.getElementById('galeriContainer').style.display = 'grid';
       document.getElementById('galeriFilterBar').style.display = 'none';
       document.getElementById('galeriFilterDapur').style.display = 'none';
       document.getElementById('galeriFilterBulan').style.display = 'none';
-      
       if(isAdmin) document.querySelectorAll('.galeri-kelola-only').forEach(el => el.style.display='flex');
       else document.querySelectorAll('.galeri-kelola-only').forEach(el => el.style.display='none');
       document.getElementById('btnKelolGaleri').className = 'dock-btn';
-
       muatGaleri();
     } else {
       document.getElementById('galeriContainer').style.display = 'none';
       document.getElementById('galeriFilterBar').style.display = 'none';
       document.getElementById('imgContainer').style.display = 'flex';
-      isModeGaleri = false;
-      isGaleriKelola = false;
+      isModeGaleri = false; isGaleriKelola = false;
       document.querySelectorAll('.galeri-kelola-only').forEach(el => el.style.display='none');
       setMode('playglobal');
     }
   }
 
-  function cekStatusLogin() {
-    if(!isAdmin) document.getElementById('modalLogin').style.display='flex';
-    else showToast("Anda sudah login sebagai Admin.");
-  }
+  function cekStatusLogin() { if(!isAdmin) document.getElementById('modalLogin').style.display='flex'; else showToast("Anda sudah login sebagai Admin."); }
   async function prosesLogin() {
     const pwd = document.getElementById('inPassword').value;
     showLoader("Mengecek...");
     const r = await fetchAPI('login',{password:pwd});
     hideLoader();
     if(r && r.success) {
-      isAdmin = true; tutupModal('modalLogin');
-      showToast("Berhasil Login!");
-      if(currentView === 'menu') setMode('kelola');
-      else setGaleriKelola();
+      isAdmin = true; localStorage.setItem('map_is_admin', 'true'); tutupModal('modalLogin');
+      showToast("Berhasil Login!"); if(currentView === 'menu') setMode('kelola'); else setGaleriKelola();
     } else { showToast("Password Salah!", true); }
   }
 
   function setMode(mode) {
     if(mode==='kelola' && !isAdmin) { document.getElementById('modalLogin').style.display='flex'; return; }
-
-    ['btnModePlayGlobal','btnModeLihat','btnModeKelola'].forEach(id => {
-      document.getElementById(id).className = 'dock-btn';
-    });
+    ['btnModePlayGlobal','btnModeLihat','btnModeKelola'].forEach(id => { document.getElementById(id).className = 'dock-btn'; });
     const kelolaElems = document.querySelectorAll('.kelola-menu-only');
+    saveAppState();
 
     if(mode==='playglobal') {
       document.getElementById('btnModePlayGlobal').className = 'dock-btn active-red';
@@ -1305,20 +1218,18 @@
       document.getElementById('btnModeLihat').className = 'dock-btn active';
       kelolaElems.forEach(el => el.style.display='none');
       document.getElementById('menuFilterBar').style.display = 'flex'; 
-      isGlobalPlayMode = false;
-      stopSlide();
+      isGlobalPlayMode = false; stopSlide();
     } else if(mode==='kelola') {
       document.getElementById('btnModeKelola').className = 'dock-btn active';
       kelolaElems.forEach(el => el.style.display='flex');
       document.getElementById('menuFilterBar').style.display = 'flex'; 
-      isGlobalPlayMode = false;
-      stopSlide();
+      isGlobalPlayMode = false; stopSlide();
     }
   }
 
   function setGaleriKelola() {
     if(!isAdmin) { document.getElementById('modalLogin').style.display='flex'; return; }
-    isGaleriKelola = true;
+    isGaleriKelola = true; saveAppState();
     document.getElementById('btnKelolGaleri').className = 'dock-btn active';
     document.querySelectorAll('.galeri-kelola-only').forEach(el => el.style.display='flex');
     renderGaleri(galeriAllData); 
@@ -1328,15 +1239,13 @@
     document.getElementById('btnGaleriSemua').className = mode==='semua' ? 'dock-btn active' : 'dock-btn';
     document.getElementById('galeriFilterBar').style.display = mode==='semua' ? 'none' : 'flex';
     if(mode==='semua') {
-      document.getElementById('galeriFilterDapur').style.display = 'none';
-      document.getElementById('galeriFilterBulan').style.display = 'none';
+      document.getElementById('galeriFilterDapur').style.display = 'none'; document.getElementById('galeriFilterBulan').style.display = 'none';
       renderGaleri(galeriAllData);
     }
   }
 
   function toggleGaleriFilter(type) {
-    const showDapur = type==='dapur';
-    const showBulan = type==='bulan';
+    const showDapur = type==='dapur', showBulan = type==='bulan';
     document.getElementById('btnGaleriDapur').className = showDapur ? 'dock-btn active' : 'dock-btn';
     document.getElementById('btnGaleriBulan').className = showBulan ? 'dock-btn active' : 'dock-btn';
     document.getElementById('btnGaleriSemua').className = 'dock-btn';
@@ -1351,205 +1260,119 @@
     const filterBulan = document.getElementById('selGaleriBulan').value;
     let filtered = galeriAllData;
     if(filterDapur) filtered = filtered.filter(g => g.dapur === filterDapur);
-    if(filterBulan) filtered = filtered.filter(g => {
-      if(!g.tanggal || g.tanggal==='-') return false;
-      const d = new Date(g.tanggal);
-      return `${BULAN[d.getMonth()]} ${d.getFullYear()}` === filterBulan;
-    });
+    if(filterBulan) filtered = filtered.filter(g => { if(!g.tanggal || g.tanggal==='-') return false; const d = new Date(g.tanggal); return `${BULAN[d.getMonth()]} ${d.getFullYear()}` === filterBulan; });
     renderGaleri(filtered);
   }
 
   async function jalankanPlaySemua() {
     isGlobalPlayMode = true; isModeGaleri = false; isGridView = false;
-    document.getElementById('galeriContainer').style.display='none';
-    document.getElementById('gridContainer').style.display='none';
-    document.getElementById('imgContainer').style.display='flex';
-    
-    document.getElementById('txtDapur').innerText = "MEMUAT...";
-    document.getElementById('txtTgl').innerText = fmtHariIni();
+    document.getElementById('galeriContainer').style.display='none'; document.getElementById('gridContainer').style.display='none'; document.getElementById('imgContainer').style.display='flex';
+    document.getElementById('txtDapur').innerText = "MEMUAT..."; document.getElementById('txtTgl').innerText = fmtHariIni();
     showLoader("Mengambil Menu Hari Ini...");
-    
     const r = await fetchAPI('getSemuaMenuHariIni');
     hideLoader();
     if(r) {
       imageList = r.filter(i => !i.isPlaceholder);
-      if(imageList.length > 0) { 
-        updateDisplay(0); 
-        if(!isPlaying) runSlide(); 
-      } else {
-        document.getElementById('txtMenu').innerText  = "BELUM ADA MENU HARI INI";
-        document.getElementById('displayImg').src     = "";
-        document.getElementById('txtDapur').innerText = "SEMUA DAPUR";
-        document.getElementById('emptyState').style.display = 'flex';
+      if(imageList.length > 0) { updateDisplay(0); if(!isPlaying) runSlide(); } 
+      else {
+        document.getElementById('txtMenu').innerText = "BELUM ADA MENU HARI INI"; document.getElementById('displayImg').src = "";
+        document.getElementById('txtDapur').innerText = "SEMUA DAPUR"; document.getElementById('emptyState').style.display = 'flex';
       }
     }
     updateCounter();
   }
 
   async function fetchPeriode() {
-    const id = document.getElementById('selDapur').value;
-    if(!id) return;
-    document.getElementById('txtDapur').innerText =
-      document.getElementById('selDapur').options[document.getElementById('selDapur').selectedIndex].text;
-    showLoader("Memuat Periode...");
-    const r = await fetchAPI('getDaftarPeriode',{dapurId:id});
-    hideLoader();
+    const id = document.getElementById('selDapur').value; if(!id) return;
+    document.getElementById('txtDapur').innerText = document.getElementById('selDapur').options[document.getElementById('selDapur').selectedIndex].text;
+    showLoader("Memuat Periode..."); const r = await fetchAPI('getDaftarPeriode',{dapurId:id}); hideLoader();
     if(r) {
       let h = '<option value="">-- Pilih Periode --</option>';
       r.forEach(p => h += `<option value="${p.id}">${p.nama}</option>`);
-      document.getElementById('selPeriode').innerHTML = h;
-      document.getElementById('emptyState').style.display = 'none';
+      document.getElementById('selPeriode').innerHTML = h; document.getElementById('emptyState').style.display = 'none';
     }
   }
 
   async function buatPeriodeOtomatis() {
-    const id = document.getElementById('selDapur').value;
-    if(!id) return showToast("Pilih Dapur dulu!", true);
-    showLoader("Membuat Folder...");
-    const r = await fetchAPI('buatPeriodeMingguIni',{dapurId:id});
-    hideLoader();
+    const id = document.getElementById('selDapur').value; if(!id) return showToast("Pilih Dapur dulu!", true);
+    showLoader("Membuat Folder..."); const r = await fetchAPI('buatPeriodeMingguIni',{dapurId:id}); hideLoader();
     if(r) { showToast(r.status); fetchPeriode(); }
   }
 
   async function fetchGambar() {
-    const id = document.getElementById('selPeriode').value;
-    if(!id) return;
-    showLoader("Mengambil Gambar...");
-    const r = await fetchAPI('getGambarMenu',{periodeId:id});
-    hideLoader();
+    const id = document.getElementById('selPeriode').value; if(!id) return;
+    showLoader("Mengambil Gambar..."); const r = await fetchAPI('getGambarMenu',{periodeId:id}); hideLoader();
     if(r) {
       imageList = r;
       if(r.length > 0) {
-        if(isGridView) {
-          renderMenuGrid();
-          document.getElementById('menuFilterBar').style.display = 'flex'; 
-        } else {
-          updateDisplay(0);
-          document.getElementById('menuFilterBar').style.display = 'none'; 
-        }
-      } else { 
-        document.getElementById('txtMenu').innerText="BELUM ADA MENU"; 
-        document.getElementById('displayImg').src=""; 
-        document.getElementById('gridContainer').style.display='none';
-      }
+        if(isGridView) { renderMenuGrid(); document.getElementById('menuFilterBar').style.display = 'flex'; } 
+        else { updateDisplay(0); document.getElementById('menuFilterBar').style.display = 'none'; }
+      } else { document.getElementById('txtMenu').innerText="BELUM ADA MENU"; document.getElementById('displayImg').src=""; document.getElementById('gridContainer').style.display='none'; }
     }
     updateCounter();
   }
 
   function filterByTanggal() {
-    const tglMulai   = document.getElementById('tglMulai').value;
-    const tglSelesai = document.getElementById('tglSelesai').value;
-    if(!tglMulai || !tglSelesai) return;
-    const filtered = imageList.filter(img => {
-      if(!img.tanggal) return false;
-      return img.tanggal >= tglMulai && img.tanggal <= tglSelesai;
-    });
-    if(filtered.length > 0) {
-      imageList = filtered;
-      if(isGridView) renderMenuGrid(); else updateDisplay(0);
-    } else {
-      showToast("Tidak ada menu di rentang tanggal tersebut", true);
-    }
+    const tglMulai = document.getElementById('tglMulai').value, tglSelesai = document.getElementById('tglSelesai').value; if(!tglMulai || !tglSelesai) return;
+    const filtered = imageList.filter(img => { if(!img.tanggal) return false; return img.tanggal >= tglMulai && img.tanggal <= tglSelesai; });
+    if(filtered.length > 0) { imageList = filtered; if(isGridView) renderMenuGrid(); else updateDisplay(0); } 
+    else { showToast("Tidak ada menu di rentang tanggal tersebut", true); }
     updateCounter();
   }
 
   function toggleGridSlide() {
-    if(imageList.length === 0) return;
-    isGridView = !isGridView;
-    const btn = document.getElementById('btnToggleGrid');
-    
+    if(imageList.length === 0) return; isGridView = !isGridView; const btn = document.getElementById('btnToggleGrid');
     if(isGridView) {
-      stopSlide();
-      document.getElementById('imgContainer').style.display = 'none';
-      document.getElementById('gridContainer').style.display = 'grid';
+      stopSlide(); document.getElementById('imgContainer').style.display = 'none'; document.getElementById('gridContainer').style.display = 'grid';
       document.getElementById('txtMenu').innerText = "SEMUA MENU (" + imageList.length + ")";
       btn.innerHTML = `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>`;
-      btn.classList.add('tab-on');
-      btn.style.color = 'var(--gold)';
-      
+      btn.classList.add('tab-on'); btn.style.color = 'var(--gold)';
       if(!isGlobalPlayMode) document.getElementById('menuFilterBar').style.display = 'flex';
       renderMenuGrid();
     } else {
-      document.getElementById('gridContainer').style.display = 'none';
-      document.getElementById('imgContainer').style.display = 'flex';
+      document.getElementById('gridContainer').style.display = 'none'; document.getElementById('imgContainer').style.display = 'flex';
       btn.innerHTML = `<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>`;
-      btn.classList.remove('tab-on');
-      btn.style.color = 'white';
-
+      btn.classList.remove('tab-on'); btn.style.color = 'white';
       if(!isGlobalPlayMode) document.getElementById('menuFilterBar').style.display = 'none';
       updateDisplay(currentIdx);
     }
-    updateCounter();
+    updateCounter(); saveAppState();
   }
 
   function renderMenuGrid() {
     let html = '';
     imageList.forEach((img, index) => {
       if(img.isPlaceholder) return;
-      html += `
-        <div class="grid-card" onclick="pilihMenuDariGrid(${index})">
-          <img class="grid-item" src="${img.src}" loading="lazy">
-          <div class="grid-title">${img.nama}</div>
-          <div class="grid-date">${fmtTgl(img.tanggal)}</div>
-          ${img.dapur && isGlobalPlayMode ? `<div class="grid-date" style="color:#888;">${img.dapur}</div>` : ''}
-        </div>
-      `;
+      html += `<div class="grid-card" onclick="pilihMenuDariGrid(${index})">
+        <img class="grid-item" src="${img.src}" loading="lazy">
+        <div class="grid-title">${img.nama}</div>
+        <div class="grid-date">${fmtTgl(img.tanggal)}</div>
+        ${img.dapur && isGlobalPlayMode ? `<div class="grid-date" style="color:#888;">${img.dapur}</div>` : ''}
+      </div>`;
     });
     document.getElementById('gridContainer').innerHTML = html;
   }
-
-  function pilihMenuDariGrid(index) {
-    currentIdx = index;
-    toggleGridSlide(); 
-  }
+  function pilihMenuDariGrid(index) { currentIdx = index; toggleGridSlide(); }
 
   function updateDisplay(idx) {
-    if(!imageList[idx]) return;
-    const img  = document.getElementById('displayImg');
-    const data = imageList[idx];
-    
-    img.classList.remove('fade-anim');
-    void img.offsetWidth; 
-
-    if(isGlobalPlayMode || data.dapur)
-      document.getElementById('txtDapur').innerText = data.dapur || "SEMUA DAPUR";
-    
+    if(!imageList[idx]) return; const img = document.getElementById('displayImg'), data = imageList[idx];
+    img.classList.remove('fade-anim'); void img.offsetWidth; 
+    if(isGlobalPlayMode || data.dapur) document.getElementById('txtDapur').innerText = data.dapur || "SEMUA DAPUR";
     document.getElementById('emptyState').style.display = data.isPlaceholder ? 'flex' : 'none';
-    img.style.display = data.isPlaceholder ? 'none' : 'block';
-    
-    img.src = data.src;
-    img.classList.add('fade-anim');
-
-    document.getElementById('txtMenu').innerText = data.nama;
-    document.getElementById('txtTgl').innerText  = fmtTgl(data.tanggal);
-    currentIdx = idx;
-    
-    updateCounter();
+    img.style.display = data.isPlaceholder ? 'none' : 'block'; img.src = data.src; img.classList.add('fade-anim');
+    document.getElementById('txtMenu').innerText = data.nama; document.getElementById('txtTgl').innerText = fmtTgl(data.tanggal);
+    currentIdx = idx; updateCounter();
   }
 
   async function muatGaleri() {
-    document.getElementById('txtDapur').innerText = "GALERI KEGIATAN";
-    document.getElementById('txtMenu').innerText  = "SEMUA DAPUR";
-    document.getElementById('txtTgl').innerText   = fmtHariIni();
-
-    showLoader("Memuat Galeri...");
-    const r = await fetchAPI('getGaleri');
-    hideLoader();
-
+    document.getElementById('txtDapur').innerText = "GALERI KEGIATAN"; document.getElementById('txtMenu').innerText = "SEMUA DAPUR"; document.getElementById('txtTgl').innerText = fmtHariIni();
+    showLoader("Memuat Galeri..."); const r = await fetchAPI('getGaleri'); hideLoader();
     galeriAllData = r || [];
-
     const bulanSet = new Set();
-    galeriAllData.forEach(g => {
-      if(g.tanggal && g.tanggal!=='-') {
-        const d = new Date(g.tanggal);
-        bulanSet.add(`${BULAN[d.getMonth()]} ${d.getFullYear()}`);
-      }
-    });
+    galeriAllData.forEach(g => { if(g.tanggal && g.tanggal!=='-') { const d = new Date(g.tanggal); bulanSet.add(`${BULAN[d.getMonth()]} ${d.getFullYear()}`); } });
     let hb = '<option value="">-- Semua Bulan --</option>';
     [...bulanSet].reverse().forEach(b => hb += `<option value="${b}">${b}</option>`);
-    document.getElementById('selGaleriBulan').innerHTML = hb;
-
-    renderGaleri(galeriAllData);
+    document.getElementById('selGaleriBulan').innerHTML = hb; renderGaleri(galeriAllData);
   }
 
   function renderGaleri(data) {
@@ -1557,547 +1380,220 @@
     if(data && data.length > 0) {
       data.forEach((g) => {
         const originalIndex = galeriAllData.findIndex(item => item.id === g.id);
-        
         let actionHtml = '';
         if(isAdmin && isGaleriKelola) {
-          actionHtml = `
-            <div class="galeri-admin-actions" onclick="event.stopPropagation()">
-              <button class="btn-dark" onclick="bukaModalEditGaleri(${originalIndex})">Edit</button>
-              <button class="btn-danger" onclick="doHapus('galeri', ${originalIndex})">Hapus</button>
-            </div>
-          `;
+          actionHtml = `<div class="galeri-admin-actions" onclick="event.stopPropagation()">
+            <button class="btn-dark" onclick="bukaModalEditGaleri(${originalIndex})">Edit</button>
+            <button class="btn-danger" onclick="doHapus('galeri', ${originalIndex})">Hapus</button>
+          </div>`;
         }
-
         let mediaTag = `<img src="${g.src}" loading="lazy">`;
         if (g.src.includes('data:video') || g.src.includes('video/mp4')) {
            mediaTag = `<div style="position:relative; width:100%; height:180px; background:#000; display:flex; align-items:center; justify-content:center; border-radius:12px; margin-bottom:12px;">
                           <svg viewBox="0 0 24 24" width="40" height="40" fill="rgba(255,255,255,0.7)"><path d="M8 5v14l11-7z"/></svg>
                        </div>`;
         }
-
         html += `<div class="galeri-card" onclick="bukaGaleriFull(${originalIndex})" style="cursor:pointer;">
           ${mediaTag}
           <div class="galeri-title">${g.judul}</div>
           <div class="galeri-desc">${g.deskripsi||''}</div>
-          <div class="meta-item">
-            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-            ${fmtTgl(g.tanggal)}
-          </div>
-          <div class="meta-item">
-            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            ${g.dapur||'Umum'}
-          </div>
+          <div class="meta-item"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>${fmtTgl(g.tanggal)}</div>
+          <div class="meta-item"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>${g.dapur||'Umum'}</div>
           ${actionHtml}
         </div>`;
       });
-    } else {
-      html = `<div style="color:#888;font-style:italic;grid-column:1/-1;text-align:center;padding:60px;">Belum ada kegiatan.</div>`;
-    }
+    } else { html = `<div style="color:#888;font-style:italic;grid-column:1/-1;text-align:center;padding:60px;">Belum ada kegiatan.</div>`; }
     document.getElementById('galeriContainer').innerHTML = html;
   }
 
-  // ── FITUR FULL SCREEN GALERI SWIPE & VIDEO ──
-  let galeriListFullscreen = []; 
-  let galIdx = 0;
-
-  function bukaGaleriFull(index) {
-    galeriListFullscreen = galeriAllData;
-    galIdx = index;
-    renderFullGaleri();
-    document.getElementById('modalFullGaleri').style.display = 'flex';
-  }
-
+  // INDEPENDENT SWIPE FULL SCREEN GALERI
+  let galeriListFullscreen = [], galIdx = 0;
+  function bukaGaleriFull(index) { galeriListFullscreen = galeriAllData; galIdx = index; renderFullGaleri(); document.getElementById('modalFullGaleri').style.display = 'flex'; rekamJejakModal(); }
   function renderFullGaleri() {
-    const item = galeriListFullscreen[galIdx];
-    const container = document.getElementById('fullGaleriContent');
-    
-    if(item.src.includes('data:video') || item.src.includes('video/mp4')) {
-      container.innerHTML = `<video src="${item.src}" controls autoplay playsinline style="max-width:100%; max-height:85vh; border-radius:12px; box-shadow: 0 10px 30px rgba(0,0,0,0.8); background:black;"></video>`;
-    } else {
-      container.innerHTML = `<img src="${item.src}" style="max-width:100%; max-height:85vh; border-radius:12px; box-shadow: 0 10px 30px rgba(0,0,0,0.8); object-fit: contain;">`;
-    }
+    const item = galeriListFullscreen[galIdx], container = document.getElementById('fullGaleriContent');
+    if(item.src.includes('data:video') || item.src.includes('video/mp4')) { container.innerHTML = `<video src="${item.src}" controls autoplay playsinline style="max-width:100%; max-height:85vh; border-radius:12px; background:black;"></video>`; } 
+    else { container.innerHTML = `<img src="${item.src}" style="max-width:100%; max-height:85vh; border-radius:12px; object-fit: contain;">`; }
   }
+  function slideGal(next) { galIdx = next ? (galIdx + 1) % galeriListFullscreen.length : (galIdx - 1 + galeriListFullscreen.length) % galeriListFullscreen.length; renderFullGaleri(); }
+  function tutupModalFull() { document.getElementById('modalFullGaleri').style.display='none'; document.getElementById('fullGaleriContent').innerHTML = ''; saveAppState(); }
 
-  function slideGal(next) {
-    galIdx = next ? (galIdx + 1) % galeriListFullscreen.length : (galIdx - 1 + galeriListFullscreen.length) % galeriListFullscreen.length;
-    renderFullGaleri();
-  }
+  let touchstartX = 0, touchendX = 0;
+  document.getElementById('modalFullGaleri').addEventListener('touchstart', e => { touchstartX = e.changedTouches[0].screenX; }, {passive: true});
+  document.getElementById('modalFullGaleri').addEventListener('touchend', e => { touchendX = e.changedTouches[0].screenX; if (touchendX < touchstartX - 40) slideGal(true); if (touchendX > touchstartX + 40) slideGal(false); }, {passive: true});
 
-  function tutupModalFull() { 
-    document.getElementById('modalFullGaleri').style.display='none'; 
-    document.getElementById('fullGaleriContent').innerHTML = ''; 
-  }
+  function bukaModalUploadMenu() { document.getElementById('modalUploadMenu').style.display='flex'; rekamJejakModal(); }
+  function bukaModalUploadGaleri() { document.getElementById('modalUploadGaleri').style.display='flex'; rekamJejakModal(); }
 
-  let touchstartX = 0;
-  let touchendX = 0;
-  
-  function handleSwipe() {
-    if (touchendX < touchstartX - 40) slideGal(true); 
-    if (touchendX > touchstartX + 40) slideGal(false); 
-  }
-
-  document.getElementById('modalFullGaleri').addEventListener('touchstart', e => {
-    touchstartX = e.changedTouches[0].screenX;
-  }, {passive: true});
-
-  document.getElementById('modalFullGaleri').addEventListener('touchend', e => {
-    touchendX = e.changedTouches[0].screenX;
-    handleSwipe();
-  }, {passive: true});
-
-
-  function bukaModalUploadMenu() { document.getElementById('modalUploadMenu').style.display='flex'; }
-  function bukaModalUploadGaleri() { document.getElementById('modalUploadGaleri').style.display='flex'; }
-
+  // UPLOAD DENGAN FITUR ANTREAN OFFLINE & AUTO PURGE CACHE
   async function doUploadMenu() {
-    const dapurId  = document.getElementById('upMenuDapur').value;
-    const nama     = document.getElementById('upMenuNama').value.trim();
-    const tgl      = document.getElementById('upMenuTgl').value;
-    const file     = document.getElementById('upMenuFile').files[0];
-
-    if(!dapurId)  return showToast("Pilih Dapur dulu!", true);
-    if(!nama)     return showToast("Isi Nama Menu!", true);
-    if(!tgl)      return showToast("Isi Tanggal!", true);
-    if(!file)     return showToast("Pilih Foto!", true);
+    const dapurId = document.getElementById('upMenuDapur').value, nama = document.getElementById('upMenuNama').value.trim(), tgl = document.getElementById('upMenuTgl').value, file = document.getElementById('upMenuFile').files[0];
+    if(!dapurId || !nama || !tgl || !file) return showToast("Lengkapi semua form upload menu!", true);
 
     const rd = new FileReader();
     rd.onload = async e => {
-      showLoader("MENGUPLOAD MENU...");
+      let base64 = e.target.result;
+      let payload = { dapurId, namaMenu: nama, tanggal: tgl, data: base64 };
       tutupModal('modalUploadMenu');
-      const r = await fetchAPI('uploadMenuAuto', { dapurId, namaMenu: nama, tanggal: tgl, data: e.target.result });
+
+      if (!navigator.onLine) {
+        await simpanKeAntrean({ action: 'uploadMenuAuto', payload, nama: nama });
+        document.getElementById('upMenuFile').value=''; document.getElementById('upMenuNama').value='';
+        return;
+      }
+
+      showLoader("MENGUPLOAD MENU...");
+      let r = await fetchAPI('uploadMenuAuto', payload);
       hideLoader();
+      
       if(r && r.status==='sukses') {
         showToast(`✓ Menu '${nama}' berhasil diupload!`);
-        document.getElementById('upMenuFile').value='';
-        document.getElementById('upMenuNama').value='';
+        base64 = null; // Purge foto dari memori RAM HP
+        document.getElementById('upMenuFile').value=''; document.getElementById('upMenuNama').value='';
         if(!isGlobalPlayMode && currentView==='menu') fetchGambar();
-      } else { showToast("Gagal upload menu", true); }
+      } else {
+        await simpanKeAntrean({ action: 'uploadMenuAuto', payload, nama: nama });
+      }
     };
     rd.readAsDataURL(file);
   }
 
   async function doUploadGaleri() {
-    const dapurEl   = document.getElementById('upGaleriDapur');
-    const dapurNama = dapurEl.options[dapurEl.selectedIndex]?.text || '';
-    const tgl       = document.getElementById('upGaleriTgl').value;
-    const judul     = document.getElementById('upGaleriJudul').value.trim();
-    const desc      = document.getElementById('upGaleriDesc').value.trim();
-    const file      = document.getElementById('upGaleriFile').files[0];
-
-    if(!dapurEl.value) return showToast("Pilih Dapur!", true);
-    if(!tgl)   return showToast("Isi Tanggal!", true);
-    if(!judul) return showToast("Isi Judul!", true);
-    if(!file)  return showToast("Pilih File!", true);
+    const dapurEl = document.getElementById('upGaleriDapur'), dapurNama = dapurEl.options[dapurEl.selectedIndex]?.text || '', tgl = document.getElementById('upGaleriTgl').value, judul = document.getElementById('upGaleriJudul').value.trim(), desc = document.getElementById('upGaleriDesc').value.trim(), file = document.getElementById('upGaleriFile').files[0];
+    if(!dapurEl.value || !tgl || !judul || !file) return showToast("Lengkapi data form galeri!", true);
 
     const rd = new FileReader();
     rd.onload = async e => {
-      showLoader("MENGUPLOAD GALERI...");
+      let base64 = e.target.result;
+      let payload = { dapur:dapurNama, tanggal:tgl, judul, deskripsi:desc, data:base64 };
       tutupModal('modalUploadGaleri');
-      const r = await fetchAPI('uploadGaleri',{dapur:dapurNama, tanggal:tgl, judul, deskripsi:desc, data:e.target.result});
+
+      if (!navigator.onLine) {
+        await simpanKeAntrean({ action: 'uploadGaleri', payload, nama: judul });
+        document.getElementById('upGaleriFile').value=''; document.getElementById('upGaleriJudul').value=''; document.getElementById('upGaleriDesc').value='';
+        return;
+      }
+
+      showLoader("MENGUPLOAD GALERI...");
+      let r = await fetchAPI('uploadGaleri', payload);
       hideLoader();
+
       if(r && r.status==='sukses') {
         showToast("✓ Galeri berhasil diupload!");
-        document.getElementById('upGaleriFile').value='';
-        document.getElementById('upGaleriJudul').value='';
-        document.getElementById('upGaleriDesc').value='';
+        base64 = null; // Purge foto dari memori RAM HP
+        document.getElementById('upGaleriFile').value=''; document.getElementById('upGaleriJudul').value=''; document.getElementById('upGaleriDesc').value='';
         if(currentView==='galeri') muatGaleri();
-      } else showToast("Gagal upload galeri", true);
+      } else {
+        await simpanKeAntrean({ action: 'uploadGaleri', payload, nama: judul });
+      }
     };
     rd.readAsDataURL(file);
   }
 
-  function bukaModalEdit() {
-    if(imageList.length===0 || isModeGaleri) return showToast("Pilih menu dulu!", true);
-    document.getElementById('editNama').value = imageList[currentIdx].nama;
-    document.getElementById('editTgl').value  = imageList[currentIdx].tanggal;
-    document.getElementById('modalEdit').style.display = 'flex';
-  }
-  
+  // EDIT & DELETE
+  function bukaModalEdit() { if(imageList.length===0 || isModeGaleri) return showToast("Pilih menu dulu!", true); document.getElementById('editNama').value = imageList[currentIdx].nama; document.getElementById('editTgl').value = imageList[currentIdx].tanggal; document.getElementById('modalEdit').style.display = 'flex'; rekamJejakModal(); }
   async function executeEdit() {
-    const curr = imageList[currentIdx];
-    const file = document.getElementById('editFile').files[0];
-    tutupModal('modalEdit');
-    showLoader("MENYIMPAN...");
+    const curr = imageList[currentIdx], file = document.getElementById('editFile').files[0]; tutupModal('modalEdit'); showLoader("MENYIMPAN...");
     let payload = {id:curr.id, nama:document.getElementById('editNama').value, tanggal:document.getElementById('editTgl').value, fileData:null};
-    if(file) {
-      const rd = new FileReader();
-      rd.onload = async e => { payload.fileData = e.target.result; await kirimEdit(payload); };
-      rd.readAsDataURL(file);
-    } else await kirimEdit(payload);
+    if(file) { const rd = new FileReader(); rd.onload = async e => { payload.fileData = e.target.result; await kirimEdit(payload); }; rd.readAsDataURL(file); } else await kirimEdit(payload);
   }
-  
-  async function kirimEdit(payload) {
-    const r = await fetchAPI('editMenu', payload);
-    hideLoader();
-    if(r && r.success) { showToast("Berhasil disimpan!"); fetchGambar(); }
-    else showToast("Gagal menyimpan!", true);
-  }
+  async function kirimEdit(payload) { const r = await fetchAPI('editMenu', payload); hideLoader(); if(r && r.success) { showToast("Berhasil disimpan!"); fetchGambar(); } else showToast("Gagal menyimpan!", true); }
 
-  function bukaModalEditGaleri(index) {
-    const curr = galeriAllData[index];
-    deleteTargetIndex = index; 
-    document.getElementById('editGaleriJudul').value = curr.judul;
-    document.getElementById('editGaleriTgl').value  = curr.tanggal;
-    document.getElementById('editGaleriDesc').value = curr.deskripsi || '';
-    document.getElementById('modalEditGaleri').style.display = 'flex';
-  }
-
+  function bukaModalEditGaleri(index) { const curr = galeriAllData[index]; deleteTargetIndex = index; document.getElementById('editGaleriJudul').value = curr.judul; document.getElementById('editGaleriTgl').value = curr.tanggal; document.getElementById('editGaleriDesc').value = curr.deskripsi || ''; document.getElementById('modalEditGaleri').style.display = 'flex'; rekamJejakModal(); }
   async function executeEditGaleri() {
-    const curr = galeriAllData[deleteTargetIndex];
-    const file = document.getElementById('editGaleriFile').files[0];
-    tutupModal('modalEditGaleri');
-    showLoader("MENYIMPAN GALERI...");
-    
-    let payload = {
-      id: curr.id, 
-      judul: document.getElementById('editGaleriJudul').value, 
-      tanggal: document.getElementById('editGaleriTgl').value,
-      deskripsi: document.getElementById('editGaleriDesc').value,
-      fileData: null
-    };
-
-    if(file) {
-      const rd = new FileReader();
-      rd.onload = async e => { payload.fileData = e.target.result; await kirimEditGaleri(payload); };
-      rd.readAsDataURL(file);
-    } else await kirimEditGaleri(payload);
+    const curr = galeriAllData[deleteTargetIndex], file = document.getElementById('editGaleriFile').files[0]; tutupModal('modalEditGaleri'); showLoader("MENYIMPAN GALERI...");
+    let payload = {id: curr.id, judul: document.getElementById('editGaleriJudul').value, tanggal: document.getElementById('editGaleriTgl').value, deskripsi: document.getElementById('editGaleriDesc').value, fileData: null};
+    if(file) { const rd = new FileReader(); rd.onload = async e => { payload.fileData = e.target.result; await kirimEditGaleri(payload); }; rd.readAsDataURL(file); } else await kirimEditGaleri(payload);
   }
+  async function kirimEditGaleri(payload) { const r = await fetchAPI('editGaleri', payload); hideLoader(); if(r && r.success) { showToast("Galeri diperbarui!"); muatGaleri(); } else showToast("Gagal memperbarui galeri", true); }
 
-  async function kirimEditGaleri(payload) {
-    const r = await fetchAPI('editGaleri', payload); 
-    hideLoader();
-    if(r && r.success) { 
-      showToast("Galeri berhasil diperbarui!"); 
-      muatGaleri(); 
-    } else showToast("Gagal memperbarui galeri", true);
-  }
-
-  function doHapus(type, index=null) {
-    deleteTargetType = type;
-    if(type === 'menu') {
-      if(imageList.length===0) return;
-      document.getElementById('modalText').innerText = `Yakin hapus menu "${imageList[currentIdx].nama}"?`;
-    } else if (type === 'galeri') {
-      deleteTargetIndex = index;
-      document.getElementById('modalText').innerText = `Yakin hapus kegiatan "${galeriAllData[index].judul}"?`;
-    }
-    document.getElementById('modalConfirm').style.display = 'flex';
-  }
-
+  function doHapus(type, index=null) { deleteTargetType = type; if(type === 'menu') { if(imageList.length===0) return; document.getElementById('modalText').innerText = `Yakin hapus menu "${imageList[currentIdx].nama}"?`; } else if (type === 'galeri') { deleteTargetIndex = index; document.getElementById('modalText').innerText = `Yakin hapus kegiatan "${galeriAllData[index].judul}"?`; } document.getElementById('modalConfirm').style.display = 'flex'; rekamJejakModal(); }
   async function executeHapus() {
-    tutupModal('modalConfirm');
-    showLoader("MENGHAPUS...");
-    
+    tutupModal('modalConfirm'); showLoader("MENGHAPUS...");
     if(deleteTargetType === 'menu') {
-      const r = await fetchAPI('hapusMenu', {fileId: imageList[currentIdx].id});
-      hideLoader();
-      if(r && r.success) {
-        showToast("Menu dihapus!");
-        imageList.splice(currentIdx,1);
-        currentIdx = 0;
-        if(isGridView) renderMenuGrid();
-        else if(imageList.length>0) updateDisplay(0);
-        else { document.getElementById('displayImg').src=''; document.getElementById('emptyState').style.display='flex'; }
-      } else showToast("Gagal menghapus!", true);
+      const r = await fetchAPI('hapusMenu', {fileId: imageList[currentIdx].id}); hideLoader();
+      if(r && r.success) { showToast("Menu dihapus!"); imageList.splice(currentIdx,1); currentIdx = 0; if(isGridView) renderMenuGrid(); else if(imageList.length>0) updateDisplay(0); else { document.getElementById('displayImg').src=''; document.getElementById('emptyState').style.display='flex'; } } else showToast("Gagal menghapus!", true);
       updateCounter();
-
     } else if(deleteTargetType === 'galeri') {
-      const targetId = galeriAllData[deleteTargetIndex].id;
-      const r = await fetchAPI('hapusGaleri', {fileId: targetId}); 
-      hideLoader();
-      if(r && r.success) {
-        showToast("Kegiatan dihapus!");
-        muatGaleri();
-      } else showToast("Gagal menghapus!", true);
+      const r = await fetchAPI('hapusGaleri', {fileId: galeriAllData[deleteTargetIndex].id}); hideLoader();
+      if(r && r.success) { showToast("Kegiatan dihapus!"); muatGaleri(); } else showToast("Gagal menghapus!", true);
     }
   }
 
-  function stopSlide() {
-    if(!isPlaying) return;
-    isPlaying = false;
-    clearInterval(slideTimer);
-    const btn   = document.getElementById('btnPlayPause');
-    const icon  = document.getElementById('iconPlay');
-    const label = document.getElementById('playLabel');
-    btn.classList.remove('playing');
-    icon.innerHTML = '<path d="M8 5v14l11-7z"/>';
-    label.innerText = 'PLAY SLIDESHOW';
-  }
-
+  // SLIDER LOGIC
+  function stopSlide() { if(!isPlaying) return; isPlaying = false; clearInterval(slideTimer); const btn = document.getElementById('btnPlayPause'), icon = document.getElementById('iconPlay'); btn.classList.remove('playing'); icon.innerHTML = '<path d="M8 5v14l11-7z"/>'; document.getElementById('playLabel').innerText = 'PLAY SLIDESHOW'; }
   function runSlide() {
-    if(isModeGaleri || isGridView) return;
-    isPlaying = !isPlaying;
-    const btn   = document.getElementById('btnPlayPause');
-    const icon  = document.getElementById('iconPlay');
-    const label = document.getElementById('playLabel');
-    
-    if(isPlaying) {
-      btn.classList.add('playing');
-      icon.innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
-      label.innerText = 'PAUSE';
-      slideTimer = setInterval(() => nextSlide(), 5500); 
-    } else {
-      btn.classList.remove('playing');
-      icon.innerHTML = '<path d="M8 5v14l11-7z"/>';
-      label.innerText = 'PLAY SLIDESHOW';
-      clearInterval(slideTimer);
-    }
+    if(isModeGaleri || isGridView) return; isPlaying = !isPlaying; const btn = document.getElementById('btnPlayPause'), icon = document.getElementById('iconPlay');
+    if(isPlaying) { btn.classList.add('playing'); icon.innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>'; document.getElementById('playLabel').innerText = 'PAUSE'; slideTimer = setInterval(() => nextSlide(), 5500); } 
+    else { btn.classList.remove('playing'); icon.innerHTML = '<path d="M8 5v14l11-7z"/>'; document.getElementById('playLabel').innerText = 'PLAY SLIDESHOW'; clearInterval(slideTimer); }
   }
-  
   function nextSlide() { if(imageList.length>0 && !isGridView) updateDisplay(currentIdx===imageList.length-1 ? 0 : currentIdx+1); }
   function prevSlide() { if(imageList.length>0 && !isGridView) updateDisplay(currentIdx===0 ? imageList.length-1 : currentIdx-1); }
 
+  // DOWNLOAD POSTER ANTI-GEPENG
   async function downloadPoster() {
-    const imgElem = document.getElementById('displayImg');
-    if(!imgElem || !imgElem.src) return alert("Belum ada gambar!");
+    const imgElem = document.getElementById('displayImg'); if(!imgElem || !imgElem.src) return alert("Belum ada gambar!");
+    const canvas = document.getElementById('posterCanvas'), ctx = canvas.getContext('2d'); canvas.width = 1080; canvas.height = 1920;
+    ctx.fillStyle = "#05233f"; ctx.fillRect(0,0,1080,1920);
+    ctx.fillStyle = "rgba(255,255,255,0.05)"; ctx.beginPath(); ctx.moveTo(0,500); ctx.quadraticCurveTo(540,300,1080,500); ctx.lineTo(1080,1500); ctx.quadraticCurveTo(540,1700,0,1500); ctx.fill();
 
-    const canvas = document.getElementById('posterCanvas');
-    const ctx    = canvas.getContext('2d');
-    canvas.width = 1080; canvas.height = 1920;
+    const loadImg = src => new Promise(res => { const i = new Image(); i.crossOrigin="Anonymous"; i.onload = () => res(i); i.src = src; });
+    const imgMenu = await loadImg(imgElem.src), logo1 = await loadImg(document.getElementById('boxLogo1')?.querySelector('img')?.src), logo2 = await loadImg(document.getElementById('boxLogo2')?.querySelector('img')?.src);
 
-    ctx.fillStyle = "#05233f";
-    ctx.fillRect(0,0,1080,1920);
-
-    ctx.fillStyle = "rgba(255,255,255,0.05)";
-    ctx.beginPath();
-    ctx.moveTo(0,500);
-    ctx.quadraticCurveTo(540,300,1080,500);
-    ctx.lineTo(1080,1500);
-    ctx.quadraticCurveTo(540,1700,0,1500);
-    ctx.fill();
-
-    const loadImg = src => new Promise(res => {
-      const i = new Image(); i.crossOrigin="Anonymous";
-      i.onload = () => res(i); i.src = src;
-    });
-
-    const imgMenu = await loadImg(imgElem.src);
-    const l1src   = document.getElementById('boxLogo1')?.querySelector('img')?.src;
-    const l2src   = document.getElementById('boxLogo2')?.querySelector('img')?.src;
-    if(!l1src || !l2src) return alert("Gagal memuat logo!");
-
-    const logo1 = await loadImg(l1src);
-    const logo2 = await loadImg(l2src);
-
-    const lw = 160;
-    ctx.drawImage(logo1, 80,  80, lw, lw/(logo1.width/logo1.height));
-    ctx.drawImage(logo2, 840, 80, lw, lw/(logo2.width/logo2.height));
-
-    ctx.shadowColor = "rgba(0,0,0,0.5)"; ctx.shadowBlur = 40;
-    ctx.fillStyle = "#fff";
-    ctx.fillRect(100,600,880,600);
+    const lw = 160; ctx.drawImage(logo1, 80, 80, lw, lw/(logo1.width/logo1.height)); ctx.drawImage(logo2, 840, 80, lw, lw/(logo2.width/logo2.height));
+    ctx.shadowColor = "rgba(0,0,0,0.5)"; ctx.shadowBlur = 40; ctx.fillStyle = "#fff"; ctx.fillRect(100,600,880,600);
     
-    let hRatio = 840 / imgMenu.width;
-    let vRatio = 560 / imgMenu.height;
-    let ratio = Math.min(hRatio, vRatio);
-    let centerShift_x = (840 - imgMenu.width * ratio) / 2;
-    let centerShift_y = (560 - imgMenu.height * ratio) / 2;
-    
-    ctx.drawImage(imgMenu, 0, 0, imgMenu.width, imgMenu.height, 
-                  120 + centerShift_x, 620 + centerShift_y, 
-                  imgMenu.width * ratio, imgMenu.height * ratio);
-    
-    ctx.shadowBlur = 0;
-
-    ctx.textAlign = "center"; ctx.textBaseline = "top";
-    ctx.fillStyle = "#ffcc00"; ctx.font = "bold 55px Arial";
+    let ratio = Math.min(840 / imgMenu.width, 560 / imgMenu.height);
+    ctx.drawImage(imgMenu, 0, 0, imgMenu.width, imgMenu.height, 120 + (840 - imgMenu.width * ratio) / 2, 620 + (560 - imgMenu.height * ratio) / 2, imgMenu.width * ratio, imgMenu.height * ratio);
+    ctx.shadowBlur = 0; ctx.textAlign = "center"; ctx.textBaseline = "top"; ctx.fillStyle = "#ffcc00"; ctx.font = "bold 55px Arial";
     ctx.fillText(document.getElementById('txtDapur')?.innerText||"SPPG", 540, 430);
 
     function wrapText(ctx, text, x, y, maxW, lh) {
-      const words = text.split(' ');
-      let line = '', cy = y;
-      for(let n=0; n<words.length; n++) {
-        const test = line + words[n] + ' ';
-        if(ctx.measureText(test).width > maxW && n>0) { ctx.fillText(line,x,cy); line=words[n]+' '; cy+=lh; }
-        else line=test;
-      }
-      ctx.fillText(line,x,cy);
-      return cy+lh;
+      const words = text.split(' '); let line = '', cy = y;
+      for(let n=0; n<words.length; n++) { const test = line + words[n] + ' '; if(ctx.measureText(test).width > maxW && n>0) { ctx.fillText(line,x,cy); line=words[n]+' '; cy+=lh; } else line=test; }
+      ctx.fillText(line,x,cy); return cy+lh;
     }
+    ctx.fillStyle = "#fff"; ctx.font = "bold 60px Arial"; const endY = wrapText(ctx, document.getElementById('txtMenu')?.innerText||"Menu MBG", 540, 1320, 900, 80);
+    ctx.fillStyle="#ffcc00"; ctx.font="italic 36px Arial"; ctx.fillText(document.getElementById('txtTgl')?.innerText||fmtHariIni(), 540, endY+28);
 
-    ctx.fillStyle = "#fff"; ctx.font = "bold 60px Arial";
-    const endY = wrapText(ctx, document.getElementById('txtMenu')?.innerText||"Menu MBG", 540, 1320, 900, 80);
-
-    ctx.fillStyle="#ffcc00"; ctx.font="italic 36px Arial";
-    ctx.fillText(document.getElementById('txtTgl')?.innerText||fmtHariIni(), 540, endY+28);
-
-    const a = document.createElement('a');
-    a.download = "Poster_Premium_MBG.png";
-    a.href = canvas.toDataURL("image/png");
-    a.click();
+    const a = document.createElement('a'); a.download = "Poster_Premium_MBG.png"; a.href = canvas.toDataURL("image/png"); a.click();
   }
-  // ==========================================
-  // FITUR AUTO UPDATE (SILENT REFRESH)
-  // ==========================================
-  let isFetchingSilent = false;
-  
-  // Mengecek data baru ke server setiap 60 detik (60000 ms)
-  setInterval(autoRefreshDiamDiam, 60000); 
 
-  async function autoRefreshDiamDiam() {
-    // 1. Jangan nge-cek kalau sistem lagi sibuk ngambil data
-    if (isFetchingSilent) return;
-    
-    // 2. Jangan nge-cek kalau Admin lagi buka popup/modal (biar ketikan gak hilang)
-    const isModalOpen = Array.from(document.querySelectorAll('.modal-overlay')).some(el => el.style.display === 'flex');
-    if (isModalOpen) return;
-
+  // SILENT POLLING AUTO UPDATE (60 DETIK)
+  setInterval(async () => {
+    if (isFetchingSilent || !navigator.onLine || Array.from(document.querySelectorAll('.modal-overlay')).some(m => m.style.display === 'flex')) return;
     isFetchingSilent = true;
-
-    try {
-      if (currentView === 'menu') {
-        if (isGlobalPlayMode) {
-          // Cek menu hari ini (Global)
-          const r = await fetchAPI('getSemuaMenuHariIni');
-          if (r) prosesUpdateMenu(r);
-        } else {
-          // Cek menu berdasarkan periode yang lagi dipilih
-          const periodeId = document.getElementById('selPeriode').value;
-          if (periodeId) {
-            const r = await fetchAPI('getGambarMenu', {periodeId: periodeId});
-            if (r) prosesUpdateMenu(r);
-          }
-        }
-      } 
-      else if (currentView === 'galeri') {
-        // Cek data galeri
-        const r = await fetchAPI('getGaleri');
-        if (r) {
-          // Bandingkan data dari server dengan data yang lagi tampil
-          if (JSON.stringify(r) !== JSON.stringify(galeriAllData)) {
-            galeriAllData = r;
-            applyGaleriFilter(); // Render ulang dengan tenang
-            showToast("Ada kegiatan baru dari SPPG! Layar diperbarui.");
-          }
-        }
+    if (currentView === 'menu') {
+      let r = isGlobalPlayMode ? await fetchAPI('getSemuaMenuHariIni') : await fetchAPI('getGambarMenu', {periodeId: document.getElementById('selPeriode').value});
+      if (r) {
+        let oldStr = JSON.stringify(imageList.filter(i => !i.isPlaceholder)), newStr = JSON.stringify(r.filter(i => !i.isPlaceholder));
+        if (oldStr !== newStr) { imageList = r.filter(i => !i.isPlaceholder); if (isGridView) renderMenuGrid(); else { if (currentIdx >= imageList.length) currentIdx = 0; updateDisplay(currentIdx); } showToast("Data Dapur diperbarui otomatis!"); }
       }
-    } catch (e) {
-      // Kalau sinyal tiba-tiba putus saat ngecek, biarkan saja (jangan pusingkan user)
+    } else {
+      let r = await fetchAPI('getGaleri');
+      if (r && JSON.stringify(r) !== JSON.stringify(galeriAllData)) { galeriAllData = r; applyGaleriFilter(); showToast("Kegiatan baru masuk!"); }
     }
-
     isFetchingSilent = false;
-  }
+  }, 60000);
 
-  function prosesUpdateMenu(newData) {
-    // Buang placeholder agar perbandingannya akurat
-    const oldDataStr = JSON.stringify(imageList.filter(i => !i.isPlaceholder));
-    const newDataFiltered = newData.filter(i => !i.isPlaceholder);
-    const newDataStr = JSON.stringify(newDataFiltered);
-
-    // Kalau ada beda (ada yang nambah/kehapus/diedit)
-    if (oldDataStr !== newDataStr) {
-      imageList = newDataFiltered;
-
-      if (imageList.length === 0) {
-         document.getElementById('txtMenu').innerText = "BELUM ADA MENU";
-         document.getElementById('displayImg').src = "";
-         document.getElementById('displayImg').style.display = 'none';
-         document.getElementById('emptyState').style.display = 'flex';
-         if(isGridView) document.getElementById('gridContainer').innerHTML = '';
-      } else {
-         if (isGridView) {
-           renderMenuGrid(); // Update mode kotak-kotak
-         } else {
-           // Mencegah error kalau menu yang lagi dilihat ternyata dihapus admin lain
-           if (currentIdx >= imageList.length) currentIdx = 0;
-           updateDisplay(currentIdx); // Update gambar utamanya
-         }
-      }
-      updateCounter();
-      showToast("Data Dapur terbaru masuk! Layar diperbarui otomatis.");
-    }
-  }
-  // ==========================================
-  // PENGENDALI NAVIGASI (BACK BUTTON) DI HP
-  // ==========================================
+  // HISTORY BACK FISIK CONTROL SYSTEM
   (function() {
-    // 1. Simpan posisi pertama kali (Berada di Menu)
     history.replaceState({ view: 'menu', type: 'page' }, '');
-
     let isPopStateTriggered = false;
-
-    // Fungsi Pembantu untuk merekam jejak saat sebuah Pop-Up / Modal terbuka
-    function rekamJejakModal() {
-      history.pushState({ view: currentView, type: 'modal' }, '');
-    }
-
-    // 2. Mengakali perpindahan Menu <-> Galeri
+    window.rekamJejakModal = () => history.pushState({ view: currentView, type: 'modal' }, '');
+    
     const originSwitchView = switchView;
-    window.switchView = function(view) {
-      if (currentView !== view) {
-        history.pushState({ view: view, type: 'page' }, '');
-      }
-      originSwitchView(view);
-    };
-
-    // 3. Mengakali semua aksi yang MEMBUKA form/modal agar tercatat di history
-    const originBukaGaleriFull = bukaGaleriFull;
-    window.bukaGaleriFull = function(idx) { rekamJejakModal(); originBukaGaleriFull(idx); };
-
-    const originCekStatusLogin = cekStatusLogin;
-    window.cekStatusLogin = function() { if(!isAdmin) rekamJejakModal(); originCekStatusLogin(); };
-
-    const originBukaModalEdit = bukaModalEdit;
-    window.bukaModalEdit = function() { if(imageList.length>0 && !isModeGaleri) rekamJejakModal(); originBukaModalEdit(); };
-
-    const originBukaModalEditGaleri = bukaModalEditGaleri;
-    window.bukaModalEditGaleri = function(idx) { rekamJejakModal(); originBukaModalEditGaleri(idx); };
-
-    const originBukaModalUploadMenu = bukaModalUploadMenu;
-    window.bukaModalUploadMenu = function() { rekamJejakModal(); originBukaModalUploadMenu(); };
-
-    const originBukaModalUploadGaleri = bukaModalUploadGaleri;
-    window.bukaModalUploadGaleri = function() { rekamJejakModal(); originBukaModalUploadGaleri(); };
-
-    const originDoHapus = doHapus;
-    window.doHapus = function(type, idx) { rekamJejakModal(); originDoHapus(type, idx); };
-
-    const originSetMode = setMode;
-    window.setMode = function(mode) {
-      if(mode === 'kelola' && !isAdmin) rekamJejakModal();
-      originSetMode(mode);
-    };
-
-    const originSetGaleriKelola = setGaleriKelola;
-    window.setGaleriKelola = function() {
-      if(!isAdmin) rekamJejakModal();
-      originSetGaleriKelola();
-    };
-
-    // 4. Mengakali aksi MENUTUP form/modal (Tombol Batal, Simpan, dll)
+    window.switchView = function(view) { if (currentView !== view) history.pushState({ view: view, type: 'page' }, ''); originSwitchView(view); };
+    
     const originTutupModal = tutupModal;
-    window.tutupModal = function(id) {
-      originTutupModal(id);
-      // Kalau modal ditutup manual pakai tombol di web, hapus 1 jejak history agar rapi
-      if (!isPopStateTriggered) history.back();
-    };
+    window.tutupModal = function(id) { originTutupModal(id); if (!isPopStateTriggered) history.back(); };
+    window.tutupModalFull = function() { tutupModalFull(); if (!isPopStateTriggered) history.back(); };
 
-    const originTutupModalFull = tutupModalFull;
-    window.tutupModalFull = function() {
-      originTutupModalFull();
-      if (!isPopStateTriggered) history.back();
-    };
-
-    // 5. MENANGKAP AKSI TOMBOL "KEMBALI" FISIK DARI HP
-    window.addEventListener('popstate', function(event) {
-      isPopStateTriggered = true; // Beri tanda bahwa web sedang "Mundur"
-      
-      // A. Jika ada modal/form/foto full screen yang terbuka, TUTUP SEMUA secara paksa
-      const modals = document.querySelectorAll('.modal-overlay');
-      modals.forEach(m => {
-        if(m.style.display === 'flex') {
-           m.style.display = 'none';
-           if(m.id === 'modalFullGaleri') document.getElementById('fullGaleriContent').innerHTML = ''; // Matikan video jika jalan
-        }
-      });
-
-      // B. Jika form sudah tertutup, kembalikan ke halaman sebelumnya (Menu / Galeri)
-      if (event.state && event.state.type === 'page') {
-        originSwitchView(event.state.view);
-      }
-
-      // Selesai mundur, normalkan sistem lagi
+    window.addEventListener('popstate', event => {
+      isPopStateTriggered = true;
+      document.querySelectorAll('.modal-overlay').forEach(m => { if(m.style.display === 'flex') { m.style.display = 'none'; if(m.id === 'modalFullGaleri') document.getElementById('fullGaleriContent').innerHTML = ''; } });
+      if (event.state && event.state.type === 'page') originSwitchView(event.state.view);
       setTimeout(() => isPopStateTriggered = false, 100);
+      saveAppState();
     });
   })();
 </script>
