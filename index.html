@@ -580,15 +580,15 @@ async function downloadPoster() {
   const canvas = document.getElementById('posterCanvas');
   const ctx = canvas.getContext('2d');
 
-  // Ukuran Portrait 1080x1920 (tetap)
+  // Ukuran Portrait Poster
   canvas.width = 1080;
   canvas.height = 1920;
 
-  // 1. Background (Warna Navy MAP - tetap)
+  // 1. Background
   ctx.fillStyle = "#05233f";
   ctx.fillRect(0, 0, 1080, 1920);
 
-  // 2. Shape Seni (Dekorasi halus - tetap)
+  // 2. Shape Seni (Dekorasi Background)
   ctx.fillStyle = "rgba(255, 255, 255, 0.05)";
   ctx.beginPath();
   ctx.moveTo(0, 500);
@@ -597,7 +597,7 @@ async function downloadPoster() {
   ctx.quadraticCurveTo(540, 1700, 0, 1500);
   ctx.fill();
 
-  // 3. Load Images (Logo & Menu)
+  // 3. Load Images
   const loadImg = (src) => new Promise(resolve => {
     const img = new Image();
     img.crossOrigin = "Anonymous";
@@ -606,7 +606,6 @@ async function downloadPoster() {
   });
 
   const imgMenu = await loadImg(imgElem.src);
-  // Asumsi ada element dengan id boxLogo1 dan boxLogo2 di halaman
   const logo1Src = document.getElementById('boxLogo1')?.querySelector('img')?.src;
   const logo2Src = document.getElementById('boxLogo2')?.querySelector('img')?.src;
   
@@ -615,62 +614,84 @@ async function downloadPoster() {
   const logo1 = await loadImg(logo1Src);
   const logo2 = await loadImg(logo2Src);
 
-  // 4. Gambar Logo (MEMPERBAIKI DISTORSI & TATA LETAK)
-  // Hitung ukuran logo proporsional
-  const logoTargetWidth = 160; // Ukuran lebar target yang lebih proporsional
-  const logoTopY = 80; // Posisi Y tetap
+  // 4. Gambar Logo (Proporsional / Tidak Gepeng)
+  const logoTargetWidth = 160; 
+  const logoTopY = 80;
 
-  // Logo 1 (Masjid - Kiri)
   const aspectRatio1 = logo1.width / logo1.height;
   const logo1Height = logoTargetWidth / aspectRatio1;
   ctx.drawImage(logo1, 80, logoTopY, logoTargetWidth, logo1Height);
 
-  // Logo 2 (Garuda - Kanan)
   const aspectRatio2 = logo2.width / logo2.height;
   const logo2Height = logoTargetWidth / aspectRatio2;
   ctx.drawImage(logo2, 800, logoTopY, logoTargetWidth, logo2Height);
 
-  // 5. Gambar Menu (BINGKAI DAN PENEMPATAN - TETAP BAGUS)
+  // 5. Gambar Menu (Tetap Estetik dengan Drop Shadow)
   ctx.shadowColor = "rgba(0,0,0,0.5)";
   ctx.shadowBlur = 40;
   ctx.fillStyle = "#ffffff";
   ctx.fillRect(100, 600, 880, 600); // Frame putih
-  ctx.drawImage(imgMenu, 120, 620, 840, 560);
-  ctx.shadowBlur = 0;
+  ctx.drawImage(imgMenu, 120, 620, 840, 560); // Foto makanan
+  ctx.shadowBlur = 0; // Reset shadow untuk elemen selanjutnya
 
-  // 6. Teks (NAMA DAPUR, MENU, TANGGAL) - MEMPERBAIKI UKURAN DAN KEPRECISIAN
+  // --- BAGIAN TEKS YANG DIPERBAIKI ---
+  
+  ctx.textAlign = "center";
+  ctx.textBaseline = "top"; // Membantu mengatur presisi Y (vertikal)
+
+  // A. Judul Dapur
+  const dapurText = document.getElementById('txtDapur')?.innerText || "SPPG PALOH LADA";
+  ctx.fillStyle = "#ffcc00";
+  ctx.font = "bold 55px Arial";
+  ctx.fillText(dapurText, 540, 430); // Posisi X di tengah (540), Y di atas frame makanan
+
+  // FUNGSI HELPER: Untuk membuat teks panjang otomatis turun ke bawah (Word Wrap)
+  function wrapText(context, text, x, y, maxWidth, lineHeight) {
+    const words = text.split(' ');
+    let line = '';
+    let currentY = y;
+
+    for (let n = 0; n < words.length; n++) {
+      const testLine = line + words[n] + ' ';
+      const metrics = context.measureText(testLine);
+      const testWidth = metrics.width;
+      
+      if (testWidth > maxWidth && n > 0) {
+        context.fillText(line, x, currentY);
+        line = words[n] + ' ';
+        currentY += lineHeight; // Turun 1 baris
+      } else {
+        line = testLine;
+      }
+    }
+    context.fillText(line, x, currentY);
+    return currentY + lineHeight; // Mengembalikan posisi Y terakhir untuk menempatkan tanggal
+  }
+
+  // B. Teks Menu (Bisa menjadi beberapa baris tanpa terpotong)
+  const menuText = document.getElementById('txtMenu')?.innerText || "Nasi Goreng, Telur Mata Sapi, Kacang Tanah Goreng, Lalapan Timun, Pisang";
+  ctx.fillStyle = "#ffffff";
+  ctx.font = "bold 60px Arial";
+  
+  const maxTextWidth = 900; // Sisa margin 90px di kiri dan kanan agar tidak mentok
+  const lineHeight = 80;    // Jarak spasi antar baris
+  const menuStartY = 1320;  // Posisi Y awal di bawah foto makanan
+  
+  // Eksekusi fungsi wrap, sekaligus simpan posisi Y terakhirnya
+  const finalYPosition = wrapText(ctx, menuText, 540, menuStartY, maxTextWidth, lineHeight);
+
+  // C. Tanggal (Otomatis menyesuaikan seberapa panjang teks menu di atasnya)
   const tgl = new Date();
   const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
   const tglStr = tgl.toLocaleDateString('id-ID', options);
 
-  ctx.textAlign = "center";
-  
-  // Font Nama Dapur (Menurunkan ukuran, menggunakan pt, memposisikan ulang)
   ctx.fillStyle = "#ffcc00";
-  ctx.font = "bold 24pt sans-serif"; // Sekitar 32px (sebelumnya 65px)
-  const dapurTextY = 320; // Lebih tinggi dari sebelumnya (350)
-  // Asumsi ada element dengan id txtDapur di halaman
-  const dapurText = document.getElementById('txtDapur')?.innerText || "SPPG PALOH LADA";
-  ctx.fillText(dapurText, 540, dapurTextY);
-
-  // Font Teks Menu (Menurunkan ukuran, menggunakan pt, memposisikan ulang)
-  ctx.fillStyle = "#ffffff";
-  ctx.font = "bold 28pt sans-serif"; // Sekitar 37px (sebelumnya 80px)
-  const menuTextY = 1380; // Jarak yang lebih baik di bawah makanan
-  // Asumsi ada element dengan id txtMenu di halaman
-  const menuText = document.getElementById('txtMenu')?.innerText || "Nasi Goreng, Telur Mata Sapi, Kacang Tanah Goreng, Lalapan Timun, Pisang";
-  ctx.fillText(menuText, 540, menuTextY);
-
-  // Font Tanggal (Menurunkan ukuran, menggunakan pt, memposisikan ulang)
-  ctx.fillStyle = "#ffcc00";
-  ctx.font = "italic 14pt sans-serif"; // Sekitar 19px (sebelumnya 40px)
-  const dateTextY = 1440; // Lebih dekat ke teks menu
-  // Gunakan tglStr yang sudah dihitung
-  ctx.fillText(tglStr, 540, dateTextY);
+  ctx.font = "italic 35px Arial";
+  ctx.fillText(tglStr, 540, finalYPosition + 30); // Jarak 30px dari baris teks menu terakhir
 
   // Trigger Download
   const link = document.createElement('a');
-  link.download = "Poster_Premium_MBG_Perbaikan_Kode.png";
+  link.download = "Poster_Premium_MBG_Final.png";
   link.href = canvas.toDataURL("image/png");
   link.click();
 }
