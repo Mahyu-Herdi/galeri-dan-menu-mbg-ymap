@@ -9,20 +9,22 @@
     /* CSS BAWAAN & GLASSMORPHISM */
     body { margin: 0; background: #213e58; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif; overflow: hidden; height: 100vh; display: flex; justify-content: center; align-items: center; }
     #mainView { width: 96%; height: 95%; background: #05233f; border-radius: 24px; position: relative; overflow: hidden; box-shadow: 0 30px 60px rgba(0,0,0,0.8); display: flex; flex-direction: column; align-items: center; border: 1px solid rgba(255,255,255,0.1); padding: 20px; box-sizing: border-box; display: none; }
-    #header { width: 100%; height: 95px; flex-shrink: 0; background: rgba(255,255,255,0.1); backdrop-filter: blur(20px); border-radius: 18px; display: flex; justify-content: space-between; align-items: center; padding: 10px 25px; border: 1px solid rgba(255,255,255,0.2); box-sizing: border-box; color: white; margin-bottom: 20px; z-index: 10; }
-    .logo-box { height: 75px; width: 130px; display: flex; align-items: center; justify-content: center; }
-    .logo-img { height: 100%; width: 100%; object-fit: contain; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.5)); }
-    .header-info { text-align: center; flex: 1; display: flex; flex-direction: column; justify-content: center; }
-    #txtDapur { font-size: 26px; font-weight: 900; letter-spacing: 1.5px; text-transform: uppercase; text-shadow: 0 2px 5px rgba(0,0,0,0.8); }
-    #txtMenu { font-size: 18px; font-weight: 600; color: #ffcc00; margin: 3px 0; text-shadow: 0 1px 3px rgba(0,0,0,0.8); }
-    #txtTgl { font-size: 14px; opacity: 0.9; font-style: italic; letter-spacing: 0.5px; }
+    
+    /* PERBAIKAN HEADER (Lebih Elastis & Rapi) */
+    #header { width: 100%; min-height: 100px; flex-shrink: 0; background: rgba(255,255,255,0.1); backdrop-filter: blur(20px); border-radius: 18px; display: flex; justify-content: space-between; align-items: center; padding: 15px 25px; border: 1px solid rgba(255,255,255,0.2); box-sizing: border-box; color: white; margin-bottom: 20px; z-index: 10; gap: 10px; flex-wrap: wrap; }
+    .logo-box { height: 75px; width: 100px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+    .logo-img { max-height: 100%; max-width: 100%; object-fit: contain; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.5)); }
+    .header-info { text-align: center; flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; min-width: 200px;}
+    #txtDapur { font-size: 24px; font-weight: 900; letter-spacing: 1.5px; text-transform: uppercase; text-shadow: 0 2px 5px rgba(0,0,0,0.8); margin-bottom: 5px;}
+    #txtMenu { font-size: 16px; font-weight: 600; color: #ffcc00; margin: 0; text-shadow: 0 1px 3px rgba(0,0,0,0.8); }
+    #txtTgl { font-size: 13px; opacity: 0.9; font-style: italic; letter-spacing: 0.5px; margin-bottom: 8px;}
     
     #imgContainer { width: 100%; flex: 1; display: flex; justify-content: center; align-items: center; overflow: hidden; position: relative; }
     #displayImg { max-width: 100%; max-height: 100%; object-fit: contain; transform-origin: center; cursor: pointer; position: absolute; transition: transform 0.1s ease-out; }
     
     #emptyState { display: none; flex-direction: column; align-items: center; justify-content: center; position: absolute; width: 100%; height: 100%; text-align: center; }
     #emptyIcon { font-size: 80px; filter: drop-shadow(0 10px 10px rgba(0,0,0,0.5)); margin-bottom: 15px; }
-    #emptyPesan { color: #ff3b30; font-size: 28px; font-weight: 900; background: rgba(0,0,0,0.4); padding: 15px 30px; border-radius: 16px; border: 1px solid rgba(255,59,48,0.3); text-transform: uppercase;}
+    #emptyPesan { color: #ff3b30; font-size: 24px; font-weight: 900; background: rgba(0,0,0,0.4); padding: 15px 30px; border-radius: 16px; border: 1px solid rgba(255,59,48,0.3); text-transform: uppercase;}
 
     #gridContainer { width: 100%; height: 100%; display: none; flex-wrap: wrap; justify-content: center; align-content: center; gap: 20px; position: absolute; top: 0; left: 0; box-sizing: border-box; padding: 10px; overflow-y: auto; }
     .grid-card { display: flex; flex-direction: column; align-items: center; justify-content: center; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 15px; border-radius: 16px; width: calc(33.33% - 20px); max-width: 320px; min-width: 240px; box-shadow: 0 10px 20px rgba(0,0,0,0.5); cursor: pointer; transition: 0.3s; }
@@ -31,10 +33,14 @@
     .grid-title { margin-top: 12px; font-size: 15px; font-weight: bold; color: #ffcc00; text-align: center; text-transform: uppercase; }
     .grid-date { margin-top: 4px; font-size: 12px; color: #ccc; text-align: center; font-style: italic; }
     
-    /* DOCK MENU */
-    #dock { position: fixed; bottom: -150px; left: 50%; transform: translateX(-50%); background: rgba(30,30,30,0.9); backdrop-filter: blur(25px); padding: 15px 20px; border-radius: 20px 20px 0 0; transition: bottom 0.5s ease, right 0.4s ease; display: flex; flex-direction: column; gap: 10px; border: 1px solid rgba(255,255,255,0.1); z-index: 1000; color: white; width: max-content;}
+    /* PERBAIKAN DOCK MENU (Sistem Laci Tarik Anti Nyangkut) */
+    #dockTrigger { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); background: rgba(30,30,30,0.9); padding: 8px 30px; border-radius: 15px 15px 0 0; color: #ffcc00; font-size: 11px; font-weight: bold; cursor: pointer; z-index: 999; border: 1px solid rgba(255,255,255,0.2); border-bottom: none; box-shadow: 0 -5px 15px rgba(0,0,0,0.5); transition: 0.3s; letter-spacing: 1px;}
+    #dockTrigger:hover { background: #ffcc00; color: #000; }
+    
+    #dock { position: fixed; bottom: -250px; left: 50%; transform: translateX(-50%); background: rgba(20,20,20,0.95); backdrop-filter: blur(25px); padding: 20px 25px; border-radius: 20px 20px 0 0; transition: bottom 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); display: flex; flex-direction: column; gap: 15px; border: 1px solid rgba(255,255,255,0.1); z-index: 1000; color: white; width: max-content; box-shadow: 0 -10px 30px rgba(0,0,0,0.8);}
     #dock.show-dock { bottom: 0; }
-    .dock-row { display: flex; gap: 15px; align-items: flex-end; }
+    
+    .dock-row { display: flex; gap: 15px; align-items: flex-end; flex-wrap: wrap; justify-content: center;}
     .dock-group { display: flex; flex-direction: column; gap: 5px; }
     label { font-size: 10px; opacity: 0.6; font-weight: 600; text-transform: uppercase; color: white; }
     select, input, button { background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 10px; font-size: 12px; outline: none; }
@@ -45,20 +51,20 @@
     .btn-nav { background: #ff9500; }
     .btn-danger { background: #ff3b30; }
     .btn-secondary { background: #555; }
-    .kelola-only { display: none; } /* Default hidden until login */
+    .kelola-only { display: none; } 
     
     .mode-switch { display: flex; background: rgba(0,0,0,0.5); border-radius: 10px; padding: 3px; width: fit-content; align-self: center; margin-bottom: 5px; gap: 2px;}
     .mode-btn { background: transparent; color: #aaa; padding: 8px 15px; border-radius: 8px; border: none; cursor: pointer; font-size: 11px; font-weight: bold; transition: 0.3s; }
     .mode-btn.active { background: #007aff; color: white; }
     .mode-btn.play-active { background: #ff3b30; color: white; }
 
-    /* FITUR BARU */
-    #welcomeScreen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #05233f; z-index: 9999; display: flex; justify-content: center; align-items: center; text-align: center; padding: 20px; transition: opacity 1s ease-out; }
-    .neon-text { font-size: 36px; font-weight: 900; color: #fff; text-transform: uppercase; text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #ff00de, 0 0 40px #ff00de, 0 0 80px #00eaff, 0 0 100px #00eaff; animation: pulsate 1.5s infinite alternate; }
-    @keyframes pulsate { 100% { text-shadow: 0 0 2px #fff, 0 0 5px #fff, 0 0 10px #ff00de, 0 0 20px #00eaff, 0 0 40px #00eaff; } }
+    /* PERBAIKAN WELCOME SCREEN (Pakai Logo) */
+    #welcomeScreen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #05233f; z-index: 9999; display: flex; justify-content: center; align-items: center; transition: opacity 1s ease-out; }
+    .welcome-logo { width: 180px; animation: pulsateLogo 1.5s infinite alternate; filter: drop-shadow(0 0 15px rgba(255,204,0,0.5)); }
+    @keyframes pulsateLogo { 100% { filter: drop-shadow(0 0 30px rgba(0,234,255,0.8)) scale(1.05); } }
 
-    #btnToggleGaleri { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3); padding: 5px 15px; border-radius: 12px; cursor: pointer; color: #ffcc00; font-weight: bold; margin-top: 5px; transition: 0.3s; }
-    #btnToggleGaleri:hover { background: #ffcc00; color: #000; }
+    #btnToggleGaleri { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3); padding: 8px 20px; border-radius: 20px; cursor: pointer; color: #ffcc00; font-weight: bold; margin-top: 5px; transition: 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.3);}
+    #btnToggleGaleri:hover { background: #ffcc00; color: #000; transform: scale(1.05); }
 
     #galeriContainer { width: 100%; height: 100%; display: none; flex-wrap: wrap; justify-content: center; align-content: flex-start; gap: 20px; position: absolute; top: 0; left: 0; box-sizing: border-box; padding: 20px; overflow-y: auto; background: #05233f; z-index: 5;}
     .galeri-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; width: 300px; padding: 15px; box-shadow: 0 10px 20px rgba(0,0,0,0.5); text-align: left; }
@@ -72,7 +78,7 @@
     #btnDownloadEstetik { position: absolute; bottom: 30px; right: 30px; background: linear-gradient(45deg, #ffcc00, #ff9500); color: #000; font-weight: bold; border: none; padding: 12px 25px; border-radius: 20px; cursor: pointer; box-shadow: 0 10px 20px rgba(0,0,0,0.5); z-index: 50; display: none; opacity: 0; transition: 0.3s ease; }
     #imgContainer:hover #btnDownloadEstetik { display: block; opacity: 1; }
 
-    /* MODAL LAMA & BARU */
+    /* MODAL & TOAST */
     .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); z-index: 10001; justify-content: center; align-items: center; }
     .modal-box { background: rgba(30,30,30,0.9); border: 1px solid rgba(255,255,255,0.2); border-radius: 20px; padding: 25px; width: 320px; text-align: center; color: white; display: flex; flex-direction: column; gap: 15px; }
     .modal-box h3 { margin: 0; color: #ffcc00; font-size: 20px; }
@@ -91,7 +97,7 @@
 <body>
 
 <div id="welcomeScreen">
-  <div class="neon-text">Selamat Datang di Portal<br>Makan Bergizi Gratis (MBG)<br>Yayasan Muslim Aceh Peduli</div>
+  <img src="icon.png" class="welcome-logo" alt="Logo MAP">
 </div>
 
 <div id="mainView">
@@ -121,6 +127,8 @@
 
   <div id="galeriContainer"></div>
 </div>
+
+<div id="dockTrigger">TAMPILKAN PANEL PENGATURAN ▲</div>
 
 <div id="dock">
   <div class="mode-switch">
@@ -220,30 +228,27 @@
 </div>
 
 <script>
-  // ==========================================
-  // GANTI URL INI DENGAN URL WEB APP KAMU !!!
-  // ==========================================
-  const GAS_API_URL = "https://script.google.com/macros/s/AKfycbxwAcH69juDsCT4NHhhQ2XqKOBthg_b3lQ7kbQuvzHieStMEnM2yiT7kWB1BPVmDpQA/exec"; // CONTOH
+  const GAS_API_URL = "https://script.google.com/macros/s/AKfycbxwAcH69juDsCT4NHhhQ2XqKOBthg_b3lQ7kbQuvzHieStMEnM2yiT7kWB1BPVmDpQA/exec";
 
   let isAdmin = false;
   let imageList = [];
   let currentIdx = 0;
-  let isPlaying = false, slideTimer, syncTimer, idleTimer;
+  let isPlaying = false, slideTimer;
   let zoomScale = 1, translateX = 0, translateY = 0, isDragging = false, startX, startY;
   let isGlobalPlayMode = true, isModeGrid = false, isModeGaleri = false;
-  let isDockHovered = false;
 
-  // FUNGSI FETCH API UTAMA
-  async function fetchAPI(action, payload = null) {
+  // PERBAIKAN FETCH API (Selalu mengirimkan objek minimal {} supaya backend tidak eror)
+  async function fetchAPI(action, payload = {}) {
     try {
       const response = await fetch(GAS_API_URL + "?action=" + action, {
         method: "POST",
         headers: { "Content-Type": "text/plain;charset=utf-8" },
-        body: payload ? JSON.stringify(payload) : null
+        body: JSON.stringify(payload)
       });
       return await response.json();
     } catch(err) {
-      showToast("Error Koneksi API", true); return null;
+      console.error(err);
+      showToast("Gagal terhubung ke Server", true); return null;
     }
   }
 
@@ -257,19 +262,32 @@
       }, 1000);
     }, 2500);
     
-    // Init Logo (Pakai API kalau ada, atau ganti src lokal)
-    fetchAPI('getLogo', 'Logo Yayasan.png').then(res => { if(res) document.getElementById('boxLogo1').innerHTML = `<img src="${res}" class="logo-img">`; });
-    fetchAPI('getLogo', 'Logo Badan Gizi.png').then(res => { if(res) document.getElementById('boxLogo2').innerHTML = `<img src="${res}" class="logo-img">`; });
+    // Init Logo 
+    fetchAPI('getLogo', {namaFile: 'Logo Yayasan.png'}).then(res => { if(res) document.getElementById('boxLogo1').innerHTML = `<img src="${res}" class="logo-img">`; });
+    fetchAPI('getLogo', {namaFile: 'Logo Badan Gizi.png'}).then(res => { if(res) document.getElementById('boxLogo2').innerHTML = `<img src="${res}" class="logo-img">`; });
+    
     fetchAPI('getDaftarDapur').then(res => {
       let html = '<option value="">-- Pilih Dapur --</option>';
       if(res) res.forEach(d => html += `<option value="${d.id}">${d.nama}</option>`);
       document.getElementById('selDapur').innerHTML = html;
     });
 
+    // LOGIKA PANEL DOCK BARU (Anti Nyangkut)
     const dock = document.getElementById('dock');
-    dock.addEventListener('mouseenter', () => isDockHovered = true);
-    dock.addEventListener('mouseleave', () => { isDockHovered = false; resetIdleTimer(); });
-    window.addEventListener('mousemove', resetIdleTimer);
+    const trigger = document.getElementById('dockTrigger');
+    
+    // Sentuh/Klik untuk HP
+    trigger.addEventListener('click', () => {
+      dock.classList.toggle('show-dock');
+      trigger.innerText = dock.classList.contains('show-dock') ? "TUTUP PANEL PENGATURAN ▼" : "TAMPILKAN PANEL PENGATURAN ▲";
+    });
+
+    // Hover untuk Komputer/Mouse
+    trigger.addEventListener('mouseenter', () => dock.classList.add('show-dock'));
+    dock.addEventListener('mouseleave', () => {
+      dock.classList.remove('show-dock');
+      trigger.innerText = "TAMPILKAN PANEL PENGATURAN ▲";
+    });
   };
 
   // UI HELPERS
@@ -277,7 +295,6 @@
   function hideLoader() { document.getElementById('loaderFloat').classList.remove('show'); }
   function showToast(msg, isErr=false) { const t = document.getElementById("toast"); t.innerText = msg; isErr ? t.classList.add("error") : t.classList.remove("error"); t.classList.add("show"); setTimeout(()=>t.classList.remove("show"), 3000); }
   function tutupModal(id) { document.getElementById(id).style.display = 'none'; }
-  function resetIdleTimer() { const dock = document.getElementById('dock'); dock.classList.add('show-dock'); clearTimeout(idleTimer); idleTimer = setTimeout(() => { if(!isDockHovered) dock.classList.remove('show-dock'); }, 3000); }
 
   // LOGIN & MODE KELOLA
   function cekStatusLogin() { if(!isAdmin) document.getElementById('modalLogin').style.display = 'flex'; else showToast("Anda sudah login sebagai Admin."); }
@@ -315,7 +332,7 @@
       kelolaElems.forEach(el => el.style.display = 'flex');
       areaFilter.style.display = 'flex';
       isGlobalPlayMode = false;
-      ubahFormUpload(); // reset tampilan upload
+      ubahFormUpload();
     }
   }
 
@@ -432,7 +449,7 @@
       btn.innerText = "LIHAT GALERI KEGIATAN";
       document.getElementById('galeriContainer').style.display = 'none';
       document.getElementById('imgContainer').style.display = 'flex';
-      setMode('playglobal'); // Kembali auto main
+      setMode('playglobal'); 
     }
   }
 
@@ -472,13 +489,13 @@
       if(res && res.status === "sukses") {
         showToast("Berhasil!");
         document.getElementById('inFile').value = "";
-        if(tipe === 'menu' && !isGlobalPlayMode) fetchGambar(); // Refresh current list
+        if(tipe === 'menu' && !isGlobalPlayMode) fetchGambar(); 
       } else { showToast("Gagal Upload", true); }
     };
     reader.readAsDataURL(file);
   }
 
-  // EDIT & DELETE (Khusus Menu)
+  // EDIT & DELETE
   function bukaModalEdit() {
     if(imageList.length===0 || isModeGaleri) return showToast("Pilih menu dulu!", true);
     document.getElementById('editNama').value = imageList[currentIdx].nama;
@@ -515,7 +532,7 @@
     if(res && res.success) { showToast("Dihapus!"); imageList.splice(currentIdx, 1); currentIdx=0; updateDisplay(currentIdx); }
   }
 
-  // SLIDER & GRID & ZOOM LOGIC 
+  // SLIDER & GRID
   function hideGrid() { document.getElementById('gridContainer').style.display = 'none'; }
   function runSlide() {
     if(isModeGaleri) return;
