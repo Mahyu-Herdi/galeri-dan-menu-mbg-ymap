@@ -2007,6 +2007,99 @@
       showToast("Data Dapur terbaru masuk! Layar diperbarui otomatis.");
     }
   }
+  // ==========================================
+  // PENGENDALI NAVIGASI (BACK BUTTON) DI HP
+  // ==========================================
+  (function() {
+    // 1. Simpan posisi pertama kali (Berada di Menu)
+    history.replaceState({ view: 'menu', type: 'page' }, '');
+
+    let isPopStateTriggered = false;
+
+    // Fungsi Pembantu untuk merekam jejak saat sebuah Pop-Up / Modal terbuka
+    function rekamJejakModal() {
+      history.pushState({ view: currentView, type: 'modal' }, '');
+    }
+
+    // 2. Mengakali perpindahan Menu <-> Galeri
+    const originSwitchView = switchView;
+    window.switchView = function(view) {
+      if (currentView !== view) {
+        history.pushState({ view: view, type: 'page' }, '');
+      }
+      originSwitchView(view);
+    };
+
+    // 3. Mengakali semua aksi yang MEMBUKA form/modal agar tercatat di history
+    const originBukaGaleriFull = bukaGaleriFull;
+    window.bukaGaleriFull = function(idx) { rekamJejakModal(); originBukaGaleriFull(idx); };
+
+    const originCekStatusLogin = cekStatusLogin;
+    window.cekStatusLogin = function() { if(!isAdmin) rekamJejakModal(); originCekStatusLogin(); };
+
+    const originBukaModalEdit = bukaModalEdit;
+    window.bukaModalEdit = function() { if(imageList.length>0 && !isModeGaleri) rekamJejakModal(); originBukaModalEdit(); };
+
+    const originBukaModalEditGaleri = bukaModalEditGaleri;
+    window.bukaModalEditGaleri = function(idx) { rekamJejakModal(); originBukaModalEditGaleri(idx); };
+
+    const originBukaModalUploadMenu = bukaModalUploadMenu;
+    window.bukaModalUploadMenu = function() { rekamJejakModal(); originBukaModalUploadMenu(); };
+
+    const originBukaModalUploadGaleri = bukaModalUploadGaleri;
+    window.bukaModalUploadGaleri = function() { rekamJejakModal(); originBukaModalUploadGaleri(); };
+
+    const originDoHapus = doHapus;
+    window.doHapus = function(type, idx) { rekamJejakModal(); originDoHapus(type, idx); };
+
+    const originSetMode = setMode;
+    window.setMode = function(mode) {
+      if(mode === 'kelola' && !isAdmin) rekamJejakModal();
+      originSetMode(mode);
+    };
+
+    const originSetGaleriKelola = setGaleriKelola;
+    window.setGaleriKelola = function() {
+      if(!isAdmin) rekamJejakModal();
+      originSetGaleriKelola();
+    };
+
+    // 4. Mengakali aksi MENUTUP form/modal (Tombol Batal, Simpan, dll)
+    const originTutupModal = tutupModal;
+    window.tutupModal = function(id) {
+      originTutupModal(id);
+      // Kalau modal ditutup manual pakai tombol di web, hapus 1 jejak history agar rapi
+      if (!isPopStateTriggered) history.back();
+    };
+
+    const originTutupModalFull = tutupModalFull;
+    window.tutupModalFull = function() {
+      originTutupModalFull();
+      if (!isPopStateTriggered) history.back();
+    };
+
+    // 5. MENANGKAP AKSI TOMBOL "KEMBALI" FISIK DARI HP
+    window.addEventListener('popstate', function(event) {
+      isPopStateTriggered = true; // Beri tanda bahwa web sedang "Mundur"
+      
+      // A. Jika ada modal/form/foto full screen yang terbuka, TUTUP SEMUA secara paksa
+      const modals = document.querySelectorAll('.modal-overlay');
+      modals.forEach(m => {
+        if(m.style.display === 'flex') {
+           m.style.display = 'none';
+           if(m.id === 'modalFullGaleri') document.getElementById('fullGaleriContent').innerHTML = ''; // Matikan video jika jalan
+        }
+      });
+
+      // B. Jika form sudah tertutup, kembalikan ke halaman sebelumnya (Menu / Galeri)
+      if (event.state && event.state.type === 'page') {
+        originSwitchView(event.state.view);
+      }
+
+      // Selesai mundur, normalkan sistem lagi
+      setTimeout(() => isPopStateTriggered = false, 100);
+    });
+  })();
 </script>
 </body>
 </html>
