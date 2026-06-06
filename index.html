@@ -12,12 +12,12 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Nunito:ital,wght@0,400;0,600;0,700;0,900;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght=500;600;700&family=Nunito:ital,wght@0,400;0,600;0,700;0,900;1,400&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg-outer:   #192f45;
       --bg-main:    #05233f;
-      --bg-panel:   rgba(4, 16, 30, 0.94);
+      --bg-panel:   rgba(4, 16, 30, 0.96);
       --gold:       #ffcc00;
       --gold-dim:   rgba(255,204,0,0.12);
       --green:      #34c759;
@@ -28,7 +28,6 @@
       --glass-h:    rgba(255,255,255,0.12);
       --fd: 'Rajdhani', sans-serif;
       --fb: 'Nunito', sans-serif;
-      --dock-w: 80px; 
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -43,7 +42,9 @@
       align-items: center;
     }
 
-    /* MAIN CARD */
+    /* ─────────────────────────────────────────
+       MAIN CARD
+    ───────────────────────────────────────── */
     #mainView {
       width: 98%; height: 96%;
       max-width: 1600px;
@@ -53,53 +54,56 @@
       overflow: hidden;
       box-shadow: 0 32px 80px rgba(0,0,0,0.85);
       display: none;
-      flex-direction: row;
+      flex-direction: column;
       border: 1px solid var(--glass-b);
     }
 
-    /* LEFT DOCK */
+    /* ─────────────────────────────────────────
+       UPGRADED HORIZONTAL BOTTOM DOCK
+    ───────────────────────────────────────── */
     #sideDock {
-      position: absolute;
-      left: calc(var(--dock-w) * -1.5);
-      top: 0; bottom: 0;
-      width: var(--dock-w);
+      position: fixed;
+      left: 50%;
+      bottom: -280px;
+      transform: translateX(-50%);
+      width: auto;
+      max-width: 95%;
       background: var(--bg-panel);
       backdrop-filter: blur(28px);
       -webkit-backdrop-filter: blur(28px);
-      border-right: 1px solid var(--glass-b);
-      border-radius: 0;
-      z-index: 200;
+      border: 1px solid var(--glass-b);
+      border-bottom: none;
+      border-radius: 20px 20px 0 0;
+      z-index: 1000;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      padding: 24px 0; 
-      gap: 16px; 
-      box-shadow: 8px 0 32px rgba(0,0,0,0.7);
-      transition: left 0.38s cubic-bezier(0.2,0.9,0.2,1);
+      padding: 16px 24px;
+      gap: 12px;
+      box-shadow: 0 -10px 40px rgba(0,0,0,0.8);
+      transition: bottom 0.38s cubic-bezier(0.2,0.9,0.2,1);
     }
-    #sideDock.show-dock { left: 0; }
+    #sideDock.show-dock { bottom: 0; }
 
     .dock-sep {
-      width: 46px; height: 1px;
+      width: 100%; height: 1px;
       background: var(--glass-b);
-      margin: 10px 0; 
+      margin: 4px 0;
       flex-shrink: 0;
     }
 
     .dock-btn {
-      width: 60px; height: 60px;
-      border-radius: 14px;
+      padding: 8px 16px;
+      height: 42px;
+      border-radius: 10px;
       background: var(--glass);
       border: 1px solid transparent;
-      color: #777;
+      color: #aaa;
       cursor: pointer;
-      display: flex;
-      flex-direction: column;
+      display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 5px;
+      gap: 6px;
       transition: 0.22s;
-      position: relative;
       flex-shrink: 0;
       font-family: var(--fb);
       text-transform: uppercase;
@@ -129,21 +133,21 @@
       border-color: rgba(255,149,0,0.35);
       color: var(--orange);
     }
-    .dock-btn svg { width: 22px; height: 22px; flex-shrink: 0; }
-    .dock-btn-label { font-size: 8px; font-weight: 800; letter-spacing: 0.5px; line-height: 1; text-align: center; }
+    .dock-btn svg { width: 16px; height: 16px; flex-shrink: 0; }
+    .dock-btn-label { font-size: 11px; font-weight: 700; letter-spacing: 0.5px; }
 
     .dock-view-tab {
-      width: 60px; height: 50px;
+      padding: 0 20px;
+      height: 45px;
       border-radius: 12px;
       background: transparent;
       border: 1px solid transparent;
-      color: #666;
+      color: #888;
       cursor: pointer;
-      display: flex;
-      flex-direction: column;
+      display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 4px;
+      gap: 8px;
       transition: 0.2s;
       font-family: var(--fb);
     }
@@ -154,9 +158,11 @@
       color: var(--gold);
     }
     .dock-view-tab svg { width: 18px; height: 18px; }
-    .dock-view-tab span { font-size: 7px; font-weight: 800; letter-spacing: 0.5px; }
+    .dock-view-tab span { font-size: 12px; font-weight: 800; letter-spacing: 0.5px; }
 
-    /* MAIN BODY */
+    /* ─────────────────────────────────────────
+       MAIN BODY
+    ───────────────────────────────────────── */
     #mainBody {
       flex: 1;
       display: flex;
@@ -216,18 +222,6 @@
     #txtTgl {
       font-size: 13px; opacity: 0.75;
       font-style: italic; letter-spacing: 0.3px;
-    }
-
-    #secretLoginBtn {
-      position: absolute; top: 12px; right: 16px;
-      width: 40px; height: 40px;
-      border-radius: 50%;
-      background: transparent; cursor: pointer; border: none;
-      z-index: 100; transition: 0.3s;
-    }
-    #secretLoginBtn:hover {
-      background: var(--gold-dim);
-      border: 1px solid rgba(255,204,0,0.35);
     }
 
     #contentArea {
@@ -591,7 +585,7 @@
       backdrop-filter: blur(8px);
       color: #fff; padding: 14px 24px;
       border-radius: 14px;
-      left: 50%; bottom: 80px;
+      left: 50%; bottom: 100px;
       transform: translateX(-50%) translateY(20px);
       font-weight: 800; font-size: 14px; white-space: nowrap;
       box-shadow: 0 8px 32px rgba(0,0,0,0.5);
@@ -604,16 +598,12 @@
     ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 6px; }
     ::-webkit-scrollbar-thumb:hover { background: rgba(255,204,0,0.5); }
 
-    /* FULL SCREEN GALERI & TOMBOL SHARE */
+    /* FULL SCREEN GALERI */
     .full-galeri-box { position: relative; display: flex; align-items: center; justify-content: center; max-width: 95vw; max-height: 90vh; width: 100%; height: 100%;}
     .full-galeri-box .nav-arrow-gal { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.6); color: white; border: none; padding: 15px; cursor: pointer; border-radius: 50%; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; z-index: 10; transition: 0.3s; }
     .full-galeri-box .nav-arrow-gal:hover { background: var(--gold); color: black; }
     #navPrevGal { left: -60px; }
     #navNextGal { right: -60px; }
-    @media (max-width: 680px) {
-      #navPrevGal { left: 10px; }
-      #navNextGal { right: 10px; }
-    }
     
     .btn-share-modal {
       position: absolute; top: 20px; right: 20px;
@@ -624,6 +614,24 @@
       cursor: pointer; z-index: 20; transition: 0.2s;
     }
     .btn-share-modal:hover { background: var(--green); border-color: var(--green); transform: scale(1.1); }
+
+    /* RESPONSIVE LAYOUT ADJUSTMENTS */
+    @media (max-width: 1024px) {
+      #txtDapur { font-size: 22px; }
+      .logo-box { height: 50px; width: 70px; }
+    }
+    @media (max-width: 680px) {
+      #mainView { width: 100%; height: 100%; border-radius: 0; border: none; }
+      #header { padding: 10px 16px; gap: 8px; }
+      #txtDapur { font-size: 18px; letter-spacing: 1.5px; }
+      .logo-box { height: 40px; width: 50px; }
+      #sideDock { width: 98%; padding: 12px 16px; }
+      .dock-row { gap: 8px; }
+      .dock-btn { padding: 6px 10px; height: 38px; }
+      .dock-btn-label { font-size: 10px; }
+      #navPrevGal { left: 10px; }
+      #navNextGal { right: 10px; }
+    }
   </style>
 </head>
 <body>
@@ -633,87 +641,9 @@
 </div>
 
 <div id="mainView">
-  <button id="secretLoginBtn" onclick="cekStatusLogin()" title="Login Admin"></button>
-
-  <div id="sideDock">
-    <button class="dock-view-tab tab-on" id="tabMenu" onclick="switchView('menu')" title="Menu MBG">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-      <span>MENU</span>
-    </button>
-    <button class="dock-view-tab" id="tabGaleri" onclick="switchView('galeri')" title="Galeri Kegiatan">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-      <span>GALERI</span>
-    </button>
-
-    <div class="dock-sep"></div>
-
-    <div id="menuDockBtns" style="display:flex; flex-direction:column; align-items:center; gap:16px; width:100%;">
-      <button class="dock-btn active-red" id="btnModePlayGlobal" onclick="setMode('playglobal')" title="Play Hari Ini">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-        <span class="dock-btn-label">PLAY</span>
-      </button>
-
-      <button class="dock-btn" id="btnModeLihat" onclick="setMode('lihat')" title="Lihat Menu">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-        <span class="dock-btn-label">LIHAT</span>
-      </button>
-
-      <button class="dock-btn" id="btnModeKelola" onclick="setMode('kelola')" title="Kelola Data">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15 1.65 1.65 0 0 0 3.17 14H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-        <span class="dock-btn-label">KELOLA</span>
-      </button>
-
-      <div class="dock-sep"></div>
-
-      <button class="dock-btn kelola-menu-only" id="btnUploadMenu" onclick="bukaModalUploadMenu()" title="Upload Menu MBG" style="display:none;">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-        <span class="dock-btn-label" style="color:var(--green);">UPLOAD</span>
-      </button>
-
-      <button class="dock-btn kelola-menu-only" id="btnEdit" onclick="bukaModalEdit()" title="Edit Menu" style="display:none;">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="16 3 21 8 8 21 3 21 3 16 16 3"/></svg>
-        <span class="dock-btn-label">EDIT</span>
-      </button>
-
-      <button class="dock-btn kelola-menu-only btn-danger-dock" id="btnHapus" onclick="doHapus('menu')" title="Hapus Menu" style="display:none; color:var(--red);">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-        <span class="dock-btn-label">HAPUS</span>
-      </button>
-
-      <button class="dock-btn kelola-menu-only" id="btnBuatPeriode" onclick="buatPeriodeOtomatis()" title="Buat Folder Periode" style="display:none;">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="12" y1="14" x2="12" y2="18"/><line x1="10" y1="16" x2="14" y2="16"/></svg>
-        <span class="dock-btn-label">PERIODE</span>
-      </button>
-    </div>
-
-    <div id="galeriDockBtns" style="display:none; flex-direction:column; align-items:center; gap:16px; width:100%;">
-      <button class="dock-btn active" id="btnGaleriSemua" onclick="filterGaleri('semua')" title="Semua Kegiatan">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-        <span class="dock-btn-label">SEMUA</span>
-      </button>
-      <button class="dock-btn" id="btnGaleriDapur" onclick="toggleGaleriFilter('dapur')" title="Filter per Dapur">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-        <span class="dock-btn-label">DAPUR</span>
-      </button>
-      <button class="dock-btn" id="btnGaleriBulan" onclick="toggleGaleriFilter('bulan')" title="Filter per Bulan">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-        <span class="dock-btn-label">BULAN</span>
-      </button>
-
-      <div class="dock-sep"></div>
-
-      <button class="dock-btn" id="btnKelolGaleri" onclick="setGaleriKelola()" title="Kelola Galeri">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15 1.65 1.65 0 0 0 3.17 14H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-        <span class="dock-btn-label">KELOLA</span>
-      </button>
-      <button class="dock-btn galeri-kelola-only" id="btnUploadGaleri" onclick="bukaModalUploadGaleri()" title="Upload Galeri" style="display:none;">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-        <span class="dock-btn-label" style="color:var(--orange);">UPLOAD</span>
-      </button>
-    </div>
-  </div>
 
   <div id="mainBody">
+
     <div id="header">
       <div class="logo-box" id="boxLogo1"></div>
       <div class="header-info">
@@ -805,6 +735,81 @@
       </div>
       <div id="gridContainer"></div>
       <div id="galeriContainer"></div>
+    </div>
+  </div>
+
+  <div id="sideDock">
+    <div style="display:flex; flex-direction:row; align-items:center; gap:12px; justify-content:center; width:100%;">
+      <button class="dock-view-tab tab-on" id="tabMenu" onclick="switchView('menu')" title="Menu MBG">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        <span>MENU</span>
+      </button>
+      <button class="dock-view-tab" id="tabGaleri" onclick="switchView('galeri')" title="Galeri Kegiatan">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+        <span>GALERI</span>
+      </button>
+      <button class="dock-view-tab" id="btnAdminAuth" onclick="handleAuthClick()" title="Admin Authentication"></button>
+    </div>
+
+    <div class="dock-sep"></div>
+
+    <div style="display:flex; flex-direction:row; align-items:center; gap:12px; justify-content:center; width:100%;">
+      
+      <div id="menuDockBtns" class="dock-row" style="display:flex; flex-direction:row; align-items:center; gap:12px;">
+        <button class="dock-btn active-red" id="btnModePlayGlobal" onclick="setMode('playglobal')" title="Play Hari Ini">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          <span class="dock-btn-label">PLAY</span>
+        </button>
+        <button class="dock-btn" id="btnModeLihat" onclick="setMode('lihat')" title="Lihat Menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          <span class="dock-btn-label">LIHAT</span>
+        </button>
+        <button class="dock-btn" id="btnModeKelola" onclick="setMode('kelola')" title="Kelola Data">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15 1.65 1.65 0 0 0 3.17 14H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          <span class="dock-btn-label">KELOLA</span>
+        </button>
+
+        <button class="dock-btn kelola-menu-only" id="btnUploadMenu" onclick="bukaModalUploadMenu()" title="Upload Menu" style="display:none;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          <span class="dock-btn-label" style="color:var(--green);">UPLOAD</span>
+        </button>
+        <button class="dock-btn kelola-menu-only" id="btnEdit" onclick="bukaModalEdit()" title="Edit Menu" style="display:none;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="16 3 21 8 8 21 3 21 3 16 16 3"/></svg>
+          <span class="dock-btn-label">EDIT</span>
+        </button>
+        <button class="dock-btn kelola-menu-only" id="btnHapus" onclick="doHapus('menu')" title="Hapus Menu" style="display:none; color:var(--red);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+          <span class="dock-btn-label">HAPUS</span>
+        </button>
+        <button class="dock-btn kelola-menu-only" id="btnBuatPeriode" onclick="buatPeriodeOtomatis()" title="Buat Periode" style="display:none;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="12" y1="14" x2="12" y2="18"/><line x1="10" y1="16" x2="14" y2="16"/></svg>
+          <span class="dock-btn-label">PERIODE</span>
+        </button>
+      </div>
+
+      <div id="galeriDockBtns" class="dock-row" style="display:none; flex-direction:row; align-items:center; gap:12px;">
+        <button class="dock-btn active" id="btnGaleriSemua" onclick="filterGaleri('semua')" title="Semua">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          <span class="dock-btn-label">SEMUA</span>
+        </button>
+        <button class="dock-btn" id="btnGaleriDapur" onclick="toggleGaleriFilter('dapur')" title="Filter Dapur">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          <span class="dock-btn-label">DAPUR</span>
+        </button>
+        <button class="dock-btn" id="btnGaleriBulan" onclick="toggleGaleriFilter('bulan')" title="Filter Bulan">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          <span class="dock-btn-label">BULAN</span>
+        </button>
+        <button class="dock-btn" id="btnKelolGaleri" onclick="setGaleriKelola()" title="Kelola Galeri">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15 1.65 1.65 0 0 0 3.17 14H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          <span class="dock-btn-label">KELOLA</span>
+        </button>
+        <button class="dock-btn galeri-kelola-only" id="btnUploadGaleri" onclick="bukaModalUploadGaleri()" title="Upload Galeri" style="display:none;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          <span class="dock-btn-label" style="color:var(--orange);">UPLOAD</span>
+        </button>
+      </div>
+
     </div>
   </div>
 </div>
@@ -957,14 +962,14 @@
 </div>
 
 <script>
-  // Taruh URL API Apps Script kamu di sini
   const GAS_API_URL = "https://script.google.com/macros/s/AKfycbyOVIv7gaMKYfkOu8IERI5uwoeENZibdyq11EsGkco-h8kcqzrLoPm2VE_TWgQUUiwL/exec";
 
   let isAdmin = false;
   let imageList = [];
   let galeriAllData = []; 
   let currentIdx = 0;
-  let isPlaying = false, slideTimer, idleDockTimer, dlHideTimer;
+  let isPlaying = false;
+  let slideTimer, idleDockTimer, dlHideTimer;
   let isDockHovered = false, isGlobalPlayMode = true, isModeGaleri = false, currentView = 'menu', isGaleriKelola = false, isGridView = false;
   let dapurList = [], deleteTargetType = 'menu', deleteTargetIndex = 0;
   let isFetchingSilent = false;
@@ -1010,7 +1015,7 @@
         let r = await fetchAPI(job.action, job.payload);
         if (r && (r.status === 'sukses' || r.success)) {
           let delTx = db.transaction("antreanUpload", "readwrite");
-          delTx.objectStore("antreanUpload").delete(job.id); // Bersihkan cache setelah sukses
+          delTx.objectStore("antreanUpload").delete(job.id); 
           showToast(`✓ Antrean '${job.nama}' sukses terkirim ke Drive!`);
           if (currentView === 'menu') fetchGambar(); else muatGaleri();
         }
@@ -1019,7 +1024,6 @@
     };
   }
 
-  // SENSOR ONLINE STATUS
   window.addEventListener('online', prosesAntreanOffline);
 
   function saveAppState() {
@@ -1053,20 +1057,19 @@
   window.onload = () => {
     if ('serviceWorker' in navigator) { navigator.serviceWorker.register('./sw.js'); }
 
-    // CEK PERSISTENT LOGIN
     if (localStorage.getItem('map_is_admin') === 'true') {
       isAdmin = true;
     }
 
-    // AMBIL DATA LOGO & LIST DAPUR
     fetchAPI('getLogo',{namaFile:'Logo Yayasan.png'}).then(r => { if(r) document.getElementById('boxLogo1').innerHTML = `<img src="${r}" class="logo-img">`; });
     fetchAPI('getLogo',{namaFile:'Logo Badan Gizi.png'}).then(r => { if(r) document.getElementById('boxLogo2').innerHTML = `<img src="${r}" class="logo-img">`; });
     fetchAPI('getDaftarDapur').then(r => { if(r) { dapurList = r; populateDapurSelects(); } });
 
-    // SENSOR DOCK & DOWNLOAD BUTTON
+    // SENSOR GLOBAL SENTUHAN DAN GERAKAN KURSOR DI MANAPUN UNTUK MEMUNCULKAN DOCK
+    window.addEventListener('mousemove', showDock);
+    window.addEventListener('touchstart', showDock, {passive:true});
+
     const dock = document.getElementById('sideDock');
-    window.addEventListener('mousemove', e => { if(e.clientX < 40) showDock(); });
-    window.addEventListener('touchstart', e => { if(e.touches[0].clientX < 40) showDock(); }, {passive:true});
     dock.addEventListener('mouseenter', () => { isDockHovered = true; showDock(); });
     dock.addEventListener('mouseleave', () => { isDockHovered = false; scheduleHideDock(); });
 
@@ -1077,7 +1080,6 @@
     ca.addEventListener('mouseenter', () => { if(!isModeGaleri) document.getElementById('slideBar').classList.add('visible'); });
     ca.addEventListener('mouseleave', () => { document.getElementById('slideBar').classList.remove('visible'); });
 
-    // RESTORE STATE HALAMAN TERAKHIR
     setTimeout(() => {
       document.getElementById('welcomeScreen').style.opacity = '0';
       setTimeout(() => {
@@ -1104,7 +1106,8 @@
         } else {
           setMode('playglobal');
         }
-        prosesAntreanOffline(); // Cek jika ada sisa antrean tertinggal
+        updateDockLayout();
+        prosesAntreanOffline(); 
       }, 1000);
     }, 2500);
   };
@@ -1156,16 +1159,70 @@
     }
   }
 
+  // SINKRONISASI DAN UPDATE LAYOUT DOCK SECARA PRESISI & SERAGAM
+  function updateDockLayout() {
+    const btnAuth = document.getElementById('btnAdminAuth');
+    if (isAdmin) {
+      btnAuth.innerHTML = `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg><span>LOGOUT</span>`;
+      btnAuth.className = "dock-view-tab tab-on";
+    } else {
+      btnAuth.innerHTML = `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg><span>ADMIN</span>`;
+      btnAuth.className = "dock-view-tab";
+    }
+
+    if (currentView === 'menu') {
+      document.getElementById('menuDockBtns').style.display = 'flex';
+      document.getElementById('galeriDockBtns').style.display = 'none';
+      
+      if (isAdmin) {
+        document.getElementById('btnModePlayGlobal').style.display = 'flex';
+        document.getElementById('btnModeLihat').style.display = 'flex';
+        document.getElementById('btnModeKelola').style.display = 'flex';
+        document.querySelectorAll('.kelola-menu-only').forEach(el => el.style.display = 'flex');
+      } else {
+        document.getElementById('btnModePlayGlobal').style.display = 'flex';
+        document.getElementById('btnModeLihat').style.display = 'flex';
+        document.getElementById('btnModeKelola').style.display = 'none';
+        document.querySelectorAll('.kelola-menu-only').forEach(el => el.style.display = 'none');
+      }
+    } else {
+      document.getElementById('menuDockBtns').style.display = 'none';
+      document.getElementById('galeriDockBtns').style.display = 'flex';
+      
+      if (isAdmin) {
+        document.getElementById('btnGaleriSemua').style.display = 'flex';
+        document.getElementById('btnGaleriDapur').style.display = 'flex';
+        document.getElementById('btnGaleriBulan').style.display = 'flex';
+        document.getElementById('btnKelolGaleri').style.display = 'flex';
+        document.querySelectorAll('.galeri-kelola-only').forEach(el => el.style.display = 'flex');
+      } else {
+        document.getElementById('btnGaleriSemua').style.display = 'flex';
+        document.getElementById('btnGaleriDapur').style.display = 'flex';
+        document.getElementById('btnGaleriBulan').style.display = 'flex';
+        document.getElementById('btnKelolGaleri').style.display = 'none';
+        document.querySelectorAll('.galeri-kelola-only').forEach(el => el.style.display = 'none');
+      }
+    }
+  }
+
+  function handleAuthClick() {
+    if (isAdmin) {
+      isAdmin = false;
+      localStorage.setItem('map_is_admin', 'false');
+      showToast("Berhasil logout dari sistem kelola.");
+      setMode('playglobal');
+      switchView('menu');
+    } else {
+      document.getElementById('modalLogin').style.display = 'flex';
+      rekamJejakModal();
+    }
+  }
+
   function switchView(view) {
-    currentView = view; saveAppState();
+    currentView = view;
     document.getElementById('tabMenu').classList.toggle('tab-on', view==='menu');
     document.getElementById('tabGaleri').classList.toggle('tab-on', view==='galeri');
-    document.getElementById('menuDockBtns').style.display = view==='menu' ? 'flex' : 'none';
-    document.getElementById('menuDockBtns').style.flexDirection = 'column';
-    document.getElementById('menuDockBtns').style.alignItems = 'center';
-    document.getElementById('menuDockBtns').style.gap = '16px'; 
-    document.getElementById('menuDockBtns').style.width = '100%';
-    document.getElementById('galeriDockBtns').style.display = view==='galeri' ? 'flex' : 'none';
+    updateDockLayout();
 
     if(view==='galeri') {
       document.getElementById('menuFilterBar').style.display = 'none';
@@ -1177,21 +1234,17 @@
       document.getElementById('galeriFilterBar').style.display = 'none';
       document.getElementById('galeriFilterDapur').style.display = 'none';
       document.getElementById('galeriFilterBulan').style.display = 'none';
-      if(isAdmin) document.querySelectorAll('.galeri-kelola-only').forEach(el => el.style.display='flex');
-      else document.querySelectorAll('.galeri-kelola-only').forEach(el => el.style.display='none');
-      document.getElementById('btnKelolGaleri').className = 'dock-btn';
       muatGaleri();
     } else {
       document.getElementById('galeriContainer').style.display = 'none';
       document.getElementById('galeriFilterBar').style.display = 'none';
       document.getElementById('imgContainer').style.display = 'flex';
       isModeGaleri = false; isGaleriKelola = false;
-      document.querySelectorAll('.galeri-kelola-only').forEach(el => el.style.display='none');
       setMode('playglobal');
     }
+    saveAppState();
   }
 
-  function cekStatusLogin() { if(!isAdmin) document.getElementById('modalLogin').style.display='flex'; else showToast("Anda sudah login sebagai Admin."); }
   async function prosesLogin() {
     const pwd = document.getElementById('inPassword').value;
     showLoader("Mengecek...");
@@ -1199,29 +1252,32 @@
     hideLoader();
     if(r && r.success) {
       isAdmin = true; localStorage.setItem('map_is_admin', 'true'); tutupModal('modalLogin');
-      showToast("Berhasil Login!"); if(currentView === 'menu') setMode('kelola'); else setGaleriKelola();
+      showToast("Berhasil Login!"); 
+      updateDockLayout();
+      if(currentView === 'menu') setMode('kelola'); else setGaleriKelola();
     } else { showToast("Password Salah!", true); }
   }
 
   function setMode(mode) {
     if(mode==='kelola' && !isAdmin) { document.getElementById('modalLogin').style.display='flex'; return; }
-    ['btnModePlayGlobal','btnModeLihat','btnModeKelola'].forEach(id => { document.getElementById(id).className = 'dock-btn'; });
-    const kelolaElems = document.querySelectorAll('.kelola-menu-only');
     saveAppState();
 
     if(mode==='playglobal') {
       document.getElementById('btnModePlayGlobal').className = 'dock-btn active-red';
-      kelolaElems.forEach(el => el.style.display='none');
+      document.getElementById('btnModeLihat').className = 'dock-btn';
+      document.getElementById('btnModeKelola').className = 'dock-btn';
       document.getElementById('menuFilterBar').style.display = 'none';
       jalankanPlaySemua();
     } else if(mode==='lihat') {
+      document.getElementById('btnModePlayGlobal').className = 'dock-btn';
       document.getElementById('btnModeLihat').className = 'dock-btn active';
-      kelolaElems.forEach(el => el.style.display='none');
+      document.getElementById('btnModeKelola').className = 'dock-btn';
       document.getElementById('menuFilterBar').style.display = 'flex'; 
       isGlobalPlayMode = false; stopSlide();
     } else if(mode==='kelola') {
+      document.getElementById('btnModePlayGlobal').className = 'dock-btn';
+      document.getElementById('btnModeLihat').className = 'dock-btn';
       document.getElementById('btnModeKelola').className = 'dock-btn active';
-      kelolaElems.forEach(el => el.style.display='flex');
       document.getElementById('menuFilterBar').style.display = 'flex'; 
       isGlobalPlayMode = false; stopSlide();
     }
@@ -1231,7 +1287,6 @@
     if(!isAdmin) { document.getElementById('modalLogin').style.display='flex'; return; }
     isGaleriKelola = true; saveAppState();
     document.getElementById('btnKelolGaleri').className = 'dock-btn active';
-    document.querySelectorAll('.galeri-kelola-only').forEach(el => el.style.display='flex');
     renderGaleri(galeriAllData); 
   }
 
@@ -1406,7 +1461,6 @@
     document.getElementById('galeriContainer').innerHTML = html;
   }
 
-  // INDEPENDENT SWIPE FULL SCREEN GALERI
   let galeriListFullscreen = [], galIdx = 0;
   function bukaGaleriFull(index) { galeriListFullscreen = galeriAllData; galIdx = index; renderFullGaleri(); document.getElementById('modalFullGaleri').style.display = 'flex'; rekamJejakModal(); }
   function renderFullGaleri() {
@@ -1424,35 +1478,19 @@
   function bukaModalUploadMenu() { document.getElementById('modalUploadMenu').style.display='flex'; rekamJejakModal(); }
   function bukaModalUploadGaleri() { document.getElementById('modalUploadGaleri').style.display='flex'; rekamJejakModal(); }
 
-  // UPLOAD DENGAN FITUR ANTREAN OFFLINE & AUTO PURGE CACHE
   async function doUploadMenu() {
     const dapurId = document.getElementById('upMenuDapur').value, nama = document.getElementById('upMenuNama').value.trim(), tgl = document.getElementById('upMenuTgl').value, file = document.getElementById('upMenuFile').files[0];
     if(!dapurId || !nama || !tgl || !file) return showToast("Lengkapi semua form upload menu!", true);
-
     const rd = new FileReader();
     rd.onload = async e => {
       let base64 = e.target.result;
       let payload = { dapurId, namaMenu: nama, tanggal: tgl, data: base64 };
       tutupModal('modalUploadMenu');
-
-      if (!navigator.onLine) {
-        await simpanKeAntrean({ action: 'uploadMenuAuto', payload, nama: nama });
-        document.getElementById('upMenuFile').value=''; document.getElementById('upMenuNama').value='';
-        return;
-      }
-
+      if (!navigator.onLine) { await simpanKeAntrean({ action: 'uploadMenuAuto', payload, nama: nama }); document.getElementById('upMenuFile').value=''; document.getElementById('upMenuNama').value=''; return; }
       showLoader("MENGUPLOAD MENU...");
-      let r = await fetchAPI('uploadMenuAuto', payload);
-      hideLoader();
-      
-      if(r && r.status==='sukses') {
-        showToast(`✓ Menu '${nama}' berhasil diupload!`);
-        base64 = null; // Purge foto dari memori RAM HP
-        document.getElementById('upMenuFile').value=''; document.getElementById('upMenuNama').value='';
-        if(!isGlobalPlayMode && currentView==='menu') fetchGambar();
-      } else {
-        await simpanKeAntrean({ action: 'uploadMenuAuto', payload, nama: nama });
-      }
+      let r = await fetchAPI('uploadMenuAuto', payload); hideLoader();
+      if(r && r.status==='sukses') { showToast(`✓ Menu '${nama}' berhasil diupload!`); base64 = null; document.getElementById('upMenuFile').value=''; document.getElementById('upMenuNama').value=''; if(!isGlobalPlayMode && currentView==='menu') fetchGambar(); } 
+      else { await simpanKeAntrean({ action: 'uploadMenuAuto', payload, nama: nama }); }
     };
     rd.readAsDataURL(file);
   }
@@ -1460,36 +1498,20 @@
   async function doUploadGaleri() {
     const dapurEl = document.getElementById('upGaleriDapur'), dapurNama = dapurEl.options[dapurEl.selectedIndex]?.text || '', tgl = document.getElementById('upGaleriTgl').value, judul = document.getElementById('upGaleriJudul').value.trim(), desc = document.getElementById('upGaleriDesc').value.trim(), file = document.getElementById('upGaleriFile').files[0];
     if(!dapurEl.value || !tgl || !judul || !file) return showToast("Lengkapi data form galeri!", true);
-
     const rd = new FileReader();
     rd.onload = async e => {
       let base64 = e.target.result;
       let payload = { dapur:dapurNama, tanggal:tgl, judul, deskripsi:desc, data:base64 };
       tutupModal('modalUploadGaleri');
-
-      if (!navigator.onLine) {
-        await simpanKeAntrean({ action: 'uploadGaleri', payload, nama: judul });
-        document.getElementById('upGaleriFile').value=''; document.getElementById('upGaleriJudul').value=''; document.getElementById('upGaleriDesc').value='';
-        return;
-      }
-
+      if (!navigator.onLine) { await simpanKeAntrean({ action: 'uploadGaleri', payload, nama: judul }); document.getElementById('upGaleriFile').value=''; document.getElementById('upGaleriJudul').value=''; document.getElementById('upGaleriDesc').value=''; return; }
       showLoader("MENGUPLOAD GALERI...");
-      let r = await fetchAPI('uploadGaleri', payload);
-      hideLoader();
-
-      if(r && r.status==='sukses') {
-        showToast("✓ Galeri berhasil diupload!");
-        base64 = null; // Purge foto dari memori RAM HP
-        document.getElementById('upGaleriFile').value=''; document.getElementById('upGaleriJudul').value=''; document.getElementById('upGaleriDesc').value='';
-        if(currentView==='galeri') muatGaleri();
-      } else {
-        await simpanKeAntrean({ action: 'uploadGaleri', payload, nama: judul });
-      }
+      let r = await fetchAPI('uploadGaleri', payload); hideLoader();
+      if(r && r.status==='sukses') { showToast("✓ Galeri berhasil diupload!"); base64 = null; document.getElementById('upGaleriFile').value=''; document.getElementById('upGaleriJudul').value=''; document.getElementById('upGaleriDesc').value=''; if(currentView==='galeri') muatGaleri(); } 
+      else { await simpanKeAntrean({ action: 'uploadGaleri', payload, nama: judul }); }
     };
     rd.readAsDataURL(file);
   }
 
-  // EDIT & DELETE
   function bukaModalEdit() { if(imageList.length===0 || isModeGaleri) return showToast("Pilih menu dulu!", true); document.getElementById('editNama').value = imageList[currentIdx].nama; document.getElementById('editTgl').value = imageList[currentIdx].tanggal; document.getElementById('modalEdit').style.display = 'flex'; rekamJejakModal(); }
   async function executeEdit() {
     const curr = imageList[currentIdx], file = document.getElementById('editFile').files[0]; tutupModal('modalEdit'); showLoader("MENYIMPAN...");
@@ -1519,7 +1541,6 @@
     }
   }
 
-  // SLIDER LOGIC
   function stopSlide() { if(!isPlaying) return; isPlaying = false; clearInterval(slideTimer); const btn = document.getElementById('btnPlayPause'), icon = document.getElementById('iconPlay'); btn.classList.remove('playing'); icon.innerHTML = '<path d="M8 5v14l11-7z"/>'; document.getElementById('playLabel').innerText = 'PLAY SLIDESHOW'; }
   function runSlide() {
     if(isModeGaleri || isGridView) return; isPlaying = !isPlaying; const btn = document.getElementById('btnPlayPause'), icon = document.getElementById('iconPlay');
@@ -1529,7 +1550,6 @@
   function nextSlide() { if(imageList.length>0 && !isGridView) updateDisplay(currentIdx===imageList.length-1 ? 0 : currentIdx+1); }
   function prevSlide() { if(imageList.length>0 && !isGridView) updateDisplay(currentIdx===0 ? imageList.length-1 : currentIdx-1); }
 
-  // DOWNLOAD POSTER ANTI-GEPENG
   async function downloadPoster() {
     const imgElem = document.getElementById('displayImg'); if(!imgElem || !imgElem.src) return alert("Belum ada gambar!");
     const canvas = document.getElementById('posterCanvas'), ctx = canvas.getContext('2d'); canvas.width = 1080; canvas.height = 1920;
@@ -1558,7 +1578,7 @@
     const a = document.createElement('a'); a.download = "Poster_Premium_MBG.png"; a.href = canvas.toDataURL("image/png"); a.click();
   }
 
-  // SILENT POLLING AUTO UPDATE (60 DETIK)
+  // SILENT POLLING TIMER
   setInterval(async () => {
     if (isFetchingSilent || !navigator.onLine || Array.from(document.querySelectorAll('.modal-overlay')).some(m => m.style.display === 'flex')) return;
     isFetchingSilent = true;
@@ -1575,7 +1595,7 @@
     isFetchingSilent = false;
   }, 60000);
 
-  // HISTORY BACK FISIK CONTROL SYSTEM
+  // HISTORY BACK CONTROLLER ENGINE
   (function() {
     history.replaceState({ view: 'menu', type: 'page' }, '');
     let isPopStateTriggered = false;
