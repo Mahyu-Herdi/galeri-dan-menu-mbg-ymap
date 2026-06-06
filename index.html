@@ -2,22 +2,23 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
   <title>Portal Menu MBG MAP</title>
   <link rel="manifest" href="manifest.json">
   
   <meta property="og:title" content="Portal Menu MBG - Yayasan Muslim Aceh Peduli">
   <meta property="og:description" content="Informasi Menu Makan Bergizi Gratis dan Galeri Kegiatan MBG.">
-  <meta property="og:image" content="https://domainkamu.com/icon.png"> <meta property="og:type" content="website">
+  <meta property="og:image" content="https://domainkamu.com/icon.png"> 
+  <meta property="og:type" content="website">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght=500;600;700&family=Nunito:ital,wght@0,400;0,600;0,700;0,900;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Nunito:ital,wght@0,400;0,600;0,700;0,900;1,400&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg-outer:   #192f45;
       --bg-main:    #05233f;
-      --bg-panel:   rgba(4, 16, 30, 0.96);
+      --bg-panel:   rgba(4, 16, 30, 0.94);
       --gold:       #ffcc00;
       --gold-dim:   rgba(255,204,0,0.12);
       --green:      #34c759;
@@ -42,9 +43,7 @@
       align-items: center;
     }
 
-    /* ─────────────────────────────────────────
-       MAIN CARD
-    ───────────────────────────────────────── */
+    /* MAIN CARD */
     #mainView {
       width: 98%; height: 96%;
       max-width: 1600px;
@@ -58,434 +57,146 @@
       border: 1px solid var(--glass-b);
     }
 
-    /* ─────────────────────────────────────────
-       UPGRADED HORIZONTAL BOTTOM DOCK
-    ───────────────────────────────────────── */
+    /* HORIZONTAL BOTTOM DOCK ELASTIS */
     #sideDock {
       position: fixed;
       left: 50%;
-      bottom: -280px;
-      transform: translateX(-50%);
-      width: auto;
-      max-width: 95%;
+      bottom: 0;
+      transform: translate(-50%, calc(100% + 40px)); /* Sembunyi total ke bawah layar */
+      width: 95%;
+      max-width: 800px; /* Lebar max agar di PC tetap estetik di tengah */
       background: var(--bg-panel);
       backdrop-filter: blur(28px);
       -webkit-backdrop-filter: blur(28px);
       border: 1px solid var(--glass-b);
       border-bottom: none;
-      border-radius: 20px 20px 0 0;
+      border-radius: 24px 24px 0 0;
       z-index: 1000;
       display: flex;
       flex-direction: column;
-      padding: 16px 24px;
-      gap: 12px;
-      box-shadow: 0 -10px 40px rgba(0,0,0,0.8);
-      transition: bottom 0.38s cubic-bezier(0.2,0.9,0.2,1);
+      padding: 20px 24px 30px; /* Padding bawah ekstra untuk keamanan safe-area HP */
+      gap: 16px;
+      box-shadow: 0 -10px 50px rgba(0,0,0,0.8);
+      transition: transform 0.45s cubic-bezier(0.2, 0.9, 0.2, 1);
     }
-    #sideDock.show-dock { bottom: 0; }
+    #sideDock.show-dock { transform: translate(-50%, 0); }
 
-    .dock-sep {
-      width: 100%; height: 1px;
-      background: var(--glass-b);
-      margin: 4px 0;
-      flex-shrink: 0;
+    .dock-sep { width: 100%; height: 1px; background: var(--glass-b); margin: 2px 0; }
+
+    /* Pengaturan Baris Fleksibel Anti-Gepeng */
+    .dock-row {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap; /* MENGIZINKAN TOMBOL TURUN KE BAWAH JIKA PENUH */
+      width: 100%;
     }
 
     .dock-btn {
-      padding: 8px 16px;
-      height: 42px;
-      border-radius: 10px;
+      padding: 8px 16px; height: 42px;
+      border-radius: 12px;
       background: var(--glass);
       border: 1px solid transparent;
       color: #aaa;
       cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
+      display: inline-flex; align-items: center; justify-content: center; gap: 6px;
       transition: 0.22s;
-      flex-shrink: 0;
-      font-family: var(--fb);
-      text-transform: uppercase;
+      font-family: var(--fb); text-transform: uppercase;
     }
-    .dock-btn:hover {
-      background: var(--glass-h);
-      color: #eee;
-      border-color: var(--glass-b);
-    }
-    .dock-btn.active {
-      background: var(--gold-dim);
-      border-color: rgba(255,204,0,0.4);
-      color: var(--gold);
-    }
-    .dock-btn.active-green {
-      background: rgba(52,199,89,0.15);
-      border-color: rgba(52,199,89,0.35);
-      color: var(--green);
-    }
-    .dock-btn.active-red {
-      background: rgba(255,59,48,0.15);
-      border-color: rgba(255,59,48,0.35);
-      color: var(--red);
-    }
-    .dock-btn.active-orange {
-      background: rgba(255,149,0,0.15);
-      border-color: rgba(255,149,0,0.35);
-      color: var(--orange);
-    }
+    .dock-btn:hover { background: var(--glass-h); color: #eee; border-color: var(--glass-b); }
+    .dock-btn.active { background: var(--gold-dim); border-color: rgba(255,204,0,0.4); color: var(--gold); }
+    .dock-btn.active-green { background: rgba(52,199,89,0.15); border-color: rgba(52,199,89,0.35); color: var(--green); }
+    .dock-btn.active-red { background: rgba(255,59,48,0.15); border-color: rgba(255,59,48,0.35); color: var(--red); }
+    .dock-btn.active-orange { background: rgba(255,149,0,0.15); border-color: rgba(255,149,0,0.35); color: var(--orange); }
     .dock-btn svg { width: 16px; height: 16px; flex-shrink: 0; }
-    .dock-btn-label { font-size: 11px; font-weight: 700; letter-spacing: 0.5px; }
+    .dock-btn-label { font-size: 11px; font-weight: 700; letter-spacing: 0.5px; white-space: nowrap; }
 
     .dock-view-tab {
-      padding: 0 20px;
-      height: 45px;
-      border-radius: 12px;
-      background: transparent;
-      border: 1px solid transparent;
+      padding: 0 20px; height: 45px;
+      border-radius: 14px;
+      background: transparent; border: 1px solid transparent;
       color: #888;
       cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      transition: 0.2s;
-      font-family: var(--fb);
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      transition: 0.2s; font-family: var(--fb);
     }
     .dock-view-tab:hover { color: #ccc; background: var(--glass); }
-    .dock-view-tab.tab-on {
-      background: var(--gold-dim);
-      border-color: rgba(255,204,0,0.3);
-      color: var(--gold);
-    }
+    .dock-view-tab.tab-on { background: var(--gold-dim); border-color: rgba(255,204,0,0.3); color: var(--gold); }
     .dock-view-tab svg { width: 18px; height: 18px; }
     .dock-view-tab span { font-size: 12px; font-weight: 800; letter-spacing: 0.5px; }
 
-    /* ─────────────────────────────────────────
-       MAIN BODY
-    ───────────────────────────────────────── */
-    #mainBody {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-      position: relative;
-    }
+    /* HEADER & MAIN BODY */
+    #mainBody { flex: 1; display: flex; flex-direction: column; overflow: hidden; position: relative; }
+    #header { width: 100%; flex-shrink: 0; background: var(--bg-panel); backdrop-filter: blur(28px); -webkit-backdrop-filter: blur(28px); border-bottom: 1px solid var(--glass-b); display: flex; justify-content: space-between; align-items: center; padding: 14px 24px; color: white; z-index: 20; gap: 12px; }
+    .logo-box { height: 64px; width: 90px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+    .logo-img { max-height: 100%; max-width: 100%; object-fit: contain; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.6)); }
+    .header-info { flex: 1; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; }
+    #txtDapur { font-family: var(--fd); font-size: 26px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #fff; text-shadow: 0 2px 10px rgba(0,0,0,0.8); line-height: 1.1; }
+    #txtMenu { font-size: 14px; font-weight: 800; color: var(--gold); letter-spacing: 0.5px; }
+    #txtTgl { font-size: 13px; opacity: 0.75; font-style: italic; letter-spacing: 0.3px; }
 
-    #header {
-      width: 100%;
-      flex-shrink: 0;
-      background: var(--bg-panel);
-      backdrop-filter: blur(28px);
-      -webkit-backdrop-filter: blur(28px);
-      border-bottom: 1px solid var(--glass-b);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 14px 24px;
-      color: white;
-      z-index: 20;
-      gap: 12px;
-    }
-
-    .logo-box {
-      height: 64px; width: 90px;
-      flex-shrink: 0;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .logo-img {
-      max-height: 100%; max-width: 100%;
-      object-fit: contain;
-      filter: drop-shadow(0 2px 6px rgba(0,0,0,0.6));
-    }
-
-    .header-info {
-      flex: 1;
-      text-align: center;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      gap: 3px;
-    }
-    #txtDapur {
-      font-family: var(--fd);
-      font-size: 26px; font-weight: 700;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: #fff;
-      text-shadow: 0 2px 10px rgba(0,0,0,0.8);
-      line-height: 1.1;
-    }
-    #txtMenu {
-      font-size: 14px; font-weight: 800;
-      color: var(--gold);
-      letter-spacing: 0.5px;
-    }
-    #txtTgl {
-      font-size: 13px; opacity: 0.75;
-      font-style: italic; letter-spacing: 0.3px;
-    }
-
-    #contentArea {
-      flex: 1;
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-    }
-
-    #slideBar {
-      position: absolute;
-      top: 14px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 30;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      background: rgba(0,0,0,0.55);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid var(--glass-b);
-      border-radius: 24px;
-      padding: 8px 18px;
-      pointer-events: all;
-      opacity: 0;
-      transition: opacity 0.3s;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.4);
-    }
+    #contentArea { flex: 1; position: relative; overflow: hidden; display: flex; flex-direction: column; }
+    #slideBar { position: absolute; top: 14px; left: 50%; transform: translateX(-50%); z-index: 30; display: flex; align-items: center; gap: 10px; background: rgba(0,0,0,0.55); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid var(--glass-b); border-radius: 24px; padding: 8px 18px; pointer-events: all; opacity: 0; transition: opacity 0.3s; box-shadow: 0 4px 16px rgba(0,0,0,0.4); }
     #slideBar.visible { opacity: 1; }
-
-    .pill-btn {
-      display: inline-flex; align-items: center; justify-content: center;
-      background: var(--glass);
-      border: 1px solid var(--glass-b);
-      color: white;
-      width: 34px; height: 34px;
-      border-radius: 50%;
-      cursor: pointer; transition: 0.2s;
-    }
+    .pill-btn { display: inline-flex; align-items: center; justify-content: center; background: var(--glass); border: 1px solid var(--glass-b); color: white; width: 34px; height: 34px; border-radius: 50%; cursor: pointer; transition: 0.2s; }
     .pill-btn:hover { background: var(--glass-h); border-color: var(--gold); color: var(--gold); }
-    
-    #btnPlayPause {
-      display: inline-flex; align-items: center; gap: 6px;
-      background: var(--green);
-      border: none; color: white;
-      padding: 9px 20px; border-radius: 20px;
-      font-family: var(--fb); font-size: 11px; font-weight: 800;
-      cursor: pointer; transition: 0.2s;
-    }
+    #btnPlayPause { display: inline-flex; align-items: center; gap: 6px; background: var(--green); border: none; color: white; padding: 9px 20px; border-radius: 20px; font-family: var(--fb); font-size: 11px; font-weight: 800; cursor: pointer; transition: 0.2s; }
     #btnPlayPause.playing { background: var(--red); }
     #btnPlayPause:hover { filter: brightness(1.15); transform: scale(1.02); }
-    
-    .slide-counter {
-      font-size: 11px; font-weight: 700; color: #aaa; font-style: italic; min-width: 36px; text-align: center;
-    }
+    .slide-counter { font-size: 11px; font-weight: 700; color: #aaa; font-style: italic; min-width: 36px; text-align: center; }
 
-    #imgContainer {
-      width: 100%; flex: 1;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
-      position: relative;
-    }
-    #displayImg {
-      max-width: 100%; max-height: 100%;
-      object-fit: contain;
-      transform-origin: center;
-      cursor: pointer;
-      position: absolute;
-    }
-    
+    #imgContainer { width: 100%; flex: 1; display: flex; justify-content: center; align-items: center; overflow: hidden; position: relative; }
+    #displayImg { max-width: 100%; max-height: 100%; object-fit: contain; transform-origin: center; cursor: pointer; position: absolute; }
     .fade-anim { animation: smoothFade 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
-    @keyframes smoothFade {
-      0% { opacity: 0; transform: scale(0.96); filter: blur(4px); }
-      100% { opacity: 1; transform: scale(1); filter: blur(0); }
-    }
+    @keyframes smoothFade { 0% { opacity: 0; transform: scale(0.96); filter: blur(4px); } 100% { opacity: 1; transform: scale(1); filter: blur(0); } }
 
-    .nav-arrow {
-      position: absolute;
-      top: 50%; transform: translateY(-50%);
-      background: rgba(0,0,0,0.45);
-      backdrop-filter: blur(8px);
-      border: 1px solid var(--glass-b);
-      color: white;
-      width: 44px; height: 44px;
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      cursor: pointer; z-index: 15;
-      transition: 0.2s;
-      opacity: 0; pointer-events: none;
-    }
+    .nav-arrow { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.45); backdrop-filter: blur(8px); border: 1px solid var(--glass-b); color: white; width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 15; transition: 0.2s; opacity: 0; pointer-events: none; }
     #contentArea:hover .nav-arrow { opacity: 1; pointer-events: all; }
     .nav-arrow:hover { background: rgba(255,204,0,0.3); border-color: var(--gold); color: var(--gold); transform: translateY(-50%) scale(1.1); }
-    #navPrev { left: 16px; }
-    #navNext { right: 16px; }
+    #navPrev { left: 16px; } #navNext { right: 16px; }
 
-    #btnDownload {
-      position: absolute;
-      bottom: 24px; right: 24px;
-      background: linear-gradient(135deg, var(--gold), var(--orange));
-      color: #000;
-      font-weight: 800; font-family: var(--fb); font-size: 12px;
-      border: none;
-      padding: 10px 20px; border-radius: 20px;
-      cursor: pointer;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.5);
-      z-index: 50;
-      display: flex; align-items: center; gap: 8px;
-      opacity: 0; pointer-events: none;
-      transition: opacity 0.35s ease, transform 0.3s ease;
-      transform: translateY(15px);
-    }
+    #btnDownload { position: absolute; bottom: 24px; right: 24px; background: linear-gradient(135deg, var(--gold), var(--orange)); color: #000; font-weight: 800; font-family: var(--fb); font-size: 12px; border: none; padding: 10px 20px; border-radius: 20px; cursor: pointer; box-shadow: 0 8px 24px rgba(0,0,0,0.5); z-index: 50; display: flex; align-items: center; gap: 8px; opacity: 0; pointer-events: none; transition: opacity 0.35s ease, transform 0.3s ease; transform: translateY(15px); }
     #btnDownload.visible { opacity: 1; pointer-events: all; transform: translateY(0); }
     #btnDownload:hover { filter: brightness(1.1); transform: translateY(-2px); }
 
-    #btnShare {
-      position: absolute;
-      bottom: 24px; left: 24px;
-      background: rgba(0,0,0,0.6);
-      backdrop-filter: blur(8px);
-      color: #fff;
-      font-weight: 800; font-family: var(--fb); font-size: 12px;
-      border: 1px solid var(--glass-b);
-      padding: 10px 20px; border-radius: 20px;
-      cursor: pointer;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.5);
-      z-index: 50;
-      display: flex; align-items: center; gap: 8px;
-      opacity: 0; pointer-events: none;
-      transition: opacity 0.35s ease, transform 0.3s ease, background 0.2s;
-      transform: translateY(15px);
-    }
+    #btnShare { position: absolute; bottom: 24px; left: 24px; background: rgba(0,0,0,0.6); backdrop-filter: blur(8px); color: #fff; font-weight: 800; font-family: var(--fb); font-size: 12px; border: 1px solid var(--glass-b); padding: 10px 20px; border-radius: 20px; cursor: pointer; box-shadow: 0 8px 24px rgba(0,0,0,0.5); z-index: 50; display: flex; align-items: center; gap: 8px; opacity: 0; pointer-events: none; transition: opacity 0.35s ease, transform 0.3s ease, background 0.2s; transform: translateY(15px); }
     #btnShare.visible { opacity: 1; pointer-events: all; transform: translateY(0); }
     #btnShare:hover { background: var(--green); border-color: var(--green); transform: translateY(-2px); }
 
-    #emptyState {
-      display: none;
-      flex-direction: column;
-      align-items: center; justify-content: center;
-      position: absolute;
-      width: 100%; height: 100%;
-      text-align: center; color: var(--red);
-    }
-    #emptyPesan {
-      font-family: var(--fd);
-      font-size: 22px; font-weight: 700;
-      background: rgba(0,0,0,0.5);
-      padding: 16px 32px;
-      border-radius: 16px;
-      border: 1px solid rgba(255,59,48,0.4);
-      text-transform: uppercase;
-      margin-top: 16px;
-    }
+    #emptyState { display: none; flex-direction: column; align-items: center; justify-content: center; position: absolute; width: 100%; height: 100%; text-align: center; color: var(--red); }
+    #emptyPesan { font-family: var(--fd); font-size: 22px; font-weight: 700; background: rgba(0,0,0,0.5); padding: 16px 32px; border-radius: 16px; border: 1px solid rgba(255,59,48,0.4); text-transform: uppercase; margin-top: 16px; }
 
-    #gridContainer {
-      width: 100%; height: 100%;
-      display: none; 
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      align-content: flex-start;
-      gap: 16px;
-      position: absolute; top: 0; left: 0;
-      padding: 24px;
-      overflow-y: auto;
-      z-index: 10;
-      background: var(--bg-main);
-    }
-    .grid-card {
-      display: flex; flex-direction: column;
-      align-items: center;
-      background: var(--glass); border: 1px solid var(--glass-b);
-      padding: 14px; border-radius: 16px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.5);
-      cursor: pointer; transition: 0.25s;
-    }
+    #gridContainer { width: 100%; height: 100%; display: none; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); align-content: flex-start; gap: 16px; position: absolute; top: 0; left: 0; padding: 24px; overflow-y: auto; z-index: 10; background: var(--bg-main); }
+    .grid-card { display: flex; flex-direction: column; align-items: center; background: var(--glass); border: 1px solid var(--glass-b); padding: 14px; border-radius: 16px; box-shadow: 0 8px 20px rgba(0,0,0,0.5); cursor: pointer; transition: 0.25s; }
     .grid-card:hover { background: var(--glass-h); border-color: var(--gold); transform: translateY(-4px); }
     .grid-item { width: 100%; height: 160px; object-fit: cover; border-radius: 10px; }
     .grid-title { margin-top: 10px; font-family: var(--fd); font-size: 15px; font-weight: 700; color: var(--gold); text-transform: uppercase; letter-spacing: 1px; text-align: center; }
     .grid-date { margin-top: 4px; font-size: 11px; font-weight: 600; color: #ccc; font-style: italic; text-align: center; }
 
-    #galeriContainer {
-      width: 100%; height: 100%;
-      display: none;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      align-content: flex-start;
-      gap: 18px;
-      position: absolute; top: 0; left: 0;
-      padding: 24px;
-      overflow-y: auto;
-      z-index: 5;
-    }
-    .galeri-card {
-      background: var(--glass); border: 1px solid var(--glass-b);
-      border-radius: 18px; padding: 14px;
-      box-shadow: 0 10px 24px rgba(0,0,0,0.5);
-      color: white; transition: 0.25s;
-      display: flex; flex-direction: column; cursor: pointer;
-    }
+    #galeriContainer { width: 100%; height: 100%; display: none; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); align-content: flex-start; gap: 18px; position: absolute; top: 0; left: 0; padding: 24px; overflow-y: auto; z-index: 5; }
+    .galeri-card { background: var(--glass); border: 1px solid var(--glass-b); border-radius: 18px; padding: 14px; box-shadow: 0 10px 24px rgba(0,0,0,0.5); color: white; transition: 0.25s; display: flex; flex-direction: column; cursor: pointer; }
     .galeri-card:hover { border-color: var(--gold); background: var(--glass-h); transform: translateY(-3px); }
     .galeri-card img { width: 100%; height: 180px; object-fit: cover; border-radius: 12px; margin-bottom: 12px; }
     .galeri-title { font-family: var(--fd); color: var(--gold); font-weight: 700; font-size: 16px; text-transform: uppercase; letter-spacing: 1px; line-height: 1.2; }
     .galeri-desc { font-size: 12px; color: #ddd; margin: 8px 0; line-height: 1.5; flex-grow: 1; }
     .meta-item { display: flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 600; color: #aaa; font-style: italic; margin-top: 4px; }
+    .galeri-admin-actions { display: flex; gap: 8px; margin-top: 12px; padding-top: 12px; border-top: 1px dashed var(--glass-b); }
+    .galeri-admin-actions button { flex: 1; padding: 7px; font-size: 10px; border-radius: 8px; }
 
-    .galeri-admin-actions {
-      display: flex; gap: 8px; margin-top: 12px; padding-top: 12px; border-top: 1px dashed var(--glass-b);
-    }
-    .galeri-admin-actions button {
-      flex: 1; padding: 7px; font-size: 10px; border-radius: 8px;
-    }
-
-    #galeriFilterBar, #menuFilterBar {
-      display: none;
-      align-items: center;
-      gap: 14px;
-      padding: 10px 24px;
-      background: var(--bg-panel);
-      border-bottom: 1px solid var(--glass-b);
-      flex-shrink: 0;
-      flex-wrap: wrap;
-    }
-    #galeriFilterBar label, #menuFilterBar label {
-      font-size: 10px; opacity: 0.6;
-      font-weight: 800; text-transform: uppercase;
-      letter-spacing: 1px; color: white;
-    }
+    #galeriFilterBar, #menuFilterBar { display: none; align-items: center; justify-content: center; gap: 14px; padding: 10px 24px; background: var(--bg-panel); border-bottom: 1px solid var(--glass-b); flex-shrink: 0; flex-wrap: wrap; }
+    #galeriFilterBar label, #menuFilterBar label { font-size: 10px; opacity: 0.6; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: white; }
     .galeri-filter-group, .menu-filter-group { display: flex; flex-direction: column; gap: 4px; }
 
-    select, input[type="text"], input[type="date"] {
-      background: rgba(255,255,255,0.07);
-      color: white;
-      border: 1px solid var(--glass-b);
-      border-radius: 10px;
-      padding: 8px 12px;
-      font-family: var(--fb); font-size: 13px; font-weight: 600;
-      outline: none; transition: 0.2s;
-    }
-    select:focus, input[type="text"]:focus, input[type="date"]:focus {
-      border-color: var(--gold); background: rgba(255,255,255,0.1);
-    }
+    select, input[type="text"], input[type="date"] { background: rgba(255,255,255,0.07); color: white; border: 1px solid var(--glass-b); border-radius: 10px; padding: 8px 12px; font-family: var(--fb); font-size: 13px; font-weight: 600; outline: none; transition: 0.2s; }
+    select:focus, input[type="text"]:focus, input[type="date"]:focus { border-color: var(--gold); background: rgba(255,255,255,0.1); }
     select option { background: #0a2040; }
-    input[type="file"] {
-      background: rgba(255,255,255,0.05);
-      color: #ccc;
-      border: 1px dashed var(--glass-b);
-      border-radius: 10px;
-      padding: 8px 12px;
-      font-family: var(--fb); font-size: 12px;
-      outline: none; cursor: pointer; transition: 0.2s;
-    }
+    input[type="file"] { background: rgba(255,255,255,0.05); color: #ccc; border: 1px dashed var(--glass-b); border-radius: 10px; padding: 8px 12px; font-family: var(--fb); font-size: 12px; outline: none; cursor: pointer; transition: 0.2s; }
     input[type="file"]:hover { border-color: var(--gold); }
     input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(1); cursor: pointer; }
 
-    button {
-      display: inline-flex; align-items: center; justify-content: center; gap: 6px;
-      background: #1a6bbf; color: white;
-      border: none; border-radius: 10px;
-      padding: 10px 16px;
-      font-family: var(--fb); font-size: 12px; font-weight: 800; letter-spacing: 0.5px;
-      cursor: pointer; transition: 0.2s;
-      white-space: nowrap;
-    }
+    button { display: inline-flex; align-items: center; justify-content: center; gap: 6px; background: #1a6bbf; color: white; border: none; border-radius: 10px; padding: 10px 16px; font-family: var(--fb); font-size: 12px; font-weight: 800; letter-spacing: 0.5px; cursor: pointer; transition: 0.2s; white-space: nowrap; }
     button:hover { filter: brightness(1.2); transform: translateY(-1px); }
     .btn-action  { background: var(--green); color: #fff;}
     .btn-nav     { background: var(--orange); color: #fff;}
@@ -493,103 +204,33 @@
     .btn-dark    { background: #213e58; border: 1px solid var(--glass-b); }
     .btn-secondary { background: #444; }
 
-    #welcomeScreen {
-      position: fixed; top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: var(--bg-main);
-      z-index: 9999;
-      display: flex; justify-content: center; align-items: center;
-      transition: opacity 1s ease-out;
-    }
-    .welcome-logo {
-      width: 180px;
-      animation: pulse 1.6s infinite alternate;
-      filter: drop-shadow(0 0 14px rgba(255,204,0,0.4));
-    }
+    #welcomeScreen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-main); z-index: 9999; display: flex; justify-content: center; align-items: center; transition: opacity 1s ease-out; }
+    .welcome-logo { width: 180px; animation: pulse 1.6s infinite alternate; filter: drop-shadow(0 0 14px rgba(255,204,0,0.4)); }
     @keyframes pulse { 100% { filter: drop-shadow(0 0 28px rgba(0,234,255,0.75)); transform: scale(1.08); } }
 
-    .modal-overlay {
-      display: none; position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.75);
-      backdrop-filter: blur(10px);
-      z-index: 10001;
-      justify-content: center; align-items: center;
-      padding: 16px;
-    }
-    .modal-box {
-      background: rgba(8,20,40,0.98);
-      border: 1px solid var(--glass-b);
-      border-radius: 24px;
-      padding: 30px; width: 100%; max-width: 360px;
-      text-align: center; color: white;
-      display: flex; flex-direction: column; gap: 16px;
-      box-shadow: 0 24px 64px rgba(0,0,0,0.9);
-      animation: modalPop 0.3s cubic-bezier(0.2,0.9,0.2,1);
-    }
+    .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.75); backdrop-filter: blur(10px); z-index: 10001; justify-content: center; align-items: center; padding: 16px; }
+    .modal-box { background: rgba(8,20,40,0.98); border: 1px solid var(--glass-b); border-radius: 24px; padding: 30px; width: 100%; max-width: 360px; text-align: center; color: white; display: flex; flex-direction: column; gap: 16px; box-shadow: 0 24px 64px rgba(0,0,0,0.9); animation: modalPop 0.3s cubic-bezier(0.2,0.9,0.2,1); }
     @keyframes modalPop { from { transform: scale(0.9); opacity: 0;} to { transform: scale(1); opacity: 1;} }
     .modal-box.modal-wide { max-width: 460px; }
     .modal-box h3 { color: var(--gold); font-family: var(--fd); font-size: 24px; letter-spacing: 1px; }
     .modal-actions { display: flex; gap: 12px; margin-top: 8px; }
     .modal-actions button { flex: 1; padding: 12px; font-size: 13px; }
-
-    .modal-form-row {
-      display: flex; flex-direction: column;
-      align-items: flex-start; gap: 6px;
-      text-align: left;
-    }
-    .modal-form-row label {
-      font-size: 10px; opacity: 0.6; font-weight: 800;
-      text-transform: uppercase; letter-spacing: 1px; color: white;
-    }
+    .modal-form-row { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; text-align: left; }
+    .modal-form-row label { font-size: 10px; opacity: 0.6; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: white; }
     .modal-form-row select, .modal-form-row input { width: 100%; }
     
-    .modal-badge {
-      font-family: var(--fd);
-      font-size: 11px; font-weight: 700;
-      letter-spacing: 1.5px; text-transform: uppercase;
-      padding: 6px 12px; border-radius: 8px;
-      display: inline-block; margin-bottom: 8px;
-    }
+    .modal-badge { font-family: var(--fd); font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; padding: 6px 12px; border-radius: 8px; display: inline-block; margin-bottom: 8px; }
     .badge-menu   { background: rgba(52,199,89,0.15); color: var(--green); border: 1px solid rgba(52,199,89,0.25); }
     .badge-galeri { background: rgba(255,149,0,0.15); color: var(--orange); border: 1px solid rgba(255,149,0,0.25); }
 
     @keyframes spin { to { transform: rotate(360deg); } }
-    #loaderFloat, #toast {
-      visibility: hidden; opacity: 0;
-      position: fixed; transition: all 0.3s ease;
-      z-index: 10005;
-    }
-    #loaderFloat {
-      top: 50%; left: 50%; transform: translate(-50%,-50%);
-      background: rgba(6,18,34,0.95);
-      backdrop-filter: blur(16px);
-      padding: 24px 36px; border-radius: 20px;
-      border: 1px solid var(--glass-b);
-      display: flex; flex-direction: column;
-      align-items: center; gap: 12px;
-      box-shadow: 0 16px 48px rgba(0,0,0,0.8);
-    }
+    #loaderFloat, #toast { visibility: hidden; opacity: 0; position: fixed; transition: all 0.3s ease; z-index: 10005; }
+    #loaderFloat { top: 50%; left: 50%; transform: translate(-50%,-50%); background: rgba(6,18,34,0.95); backdrop-filter: blur(16px); padding: 24px 36px; border-radius: 20px; border: 1px solid var(--glass-b); display: flex; flex-direction: column; align-items: center; gap: 12px; box-shadow: 0 16px 48px rgba(0,0,0,0.8); }
     #loaderFloat.show { visibility: visible; opacity: 1; }
-    .spinner {
-      width: 40px; height: 40px;
-      border: 4px solid var(--gold-dim);
-      border-top: 4px solid var(--gold);
-      border-radius: 50%;
-      animation: spin 0.75s linear infinite;
-    }
+    .spinner { width: 40px; height: 40px; border: 4px solid var(--gold-dim); border-top: 4px solid var(--gold); border-radius: 50%; animation: spin 0.75s linear infinite; }
     #loaderMsg { color: white; font-weight: 800; font-size: 13px; letter-spacing: 1px; }
     
-    #toast {
-      background: rgba(52,199,89,0.95);
-      backdrop-filter: blur(8px);
-      color: #fff; padding: 14px 24px;
-      border-radius: 14px;
-      left: 50%; bottom: 100px;
-      transform: translateX(-50%) translateY(20px);
-      font-weight: 800; font-size: 14px; white-space: nowrap;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.5);
-    }
+    #toast { background: rgba(52,199,89,0.95); backdrop-filter: blur(8px); color: #fff; padding: 14px 24px; border-radius: 14px; left: 50%; bottom: 120px; transform: translateX(-50%) translateY(20px); font-weight: 800; font-size: 14px; white-space: nowrap; box-shadow: 0 8px 32px rgba(0,0,0,0.5); }
     #toast.show { visibility: visible; opacity: 1; transform: translateX(-50%) translateY(0); }
     #toast.error { background: rgba(255,59,48,0.95); }
 
@@ -602,35 +243,30 @@
     .full-galeri-box { position: relative; display: flex; align-items: center; justify-content: center; max-width: 95vw; max-height: 90vh; width: 100%; height: 100%;}
     .full-galeri-box .nav-arrow-gal { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.6); color: white; border: none; padding: 15px; cursor: pointer; border-radius: 50%; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; z-index: 10; transition: 0.3s; }
     .full-galeri-box .nav-arrow-gal:hover { background: var(--gold); color: black; }
-    #navPrevGal { left: -60px; }
-    #navNextGal { right: -60px; }
-    
-    .btn-share-modal {
-      position: absolute; top: 20px; right: 20px;
-      background: rgba(0,0,0,0.7); backdrop-filter: blur(8px);
-      color: white; border: 1px solid var(--glass-b);
-      width: 45px; height: 45px; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      cursor: pointer; z-index: 20; transition: 0.2s;
-    }
+    #navPrevGal { left: -60px; } #navNextGal { right: -60px; }
+    .btn-share-modal { position: absolute; top: 20px; right: 20px; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); color: white; border: 1px solid var(--glass-b); width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 20; transition: 0.2s; }
     .btn-share-modal:hover { background: var(--green); border-color: var(--green); transform: scale(1.1); }
 
-    /* RESPONSIVE LAYOUT ADJUSTMENTS */
+    /* RESPONSIVE LAYOUT HP PRESISI */
     @media (max-width: 1024px) {
-      #txtDapur { font-size: 22px; }
-      .logo-box { height: 50px; width: 70px; }
+      #txtDapur { font-size: 22px; } .logo-box { height: 50px; width: 70px; }
     }
     @media (max-width: 680px) {
       #mainView { width: 100%; height: 100%; border-radius: 0; border: none; }
       #header { padding: 10px 16px; gap: 8px; }
       #txtDapur { font-size: 18px; letter-spacing: 1.5px; }
       .logo-box { height: 40px; width: 50px; }
-      #sideDock { width: 98%; padding: 12px 16px; }
+      
+      /* Presisi Dock Mobile */
+      #sideDock { width: 100%; border-radius: 20px 20px 0 0; padding: 16px 16px 24px; gap: 12px; }
       .dock-row { gap: 8px; }
-      .dock-btn { padding: 6px 10px; height: 38px; }
-      .dock-btn-label { font-size: 10px; }
-      #navPrevGal { left: 10px; }
-      #navNextGal { right: 10px; }
+      .dock-btn { padding: 6px 12px; height: 38px; }
+      .dock-view-tab { padding: 0 14px; height: 40px; }
+      .dock-view-tab span { font-size: 11px; }
+
+      #menuFilterBar, #galeriFilterBar { flex-direction: row; gap: 8px; padding: 10px 12px; }
+      select, input[type="date"] { padding: 6px 10px; font-size: 12px; }
+      #navPrevGal { left: 10px; } #navNextGal { right: 10px; }
     }
   </style>
 </head>
@@ -641,9 +277,7 @@
 </div>
 
 <div id="mainView">
-
   <div id="mainBody">
-
     <div id="header">
       <div class="logo-box" id="boxLogo1"></div>
       <div class="header-info">
@@ -657,38 +291,30 @@
     <div id="menuFilterBar">
       <div class="menu-filter-group">
         <label>Pilih Dapur</label>
-        <select id="selDapur" onchange="fetchPeriode()" style="min-width:160px;">
-          <option value="">-- Pilih Dapur --</option>
-        </select>
+        <select id="selDapur" onchange="fetchPeriode()" style="min-width:140px;"><option value="">-- Pilih Dapur --</option></select>
       </div>
       <div class="menu-filter-group">
         <label>Pilih Periode</label>
-        <select id="selPeriode" onchange="fetchGambar()" style="min-width:160px;">
-          <option value="">-- Pilih Periode --</option>
-        </select>
+        <select id="selPeriode" onchange="fetchGambar()" style="min-width:140px;"><option value="">-- Pilih Periode --</option></select>
       </div>
       <div class="menu-filter-group">
         <label>Dari Tgl</label>
-        <input type="date" id="tglMulai" onchange="filterByTanggal()" style="width:140px;">
+        <input type="date" id="tglMulai" onchange="filterByTanggal()" style="width:130px;">
       </div>
       <div class="menu-filter-group">
         <label>Sampai Tgl</label>
-        <input type="date" id="tglSelesai" onchange="filterByTanggal()" style="width:140px;">
+        <input type="date" id="tglSelesai" onchange="filterByTanggal()" style="width:130px;">
       </div>
     </div>
 
     <div id="galeriFilterBar">
       <div id="galeriFilterDapur" style="display:none;" class="galeri-filter-group">
         <label>Filter Dapur</label>
-        <select id="selGaleriDapur" onchange="applyGaleriFilter()" style="min-width:160px;">
-          <option value="">-- Semua Dapur --</option>
-        </select>
+        <select id="selGaleriDapur" onchange="applyGaleriFilter()" style="min-width:160px;"><option value="">-- Semua Dapur --</option></select>
       </div>
       <div id="galeriFilterBulan" style="display:none;" class="galeri-filter-group">
         <label>Filter Bulan</label>
-        <select id="selGaleriBulan" onchange="applyGaleriFilter()" style="min-width:160px;">
-          <option value="">-- Semua Bulan --</option>
-        </select>
+        <select id="selGaleriBulan" onchange="applyGaleriFilter()" style="min-width:160px;"><option value="">-- Semua Bulan --</option></select>
       </div>
     </div>
 
@@ -697,37 +323,21 @@
         <button class="pill-btn" id="btnToggleGrid" onclick="toggleGridSlide()" title="Tampilan Grid Menu">
           <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
         </button>
-        <button class="pill-btn" onclick="prevSlide()" title="Sebelumnya">
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/></svg>
-        </button>
+        <button class="pill-btn" onclick="prevSlide()" title="Sebelumnya"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/></svg></button>
         <button id="btnPlayPause" onclick="runSlide()">
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" id="iconPlay"><path d="M8 5v14l11-7z"/></svg>
-          <span id="playLabel">PLAY SLIDESHOW</span>
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" id="iconPlay"><path d="M8 5v14l11-7z"/></svg><span id="playLabel">PLAY SLIDESHOW</span>
         </button>
-        <button class="pill-btn" onclick="nextSlide()" title="Berikutnya">
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M6 18l8.5-6L6 6v12zm10-12v12h2V6h-2z"/></svg>
-        </button>
+        <button class="pill-btn" onclick="nextSlide()" title="Berikutnya"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M6 18l8.5-6L6 6v12zm10-12v12h2V6h-2z"/></svg></button>
         <span class="slide-counter" id="slideCounter"></span>
       </div>
 
-      <button class="nav-arrow" id="navPrev" onclick="prevSlide()">
-        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-      </button>
-      <button class="nav-arrow" id="navNext" onclick="nextSlide()">
-        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-      </button>
+      <button class="nav-arrow" id="navPrev" onclick="prevSlide()"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
+      <button class="nav-arrow" id="navNext" onclick="nextSlide()"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
 
       <div id="imgContainer">
         <img id="displayImg" src="" alt="" class="fade-anim">
-        <button id="btnShare" onclick="bagikanWeb()">
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
-          Bagikan
-        </button>
-        <button id="btnDownload" onclick="downloadPoster()">
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          Unduh Poster
-        </button>
-
+        <button id="btnShare" onclick="bagikanWeb()"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg> Bagikan</button>
+        <button id="btnDownload" onclick="downloadPoster()"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Unduh Poster</button>
         <div id="emptyState">
           <svg viewBox="0 0 24 24" width="80" height="80" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.6; margin-bottom:12px;"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
           <div id="emptyPesan">Belum ada menu hari ini</div>
@@ -738,8 +348,10 @@
     </div>
   </div>
 
+  <!-- HORIZONTAL BOTTOM DOCK -->
   <div id="sideDock">
-    <div style="display:flex; flex-direction:row; align-items:center; gap:12px; justify-content:center; width:100%;">
+    <!-- Baris 1: Tab Menu Utama -->
+    <div class="dock-row" style="flex-wrap: nowrap;">
       <button class="dock-view-tab tab-on" id="tabMenu" onclick="switchView('menu')" title="Menu MBG">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
         <span>MENU</span>
@@ -748,68 +360,55 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
         <span>GALERI</span>
       </button>
-      <button class="dock-view-tab" id="btnAdminAuth" onclick="handleAuthClick()" title="Admin Authentication"></button>
+      <button class="dock-view-tab" id="btnAdminAuth" onclick="handleAuthClick()" title="Akses Admin"></button>
     </div>
 
     <div class="dock-sep"></div>
 
-    <div style="display:flex; flex-direction:row; align-items:center; gap:12px; justify-content:center; width:100%;">
-      
-      <div id="menuDockBtns" class="dock-row" style="display:flex; flex-direction:row; align-items:center; gap:12px;">
-        <button class="dock-btn active-red" id="btnModePlayGlobal" onclick="setMode('playglobal')" title="Play Hari Ini">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-          <span class="dock-btn-label">PLAY</span>
-        </button>
-        <button class="dock-btn" id="btnModeLihat" onclick="setMode('lihat')" title="Lihat Menu">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-          <span class="dock-btn-label">LIHAT</span>
-        </button>
-        <button class="dock-btn" id="btnModeKelola" onclick="setMode('kelola')" title="Kelola Data">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15 1.65 1.65 0 0 0 3.17 14H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-          <span class="dock-btn-label">KELOLA</span>
-        </button>
+    <!-- Baris 2: Sub-Menu Aksi Flex-Wrap Anti-Gepeng -->
+    <div id="menuDockBtns" class="dock-row">
+      <button class="dock-btn active-red" id="btnModePlayGlobal" onclick="setMode('playglobal')" title="Play Hari Ini">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg><span class="dock-btn-label">PLAY</span>
+      </button>
+      <button class="dock-btn" id="btnModeLihat" onclick="setMode('lihat')" title="Lihat Menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg><span class="dock-btn-label">LIHAT</span>
+      </button>
 
-        <button class="dock-btn kelola-menu-only" id="btnUploadMenu" onclick="bukaModalUploadMenu()" title="Upload Menu" style="display:none;">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-          <span class="dock-btn-label" style="color:var(--green);">UPLOAD</span>
-        </button>
-        <button class="dock-btn kelola-menu-only" id="btnEdit" onclick="bukaModalEdit()" title="Edit Menu" style="display:none;">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="16 3 21 8 8 21 3 21 3 16 16 3"/></svg>
-          <span class="dock-btn-label">EDIT</span>
-        </button>
-        <button class="dock-btn kelola-menu-only" id="btnHapus" onclick="doHapus('menu')" title="Hapus Menu" style="display:none; color:var(--red);">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-          <span class="dock-btn-label">HAPUS</span>
-        </button>
-        <button class="dock-btn kelola-menu-only" id="btnBuatPeriode" onclick="buatPeriodeOtomatis()" title="Buat Periode" style="display:none;">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="12" y1="14" x2="12" y2="18"/><line x1="10" y1="16" x2="14" y2="16"/></svg>
-          <span class="dock-btn-label">PERIODE</span>
-        </button>
-      </div>
+      <!-- Menu Kelola Dihilangkan, Tombol Admin Langsung Muncul Jika Login -->
+      <button class="dock-btn kelola-menu-only" id="btnUploadMenu" onclick="bukaModalUploadMenu()" title="Upload Menu" style="display:none;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        <span class="dock-btn-label" style="color:var(--green);">UPLOAD</span>
+      </button>
+      <button class="dock-btn kelola-menu-only" id="btnEdit" onclick="bukaModalEdit()" title="Edit Menu" style="display:none;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="16 3 21 8 8 21 3 21 3 16 16 3"/></svg><span class="dock-btn-label">EDIT</span>
+      </button>
+      <button class="dock-btn kelola-menu-only" id="btnHapus" onclick="doHapus('menu')" title="Hapus Menu" style="display:none; color:var(--red);">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg><span class="dock-btn-label">HAPUS</span>
+      </button>
+      <button class="dock-btn kelola-menu-only" id="btnBuatPeriode" onclick="buatPeriodeOtomatis()" title="Buat Periode" style="display:none;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="12" y1="14" x2="12" y2="18"/><line x1="10" y1="16" x2="14" y2="16"/></svg><span class="dock-btn-label">PERIODE</span>
+      </button>
+    </div>
 
-      <div id="galeriDockBtns" class="dock-row" style="display:none; flex-direction:row; align-items:center; gap:12px;">
-        <button class="dock-btn active" id="btnGaleriSemua" onclick="filterGaleri('semua')" title="Semua">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-          <span class="dock-btn-label">SEMUA</span>
-        </button>
-        <button class="dock-btn" id="btnGaleriDapur" onclick="toggleGaleriFilter('dapur')" title="Filter Dapur">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-          <span class="dock-btn-label">DAPUR</span>
-        </button>
-        <button class="dock-btn" id="btnGaleriBulan" onclick="toggleGaleriFilter('bulan')" title="Filter Bulan">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-          <span class="dock-btn-label">BULAN</span>
-        </button>
-        <button class="dock-btn" id="btnKelolGaleri" onclick="setGaleriKelola()" title="Kelola Galeri">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15 1.65 1.65 0 0 0 3.17 14H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-          <span class="dock-btn-label">KELOLA</span>
-        </button>
-        <button class="dock-btn galeri-kelola-only" id="btnUploadGaleri" onclick="bukaModalUploadGaleri()" title="Upload Galeri" style="display:none;">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-          <span class="dock-btn-label" style="color:var(--orange);">UPLOAD</span>
-        </button>
-      </div>
-
+    <!-- Kontrol Khusus Tampilan Galeri Kegiatan -->
+    <div id="galeriDockBtns" class="dock-row" style="display:none;">
+      <button class="dock-btn active" id="btnGaleriSemua" onclick="filterGaleri('semua')" title="Semua">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg><span class="dock-btn-label">SEMUA</span>
+      </button>
+      <button class="dock-btn" id="btnGaleriDapur" onclick="toggleGaleriFilter('dapur')" title="Filter Dapur">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span class="dock-btn-label">DAPUR</span>
+      </button>
+      <button class="dock-btn" id="btnGaleriBulan" onclick="toggleGaleriFilter('bulan')" title="Filter Bulan">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span class="dock-btn-label">BULAN</span>
+      </button>
+      <button class="dock-btn" id="btnKelolGaleri" onclick="setGaleriKelola()" title="Kelola Galeri">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15 1.65 1.65 0 0 0 3.17 14H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        <span class="dock-btn-label">KELOLA</span>
+      </button>
+      <button class="dock-btn galeri-kelola-only" id="btnUploadGaleri" onclick="bukaModalUploadGaleri()" title="Upload Galeri" style="display:none;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        <span class="dock-btn-label" style="color:var(--orange);">UPLOAD</span>
+      </button>
     </div>
   </div>
 </div>
@@ -818,21 +417,17 @@
 <div id="loaderFloat"><div class="spinner"></div><div id="loaderMsg">MEMPROSES...</div></div>
 <div id="toast">Notifikasi</div>
 
+<!-- Modal Galeri Full Screen -->
 <div id="modalFullGaleri" class="modal-overlay" onclick="tutupModalFull()">
   <div class="full-galeri-box" onclick="event.stopPropagation()">
-    <button class="btn-share-modal" onclick="bagikanWeb()" title="Bagikan">
-      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
-    </button>
+    <button class="btn-share-modal" onclick="bagikanWeb()" title="Bagikan"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></button>
     <div id="fullGaleriContent" style="display:flex; justify-content:center; align-items:center; width:100%; height:100%;"></div>
-    <button class="nav-arrow-gal" id="navPrevGal" onclick="slideGal(false)">
-      <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-    </button>
-    <button class="nav-arrow-gal" id="navNextGal" onclick="slideGal(true)">
-      <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-    </button>
+    <button class="nav-arrow-gal" id="navPrevGal" onclick="slideGal(false)"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
+    <button class="nav-arrow-gal" id="navNextGal" onclick="slideGal(true)"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
   </div>
 </div>
 
+<!-- Forms and Modals -->
 <div id="modalLogin" class="modal-overlay">
   <div class="modal-box">
     <h3>LOGIN ADMIN</h3>
@@ -962,17 +557,14 @@
 </div>
 
 <script>
+  // URL GAS Milikmu
   const GAS_API_URL = "https://script.google.com/macros/s/AKfycbyOVIv7gaMKYfkOu8IERI5uwoeENZibdyq11EsGkco-h8kcqzrLoPm2VE_TWgQUUiwL/exec";
 
   let isAdmin = false;
-  let imageList = [];
-  let galeriAllData = []; 
-  let currentIdx = 0;
-  let isPlaying = false;
-  let slideTimer, idleDockTimer, dlHideTimer;
+  let imageList = [], galeriAllData = [], currentIdx = 0;
+  let isPlaying = false, slideTimer, idleDockTimer, dlHideTimer;
   let isDockHovered = false, isGlobalPlayMode = true, isModeGaleri = false, currentView = 'menu', isGaleriKelola = false, isGridView = false;
-  let dapurList = [], deleteTargetType = 'menu', deleteTargetIndex = 0;
-  let isFetchingSilent = false;
+  let dapurList = [], deleteTargetType = 'menu', deleteTargetIndex = 0, isFetchingSilent = false;
 
   const HARI  = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
   const BULAN = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
@@ -984,38 +576,27 @@
       let req = indexedDB.open(DB_NAME, 1);
       req.onupgradeneeded = e => {
         let db = e.target.result;
-        if (!db.objectStoreNames.contains("antreanUpload")) {
-          db.createObjectStore("antreanUpload", { keyPath: "id", autoIncrement: true });
-        }
+        if (!db.objectStoreNames.contains("antreanUpload")) db.createObjectStore("antreanUpload", { keyPath: "id", autoIncrement: true });
       };
-      req.onsuccess = e => resolve(e.target.result);
-      req.onerror = e => reject(e.target.error);
+      req.onsuccess = e => resolve(e.target.result); req.onerror = e => reject(e.target.error);
     });
   }
 
   async function simpanKeAntrean(dataJob) {
-    let db = await bukaDatabase();
-    let tx = db.transaction("antreanUpload", "readwrite");
-    tx.objectStore("antreanUpload").add(dataJob);
-    showToast("Koneksi bermasalah. Upload diamankan di HP kamu!", true);
+    let db = await bukaDatabase(), tx = db.transaction("antreanUpload", "readwrite");
+    tx.objectStore("antreanUpload").add(dataJob); showToast("Koneksi bermasalah. Upload diamankan di HP kamu!", true);
   }
 
   async function prosesAntreanOffline() {
     if (!navigator.onLine) return;
-    let db = await bukaDatabase();
-    let tx = db.transaction("antreanUpload", "readwrite");
-    let store = tx.objectStore("antreanUpload");
-    let req = store.openCursor();
-    
+    let db = await bukaDatabase(), tx = db.transaction("antreanUpload", "readwrite"), store = tx.objectStore("antreanUpload"), req = store.openCursor();
     req.onsuccess = async e => {
       let cursor = e.target.result;
       if (cursor) {
-        let job = cursor.value;
-        showToast("Menyambungkan kembali... Mengirim antrean lokal.");
+        let job = cursor.value; showToast("Menyambungkan kembali... Mengirim antrean lokal.");
         let r = await fetchAPI(job.action, job.payload);
         if (r && (r.status === 'sukses' || r.success)) {
-          let delTx = db.transaction("antreanUpload", "readwrite");
-          delTx.objectStore("antreanUpload").delete(job.id); 
+          let delTx = db.transaction("antreanUpload", "readwrite"); delTx.objectStore("antreanUpload").delete(job.id); 
           showToast(`✓ Antrean '${job.nama}' sukses terkirim ke Drive!`);
           if (currentView === 'menu') fetchGambar(); else muatGaleri();
         }
@@ -1023,7 +604,6 @@
       }
     };
   }
-
   window.addEventListener('online', prosesAntreanOffline);
 
   function saveAppState() {
@@ -1035,131 +615,81 @@
   function fmtTgl(str) {
     if(!str || str==='-') return '-';
     try {
-      const p = str.split('-');
-      const d = (p.length===3 && p[0].length===4) ? new Date(+p[0], +p[1]-1, +p[2]) : new Date(str);
-      if(isNaN(d)) return str;
-      return `${HARI[d.getDay()]}, ${String(d.getDate()).padStart(2,'0')} ${BULAN[d.getMonth()]} ${d.getFullYear()}`;
+      const p = str.split('-'); const d = (p.length===3 && p[0].length===4) ? new Date(+p[0], +p[1]-1, +p[2]) : new Date(str);
+      if(isNaN(d)) return str; return `${HARI[d.getDay()]}, ${String(d.getDate()).padStart(2,'0')} ${BULAN[d.getMonth()]} ${d.getFullYear()}`;
     } catch(e) { return str; }
   }
   function fmtHariIni() { const d = new Date(); return `${HARI[d.getDay()]}, ${String(d.getDate()).padStart(2,'0')} ${BULAN[d.getMonth()]} ${d.getFullYear()}`; }
 
   async function fetchAPI(action, payload={}) {
     try {
-      const r = await fetch(GAS_API_URL + "?action=" + action, {
-        method: 'POST',
-        headers: {'Content-Type':'text/plain;charset=utf-8'},
-        body: JSON.stringify(payload)
-      });
+      const r = await fetch(GAS_API_URL + "?action=" + action, { method: 'POST', headers: {'Content-Type':'text/plain;charset=utf-8'}, body: JSON.stringify(payload) });
       return await r.json();
     } catch(e) { return null; }
   }
 
   window.onload = () => {
-    if ('serviceWorker' in navigator) { navigator.serviceWorker.register('./sw.js'); }
-
-    if (localStorage.getItem('map_is_admin') === 'true') {
-      isAdmin = true;
-    }
+    if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js');
+    if (localStorage.getItem('map_is_admin') === 'true') isAdmin = true;
 
     fetchAPI('getLogo',{namaFile:'Logo Yayasan.png'}).then(r => { if(r) document.getElementById('boxLogo1').innerHTML = `<img src="${r}" class="logo-img">`; });
     fetchAPI('getLogo',{namaFile:'Logo Badan Gizi.png'}).then(r => { if(r) document.getElementById('boxLogo2').innerHTML = `<img src="${r}" class="logo-img">`; });
     fetchAPI('getDaftarDapur').then(r => { if(r) { dapurList = r; populateDapurSelects(); } });
 
-    // SENSOR GLOBAL SENTUHAN DAN GERAKAN KURSOR DI MANAPUN UNTUK MEMUNCULKAN DOCK
+    // SENSOR DOCK (Sentuh dimana saja untuk memunculkan Dock Elastis)
     window.addEventListener('mousemove', showDock);
     window.addEventListener('touchstart', showDock, {passive:true});
-
     const dock = document.getElementById('sideDock');
     dock.addEventListener('mouseenter', () => { isDockHovered = true; showDock(); });
     dock.addEventListener('mouseleave', () => { isDockHovered = false; scheduleHideDock(); });
 
     const ca = document.getElementById('contentArea');
-    ca.addEventListener('mousemove', showDl);
-    ca.addEventListener('touchstart', showDl, {passive:true});
-    ca.addEventListener('mouseleave', scheduleDlHide);
+    ca.addEventListener('mousemove', showDl); ca.addEventListener('touchstart', showDl, {passive:true}); ca.addEventListener('mouseleave', scheduleDlHide);
     ca.addEventListener('mouseenter', () => { if(!isModeGaleri) document.getElementById('slideBar').classList.add('visible'); });
     ca.addEventListener('mouseleave', () => { document.getElementById('slideBar').classList.remove('visible'); });
 
     setTimeout(() => {
       document.getElementById('welcomeScreen').style.opacity = '0';
       setTimeout(() => {
-        document.getElementById('welcomeScreen').style.display = 'none';
-        document.getElementById('mainView').style.display = 'flex';
+        document.getElementById('welcomeScreen').style.display = 'none'; document.getElementById('mainView').style.display = 'flex';
         
         const savedState = localStorage.getItem('map_app_state');
         if (savedState) {
-          const s = JSON.parse(savedState);
-          currentIdx = s.currentIdx || 0;
-          isGridView = s.isGridView || false;
-          if (s.currentView === 'galeri') {
-            switchView('galeri');
-            if (s.isGaleriKelola && isAdmin) setGaleriKelola();
-          } else {
-            if (s.isGlobalPlayMode) setMode('playglobal');
-            else if (isAdmin && s.isGaleriKelola) setMode('kelola');
-            else setMode('lihat');
-          }
-          if (s.modalOpenId) {
-            const m = document.getElementById(s.modalOpenId);
-            if (m) m.style.display = 'flex';
-          }
-        } else {
-          setMode('playglobal');
-        }
-        updateDockLayout();
-        prosesAntreanOffline(); 
+          const s = JSON.parse(savedState); currentIdx = s.currentIdx || 0; isGridView = s.isGridView || false;
+          if (s.currentView === 'galeri') { switchView('galeri'); if (s.isGaleriKelola && isAdmin) setGaleriKelola(); } 
+          else { if (s.isGlobalPlayMode) setMode('playglobal'); else setMode('lihat'); }
+          if (s.modalOpenId) { const m = document.getElementById(s.modalOpenId); if (m) m.style.display = 'flex'; }
+        } else { setMode('playglobal'); }
+        updateDockLayout(); prosesAntreanOffline(); 
       }, 1000);
     }, 2500);
   };
 
   function populateDapurSelects() {
-    let h = '<option value="">-- Pilih Dapur --</option>';
-    dapurList.forEach(d => h += `<option value="${d.id}">${d.nama}</option>`);
-    document.getElementById('selDapur').innerHTML = h;
-    document.getElementById('upMenuDapur').innerHTML = h;
-    document.getElementById('upGaleriDapur').innerHTML = h;
-    let h4 = '<option value="">-- Semua Dapur --</option>';
-    dapurList.forEach(d => h4 += `<option value="${d.nama}">${d.nama}</option>`);
-    document.getElementById('selGaleriDapur').innerHTML = h4;
+    let h = '<option value="">-- Pilih Dapur --</option>'; dapurList.forEach(d => h += `<option value="${d.id}">${d.nama}</option>`);
+    document.getElementById('selDapur').innerHTML = h; document.getElementById('upMenuDapur').innerHTML = h; document.getElementById('upGaleriDapur').innerHTML = h;
+    let h4 = '<option value="">-- Semua Dapur --</option>'; dapurList.forEach(d => h4 += `<option value="${d.nama}">${d.nama}</option>`); document.getElementById('selGaleriDapur').innerHTML = h4;
   }
 
-  function showDock() {
-    document.getElementById('sideDock').classList.add('show-dock');
-    clearTimeout(idleDockTimer);
-    idleDockTimer = setTimeout(() => { if(!isDockHovered) document.getElementById('sideDock').classList.remove('show-dock'); }, 3500);
-  }
+  function showDock() { document.getElementById('sideDock').classList.add('show-dock'); clearTimeout(idleDockTimer); idleDockTimer = setTimeout(() => { if(!isDockHovered) document.getElementById('sideDock').classList.remove('show-dock'); }, 3500); }
   function scheduleHideDock() { clearTimeout(idleDockTimer); idleDockTimer = setTimeout(() => { document.getElementById('sideDock').classList.remove('show-dock'); }, 800); }
 
-  function showDl() {
-    const btnDl = document.getElementById('btnDownload'), btnShare = document.getElementById('btnShare'), img = document.getElementById('displayImg');
-    if(isGridView || isModeGaleri || !img.src || img.style.display==='none') return;
-    btnDl.classList.add('visible'); btnShare.classList.add('visible');
-    clearTimeout(dlHideTimer);
-    dlHideTimer = setTimeout(() => { btnDl.classList.remove('visible'); btnShare.classList.remove('visible'); }, 2800);
-  }
+  function showDl() { const btnDl = document.getElementById('btnDownload'), btnShare = document.getElementById('btnShare'), img = document.getElementById('displayImg'); if(isGridView || isModeGaleri || !img.src || img.style.display==='none') return; btnDl.classList.add('visible'); btnShare.classList.add('visible'); clearTimeout(dlHideTimer); dlHideTimer = setTimeout(() => { btnDl.classList.remove('visible'); btnShare.classList.remove('visible'); }, 2800); }
   function scheduleDlHide() { clearTimeout(dlHideTimer); dlHideTimer = setTimeout(() => { document.getElementById('btnDownload').classList.remove('visible'); document.getElementById('btnShare').classList.remove('visible'); }, 900); }
 
   function showLoader(m) { document.getElementById('loaderMsg').innerText=m; document.getElementById('loaderFloat').classList.add('show'); }
   function hideLoader()  { document.getElementById('loaderFloat').classList.remove('show'); }
-  function showToast(m, err=false) {
-    const t = document.getElementById('toast'); t.innerText = m;
-    err ? t.classList.add('error') : t.classList.remove('error');
-    t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 3200);
-  }
-  
+  function showToast(m, err=false) { const t = document.getElementById('toast'); t.innerText = m; err ? t.classList.add('error') : t.classList.remove('error'); t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 3200); }
   function tutupModal(id) { document.getElementById(id).style.display='none'; saveAppState(); }
   function updateCounter() { document.getElementById('slideCounter').innerText = (imageList.length > 0 && !isGridView) ? `${currentIdx+1}/${imageList.length}` : ''; }
 
   function bagikanWeb() {
     const urlString = window.location.href, titleString = document.title, textString = "Halo! Cek Menu Makanan Bergizi Gratis (MBG) dan Galeri Kegiatan MAP hari ini.";
     if (navigator.share) { navigator.share({ title: titleString, text: textString, url: urlString }).catch(() => {}); } 
-    else {
-      const dummy = document.createElement('input'); document.body.appendChild(dummy); dummy.value = urlString; dummy.select(); document.execCommand('copy'); document.body.removeChild(dummy);
-      showToast("Link disalin! Silakan paste di WA.");
-    }
+    else { const dummy = document.createElement('input'); document.body.appendChild(dummy); dummy.value = urlString; dummy.select(); document.execCommand('copy'); document.body.removeChild(dummy); showToast("Link disalin! Silakan paste di WA."); }
   }
 
-  // SINKRONISASI DAN UPDATE LAYOUT DOCK SECARA PRESISI & SERAGAM
+  // UPDATED DOCK LAYOUT MANAGER - LEBIH BERSIH & SERAGAM
   function updateDockLayout() {
     const btnAuth = document.getElementById('btnAdminAuth');
     if (isAdmin) {
@@ -1173,32 +703,19 @@
     if (currentView === 'menu') {
       document.getElementById('menuDockBtns').style.display = 'flex';
       document.getElementById('galeriDockBtns').style.display = 'none';
-      
       if (isAdmin) {
-        document.getElementById('btnModePlayGlobal').style.display = 'flex';
-        document.getElementById('btnModeLihat').style.display = 'flex';
-        document.getElementById('btnModeKelola').style.display = 'flex';
-        document.querySelectorAll('.kelola-menu-only').forEach(el => el.style.display = 'flex');
+        document.querySelectorAll('.kelola-menu-only').forEach(el => el.style.display = 'inline-flex');
       } else {
-        document.getElementById('btnModePlayGlobal').style.display = 'flex';
-        document.getElementById('btnModeLihat').style.display = 'flex';
-        document.getElementById('btnModeKelola').style.display = 'none';
         document.querySelectorAll('.kelola-menu-only').forEach(el => el.style.display = 'none');
       }
     } else {
       document.getElementById('menuDockBtns').style.display = 'none';
       document.getElementById('galeriDockBtns').style.display = 'flex';
-      
       if (isAdmin) {
-        document.getElementById('btnGaleriSemua').style.display = 'flex';
-        document.getElementById('btnGaleriDapur').style.display = 'flex';
-        document.getElementById('btnGaleriBulan').style.display = 'flex';
-        document.getElementById('btnKelolGaleri').style.display = 'flex';
-        document.querySelectorAll('.galeri-kelola-only').forEach(el => el.style.display = 'flex');
+        document.getElementById('btnKelolGaleri').style.display = 'inline-flex';
+        if(isGaleriKelola) document.querySelectorAll('.galeri-kelola-only').forEach(el => el.style.display = 'inline-flex');
+        else document.querySelectorAll('.galeri-kelola-only').forEach(el => el.style.display = 'none');
       } else {
-        document.getElementById('btnGaleriSemua').style.display = 'flex';
-        document.getElementById('btnGaleriDapur').style.display = 'flex';
-        document.getElementById('btnGaleriBulan').style.display = 'flex';
         document.getElementById('btnKelolGaleri').style.display = 'none';
         document.querySelectorAll('.galeri-kelola-only').forEach(el => el.style.display = 'none');
       }
@@ -1207,15 +724,9 @@
 
   function handleAuthClick() {
     if (isAdmin) {
-      isAdmin = false;
-      localStorage.setItem('map_is_admin', 'false');
-      showToast("Berhasil logout dari sistem kelola.");
-      setMode('playglobal');
-      switchView('menu');
-    } else {
-      document.getElementById('modalLogin').style.display = 'flex';
-      rekamJejakModal();
-    }
+      isAdmin = false; localStorage.setItem('map_is_admin', 'false'); showToast("Berhasil logout dari sistem kelola.");
+      setMode('playglobal'); switchView('menu');
+    } else { document.getElementById('modalLogin').style.display = 'flex'; rekamJejakModal(); }
   }
 
   function switchView(view) {
@@ -1225,94 +736,59 @@
     updateDockLayout();
 
     if(view==='galeri') {
-      document.getElementById('menuFilterBar').style.display = 'none';
-      document.getElementById('imgContainer').style.display = 'none';
-      document.getElementById('gridContainer').style.display = 'none';
-      document.getElementById('slideBar').classList.remove('visible');
+      document.getElementById('menuFilterBar').style.display = 'none'; document.getElementById('imgContainer').style.display = 'none'; document.getElementById('gridContainer').style.display = 'none'; document.getElementById('slideBar').classList.remove('visible');
       isModeGaleri = true; isGaleriKelola = false; stopSlide();
-      document.getElementById('galeriContainer').style.display = 'grid';
-      document.getElementById('galeriFilterBar').style.display = 'none';
-      document.getElementById('galeriFilterDapur').style.display = 'none';
-      document.getElementById('galeriFilterBulan').style.display = 'none';
-      muatGaleri();
+      document.getElementById('galeriContainer').style.display = 'grid'; document.getElementById('galeriFilterBar').style.display = 'none'; document.getElementById('galeriFilterDapur').style.display = 'none'; document.getElementById('galeriFilterBulan').style.display = 'none';
+      muatGaleri(); updateDockLayout();
     } else {
-      document.getElementById('galeriContainer').style.display = 'none';
-      document.getElementById('galeriFilterBar').style.display = 'none';
-      document.getElementById('imgContainer').style.display = 'flex';
-      isModeGaleri = false; isGaleriKelola = false;
-      setMode('playglobal');
+      document.getElementById('galeriContainer').style.display = 'none'; document.getElementById('galeriFilterBar').style.display = 'none'; document.getElementById('imgContainer').style.display = 'flex';
+      isModeGaleri = false; isGaleriKelola = false; setMode('playglobal');
     }
     saveAppState();
   }
 
   async function prosesLogin() {
-    const pwd = document.getElementById('inPassword').value;
-    showLoader("Mengecek...");
-    const r = await fetchAPI('login',{password:pwd});
-    hideLoader();
+    const pwd = document.getElementById('inPassword').value; showLoader("Mengecek..."); const r = await fetchAPI('login',{password:pwd}); hideLoader();
     if(r && r.success) {
-      isAdmin = true; localStorage.setItem('map_is_admin', 'true'); tutupModal('modalLogin');
-      showToast("Berhasil Login!"); 
-      updateDockLayout();
-      if(currentView === 'menu') setMode('kelola'); else setGaleriKelola();
+      isAdmin = true; localStorage.setItem('map_is_admin', 'true'); tutupModal('modalLogin'); showToast("Berhasil Login!"); 
+      updateDockLayout(); if(currentView === 'menu') setMode('lihat'); else setGaleriKelola();
     } else { showToast("Password Salah!", true); }
   }
 
   function setMode(mode) {
-    if(mode==='kelola' && !isAdmin) { document.getElementById('modalLogin').style.display='flex'; return; }
     saveAppState();
+    if (mode === 'kelola') mode = 'lihat'; // Tombol Kelola telah dilebur jadi satu.
 
     if(mode==='playglobal') {
-      document.getElementById('btnModePlayGlobal').className = 'dock-btn active-red';
-      document.getElementById('btnModeLihat').className = 'dock-btn';
-      document.getElementById('btnModeKelola').className = 'dock-btn';
-      document.getElementById('menuFilterBar').style.display = 'none';
+      document.getElementById('btnModePlayGlobal').className = 'dock-btn active-red'; document.getElementById('btnModeLihat').className = 'dock-btn'; document.getElementById('menuFilterBar').style.display = 'none';
       jalankanPlaySemua();
     } else if(mode==='lihat') {
-      document.getElementById('btnModePlayGlobal').className = 'dock-btn';
-      document.getElementById('btnModeLihat').className = 'dock-btn active';
-      document.getElementById('btnModeKelola').className = 'dock-btn';
-      document.getElementById('menuFilterBar').style.display = 'flex'; 
+      document.getElementById('btnModePlayGlobal').className = 'dock-btn'; document.getElementById('btnModeLihat').className = 'dock-btn active'; document.getElementById('menuFilterBar').style.display = 'flex'; 
       isGlobalPlayMode = false; stopSlide();
-    } else if(mode==='kelola') {
-      document.getElementById('btnModePlayGlobal').className = 'dock-btn';
-      document.getElementById('btnModeLihat').className = 'dock-btn';
-      document.getElementById('btnModeKelola').className = 'dock-btn active';
-      document.getElementById('menuFilterBar').style.display = 'flex'; 
-      isGlobalPlayMode = false; stopSlide();
+      if(imageList.length === 0) fetchGambar(); // Pancing gambar jika kosong
     }
+    updateDockLayout(); 
   }
 
   function setGaleriKelola() {
     if(!isAdmin) { document.getElementById('modalLogin').style.display='flex'; return; }
-    isGaleriKelola = true; saveAppState();
-    document.getElementById('btnKelolGaleri').className = 'dock-btn active';
-    renderGaleri(galeriAllData); 
+    isGaleriKelola = true; saveAppState(); document.getElementById('btnKelolGaleri').className = 'dock-btn active';
+    updateDockLayout(); renderGaleri(galeriAllData); 
   }
 
   function filterGaleri(mode) {
-    document.getElementById('btnGaleriSemua').className = mode==='semua' ? 'dock-btn active' : 'dock-btn';
-    document.getElementById('galeriFilterBar').style.display = mode==='semua' ? 'none' : 'flex';
-    if(mode==='semua') {
-      document.getElementById('galeriFilterDapur').style.display = 'none'; document.getElementById('galeriFilterBulan').style.display = 'none';
-      renderGaleri(galeriAllData);
-    }
+    document.getElementById('btnGaleriSemua').className = mode==='semua' ? 'dock-btn active' : 'dock-btn'; document.getElementById('galeriFilterBar').style.display = mode==='semua' ? 'none' : 'flex';
+    if(mode==='semua') { document.getElementById('galeriFilterDapur').style.display = 'none'; document.getElementById('galeriFilterBulan').style.display = 'none'; renderGaleri(galeriAllData); }
   }
 
   function toggleGaleriFilter(type) {
     const showDapur = type==='dapur', showBulan = type==='bulan';
-    document.getElementById('btnGaleriDapur').className = showDapur ? 'dock-btn active' : 'dock-btn';
-    document.getElementById('btnGaleriBulan').className = showBulan ? 'dock-btn active' : 'dock-btn';
-    document.getElementById('btnGaleriSemua').className = 'dock-btn';
-    document.getElementById('galeriFilterBar').style.display = 'flex';
-    document.getElementById('galeriFilterDapur').style.display = showDapur ? 'flex' : 'none';
-    document.getElementById('galeriFilterBulan').style.display = showBulan ? 'flex' : 'none';
-    applyGaleriFilter();
+    document.getElementById('btnGaleriDapur').className = showDapur ? 'dock-btn active' : 'dock-btn'; document.getElementById('btnGaleriBulan').className = showBulan ? 'dock-btn active' : 'dock-btn'; document.getElementById('btnGaleriSemua').className = 'dock-btn';
+    document.getElementById('galeriFilterBar').style.display = 'flex'; document.getElementById('galeriFilterDapur').style.display = showDapur ? 'flex' : 'none'; document.getElementById('galeriFilterBulan').style.display = showBulan ? 'flex' : 'none'; applyGaleriFilter();
   }
 
   function applyGaleriFilter() {
-    const filterDapur = document.getElementById('selGaleriDapur').value;
-    const filterBulan = document.getElementById('selGaleriBulan').value;
+    const filterDapur = document.getElementById('selGaleriDapur').value, filterBulan = document.getElementById('selGaleriBulan').value;
     let filtered = galeriAllData;
     if(filterDapur) filtered = filtered.filter(g => g.dapur === filterDapur);
     if(filterBulan) filtered = filtered.filter(g => { if(!g.tanggal || g.tanggal==='-') return false; const d = new Date(g.tanggal); return `${BULAN[d.getMonth()]} ${d.getFullYear()}` === filterBulan; });
@@ -1323,35 +799,24 @@
     isGlobalPlayMode = true; isModeGaleri = false; isGridView = false;
     document.getElementById('galeriContainer').style.display='none'; document.getElementById('gridContainer').style.display='none'; document.getElementById('imgContainer').style.display='flex';
     document.getElementById('txtDapur').innerText = "MEMUAT..."; document.getElementById('txtTgl').innerText = fmtHariIni();
-    showLoader("Mengambil Menu Hari Ini...");
-    const r = await fetchAPI('getSemuaMenuHariIni');
-    hideLoader();
+    showLoader("Mengambil Menu Hari Ini..."); const r = await fetchAPI('getSemuaMenuHariIni'); hideLoader();
     if(r) {
       imageList = r.filter(i => !i.isPlaceholder);
       if(imageList.length > 0) { updateDisplay(0); if(!isPlaying) runSlide(); } 
-      else {
-        document.getElementById('txtMenu').innerText = "BELUM ADA MENU HARI INI"; document.getElementById('displayImg').src = "";
-        document.getElementById('txtDapur').innerText = "SEMUA DAPUR"; document.getElementById('emptyState').style.display = 'flex';
-      }
-    }
-    updateCounter();
+      else { document.getElementById('txtMenu').innerText = "BELUM ADA MENU HARI INI"; document.getElementById('displayImg').src = ""; document.getElementById('txtDapur').innerText = "SEMUA DAPUR"; document.getElementById('emptyState').style.display = 'flex'; }
+    } updateCounter();
   }
 
   async function fetchPeriode() {
     const id = document.getElementById('selDapur').value; if(!id) return;
     document.getElementById('txtDapur').innerText = document.getElementById('selDapur').options[document.getElementById('selDapur').selectedIndex].text;
     showLoader("Memuat Periode..."); const r = await fetchAPI('getDaftarPeriode',{dapurId:id}); hideLoader();
-    if(r) {
-      let h = '<option value="">-- Pilih Periode --</option>';
-      r.forEach(p => h += `<option value="${p.id}">${p.nama}</option>`);
-      document.getElementById('selPeriode').innerHTML = h; document.getElementById('emptyState').style.display = 'none';
-    }
+    if(r) { let h = '<option value="">-- Pilih Periode --</option>'; r.forEach(p => h += `<option value="${p.id}">${p.nama}</option>`); document.getElementById('selPeriode').innerHTML = h; document.getElementById('emptyState').style.display = 'none'; }
   }
 
   async function buatPeriodeOtomatis() {
     const id = document.getElementById('selDapur').value; if(!id) return showToast("Pilih Dapur dulu!", true);
-    showLoader("Membuat Folder..."); const r = await fetchAPI('buatPeriodeMingguIni',{dapurId:id}); hideLoader();
-    if(r) { showToast(r.status); fetchPeriode(); }
+    showLoader("Membuat Folder..."); const r = await fetchAPI('buatPeriodeMingguIni',{dapurId:id}); hideLoader(); if(r) { showToast(r.status); fetchPeriode(); }
   }
 
   async function fetchGambar() {
@@ -1359,53 +824,35 @@
     showLoader("Mengambil Gambar..."); const r = await fetchAPI('getGambarMenu',{periodeId:id}); hideLoader();
     if(r) {
       imageList = r;
-      if(r.length > 0) {
-        if(isGridView) { renderMenuGrid(); document.getElementById('menuFilterBar').style.display = 'flex'; } 
-        else { updateDisplay(0); document.getElementById('menuFilterBar').style.display = 'none'; }
-      } else { document.getElementById('txtMenu').innerText="BELUM ADA MENU"; document.getElementById('displayImg').src=""; document.getElementById('gridContainer').style.display='none'; }
-    }
-    updateCounter();
+      if(r.length > 0) { if(isGridView) { renderMenuGrid(); document.getElementById('menuFilterBar').style.display = 'flex'; } else { updateDisplay(0); document.getElementById('menuFilterBar').style.display = 'none'; } } 
+      else { document.getElementById('txtMenu').innerText="BELUM ADA MENU"; document.getElementById('displayImg').src=""; document.getElementById('gridContainer').style.display='none'; }
+    } updateCounter();
   }
 
   function filterByTanggal() {
     const tglMulai = document.getElementById('tglMulai').value, tglSelesai = document.getElementById('tglSelesai').value; if(!tglMulai || !tglSelesai) return;
     const filtered = imageList.filter(img => { if(!img.tanggal) return false; return img.tanggal >= tglMulai && img.tanggal <= tglSelesai; });
-    if(filtered.length > 0) { imageList = filtered; if(isGridView) renderMenuGrid(); else updateDisplay(0); } 
-    else { showToast("Tidak ada menu di rentang tanggal tersebut", true); }
-    updateCounter();
+    if(filtered.length > 0) { imageList = filtered; if(isGridView) renderMenuGrid(); else updateDisplay(0); } else { showToast("Tidak ada menu di rentang tanggal tersebut", true); } updateCounter();
   }
 
   function toggleGridSlide() {
     if(imageList.length === 0) return; isGridView = !isGridView; const btn = document.getElementById('btnToggleGrid');
     if(isGridView) {
-      stopSlide(); document.getElementById('imgContainer').style.display = 'none'; document.getElementById('gridContainer').style.display = 'grid';
-      document.getElementById('txtMenu').innerText = "SEMUA MENU (" + imageList.length + ")";
-      btn.innerHTML = `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>`;
-      btn.classList.add('tab-on'); btn.style.color = 'var(--gold)';
-      if(!isGlobalPlayMode) document.getElementById('menuFilterBar').style.display = 'flex';
-      renderMenuGrid();
+      stopSlide(); document.getElementById('imgContainer').style.display = 'none'; document.getElementById('gridContainer').style.display = 'grid'; document.getElementById('txtMenu').innerText = "SEMUA MENU (" + imageList.length + ")";
+      btn.innerHTML = `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>`; btn.classList.add('tab-on'); btn.style.color = 'var(--gold)';
+      if(!isGlobalPlayMode) document.getElementById('menuFilterBar').style.display = 'flex'; renderMenuGrid();
     } else {
       document.getElementById('gridContainer').style.display = 'none'; document.getElementById('imgContainer').style.display = 'flex';
-      btn.innerHTML = `<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>`;
-      btn.classList.remove('tab-on'); btn.style.color = 'white';
-      if(!isGlobalPlayMode) document.getElementById('menuFilterBar').style.display = 'none';
-      updateDisplay(currentIdx);
-    }
-    updateCounter(); saveAppState();
+      btn.innerHTML = `<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>`; btn.classList.remove('tab-on'); btn.style.color = 'white';
+      if(!isGlobalPlayMode) document.getElementById('menuFilterBar').style.display = 'none'; updateDisplay(currentIdx);
+    } updateCounter(); saveAppState();
   }
 
   function renderMenuGrid() {
-    let html = '';
-    imageList.forEach((img, index) => {
+    let html = ''; imageList.forEach((img, index) => {
       if(img.isPlaceholder) return;
-      html += `<div class="grid-card" onclick="pilihMenuDariGrid(${index})">
-        <img class="grid-item" src="${img.src}" loading="lazy">
-        <div class="grid-title">${img.nama}</div>
-        <div class="grid-date">${fmtTgl(img.tanggal)}</div>
-        ${img.dapur && isGlobalPlayMode ? `<div class="grid-date" style="color:#888;">${img.dapur}</div>` : ''}
-      </div>`;
-    });
-    document.getElementById('gridContainer').innerHTML = html;
+      html += `<div class="grid-card" onclick="pilihMenuDariGrid(${index})"><img class="grid-item" src="${img.src}" loading="lazy"><div class="grid-title">${img.nama}</div><div class="grid-date">${fmtTgl(img.tanggal)}</div>${img.dapur && isGlobalPlayMode ? `<div class="grid-date" style="color:#888;">${img.dapur}</div>` : ''}</div>`;
+    }); document.getElementById('gridContainer').innerHTML = html;
   }
   function pilihMenuDariGrid(index) { currentIdx = index; toggleGridSlide(); }
 
@@ -1413,49 +860,26 @@
     if(!imageList[idx]) return; const img = document.getElementById('displayImg'), data = imageList[idx];
     img.classList.remove('fade-anim'); void img.offsetWidth; 
     if(isGlobalPlayMode || data.dapur) document.getElementById('txtDapur').innerText = data.dapur || "SEMUA DAPUR";
-    document.getElementById('emptyState').style.display = data.isPlaceholder ? 'flex' : 'none';
-    img.style.display = data.isPlaceholder ? 'none' : 'block'; img.src = data.src; img.classList.add('fade-anim');
-    document.getElementById('txtMenu').innerText = data.nama; document.getElementById('txtTgl').innerText = fmtTgl(data.tanggal);
-    currentIdx = idx; updateCounter();
+    document.getElementById('emptyState').style.display = data.isPlaceholder ? 'flex' : 'none'; img.style.display = data.isPlaceholder ? 'none' : 'block'; img.src = data.src; img.classList.add('fade-anim');
+    document.getElementById('txtMenu').innerText = data.nama; document.getElementById('txtTgl').innerText = fmtTgl(data.tanggal); currentIdx = idx; updateCounter();
   }
 
   async function muatGaleri() {
     document.getElementById('txtDapur').innerText = "GALERI KEGIATAN"; document.getElementById('txtMenu').innerText = "SEMUA DAPUR"; document.getElementById('txtTgl').innerText = fmtHariIni();
-    showLoader("Memuat Galeri..."); const r = await fetchAPI('getGaleri'); hideLoader();
-    galeriAllData = r || [];
-    const bulanSet = new Set();
+    showLoader("Memuat Galeri..."); const r = await fetchAPI('getGaleri'); hideLoader(); galeriAllData = r || []; const bulanSet = new Set();
     galeriAllData.forEach(g => { if(g.tanggal && g.tanggal!=='-') { const d = new Date(g.tanggal); bulanSet.add(`${BULAN[d.getMonth()]} ${d.getFullYear()}`); } });
-    let hb = '<option value="">-- Semua Bulan --</option>';
-    [...bulanSet].reverse().forEach(b => hb += `<option value="${b}">${b}</option>`);
-    document.getElementById('selGaleriBulan').innerHTML = hb; renderGaleri(galeriAllData);
+    let hb = '<option value="">-- Semua Bulan --</option>'; [...bulanSet].reverse().forEach(b => hb += `<option value="${b}">${b}</option>`); document.getElementById('selGaleriBulan').innerHTML = hb; renderGaleri(galeriAllData);
   }
 
   function renderGaleri(data) {
     let html = '';
     if(data && data.length > 0) {
       data.forEach((g) => {
-        const originalIndex = galeriAllData.findIndex(item => item.id === g.id);
-        let actionHtml = '';
-        if(isAdmin && isGaleriKelola) {
-          actionHtml = `<div class="galeri-admin-actions" onclick="event.stopPropagation()">
-            <button class="btn-dark" onclick="bukaModalEditGaleri(${originalIndex})">Edit</button>
-            <button class="btn-danger" onclick="doHapus('galeri', ${originalIndex})">Hapus</button>
-          </div>`;
-        }
+        const originalIndex = galeriAllData.findIndex(item => item.id === g.id); let actionHtml = '';
+        if(isAdmin && isGaleriKelola) { actionHtml = `<div class="galeri-admin-actions" onclick="event.stopPropagation()"><button class="btn-dark" onclick="bukaModalEditGaleri(${originalIndex})">Edit</button><button class="btn-danger" onclick="doHapus('galeri', ${originalIndex})">Hapus</button></div>`; }
         let mediaTag = `<img src="${g.src}" loading="lazy">`;
-        if (g.src.includes('data:video') || g.src.includes('video/mp4')) {
-           mediaTag = `<div style="position:relative; width:100%; height:180px; background:#000; display:flex; align-items:center; justify-content:center; border-radius:12px; margin-bottom:12px;">
-                          <svg viewBox="0 0 24 24" width="40" height="40" fill="rgba(255,255,255,0.7)"><path d="M8 5v14l11-7z"/></svg>
-                       </div>`;
-        }
-        html += `<div class="galeri-card" onclick="bukaGaleriFull(${originalIndex})" style="cursor:pointer;">
-          ${mediaTag}
-          <div class="galeri-title">${g.judul}</div>
-          <div class="galeri-desc">${g.deskripsi||''}</div>
-          <div class="meta-item"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>${fmtTgl(g.tanggal)}</div>
-          <div class="meta-item"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>${g.dapur||'Umum'}</div>
-          ${actionHtml}
-        </div>`;
+        if (g.src.includes('data:video') || g.src.includes('video/mp4')) { mediaTag = `<div style="position:relative; width:100%; height:180px; background:#000; display:flex; align-items:center; justify-content:center; border-radius:12px; margin-bottom:12px;"><svg viewBox="0 0 24 24" width="40" height="40" fill="rgba(255,255,255,0.7)"><path d="M8 5v14l11-7z"/></svg></div>`; }
+        html += `<div class="galeri-card" onclick="bukaGaleriFull(${originalIndex})" style="cursor:pointer;">${mediaTag}<div class="galeri-title">${g.judul}</div><div class="galeri-desc">${g.deskripsi||''}</div><div class="meta-item"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>${fmtTgl(g.tanggal)}</div><div class="meta-item"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>${g.dapur||'Umum'}</div>${actionHtml}</div>`;
       });
     } else { html = `<div style="color:#888;font-style:italic;grid-column:1/-1;text-align:center;padding:60px;">Belum ada kegiatan.</div>`; }
     document.getElementById('galeriContainer').innerHTML = html;
@@ -1463,11 +887,7 @@
 
   let galeriListFullscreen = [], galIdx = 0;
   function bukaGaleriFull(index) { galeriListFullscreen = galeriAllData; galIdx = index; renderFullGaleri(); document.getElementById('modalFullGaleri').style.display = 'flex'; rekamJejakModal(); }
-  function renderFullGaleri() {
-    const item = galeriListFullscreen[galIdx], container = document.getElementById('fullGaleriContent');
-    if(item.src.includes('data:video') || item.src.includes('video/mp4')) { container.innerHTML = `<video src="${item.src}" controls autoplay playsinline style="max-width:100%; max-height:85vh; border-radius:12px; background:black;"></video>`; } 
-    else { container.innerHTML = `<img src="${item.src}" style="max-width:100%; max-height:85vh; border-radius:12px; object-fit: contain;">`; }
-  }
+  function renderFullGaleri() { const item = galeriListFullscreen[galIdx], container = document.getElementById('fullGaleriContent'); if(item.src.includes('data:video') || item.src.includes('video/mp4')) { container.innerHTML = `<video src="${item.src}" controls autoplay playsinline style="max-width:100%; max-height:85vh; border-radius:12px; background:black;"></video>`; } else { container.innerHTML = `<img src="${item.src}" style="max-width:100%; max-height:85vh; border-radius:12px; object-fit: contain;">`; } }
   function slideGal(next) { galIdx = next ? (galIdx + 1) % galeriListFullscreen.length : (galIdx - 1 + galeriListFullscreen.length) % galeriListFullscreen.length; renderFullGaleri(); }
   function tutupModalFull() { document.getElementById('modalFullGaleri').style.display='none'; document.getElementById('fullGaleriContent').innerHTML = ''; saveAppState(); }
 
@@ -1483,16 +903,11 @@
     if(!dapurId || !nama || !tgl || !file) return showToast("Lengkapi semua form upload menu!", true);
     const rd = new FileReader();
     rd.onload = async e => {
-      let base64 = e.target.result;
-      let payload = { dapurId, namaMenu: nama, tanggal: tgl, data: base64 };
-      tutupModal('modalUploadMenu');
+      let base64 = e.target.result; let payload = { dapurId, namaMenu: nama, tanggal: tgl, data: base64 }; tutupModal('modalUploadMenu');
       if (!navigator.onLine) { await simpanKeAntrean({ action: 'uploadMenuAuto', payload, nama: nama }); document.getElementById('upMenuFile').value=''; document.getElementById('upMenuNama').value=''; return; }
-      showLoader("MENGUPLOAD MENU...");
-      let r = await fetchAPI('uploadMenuAuto', payload); hideLoader();
-      if(r && r.status==='sukses') { showToast(`✓ Menu '${nama}' berhasil diupload!`); base64 = null; document.getElementById('upMenuFile').value=''; document.getElementById('upMenuNama').value=''; if(!isGlobalPlayMode && currentView==='menu') fetchGambar(); } 
-      else { await simpanKeAntrean({ action: 'uploadMenuAuto', payload, nama: nama }); }
-    };
-    rd.readAsDataURL(file);
+      showLoader("MENGUPLOAD MENU..."); let r = await fetchAPI('uploadMenuAuto', payload); hideLoader();
+      if(r && r.status==='sukses') { showToast(`✓ Menu '${nama}' berhasil diupload!`); base64 = null; document.getElementById('upMenuFile').value=''; document.getElementById('upMenuNama').value=''; if(!isGlobalPlayMode && currentView==='menu') fetchGambar(); } else { await simpanKeAntrean({ action: 'uploadMenuAuto', payload, nama: nama }); }
+    }; rd.readAsDataURL(file);
   }
 
   async function doUploadGaleri() {
@@ -1500,81 +915,39 @@
     if(!dapurEl.value || !tgl || !judul || !file) return showToast("Lengkapi data form galeri!", true);
     const rd = new FileReader();
     rd.onload = async e => {
-      let base64 = e.target.result;
-      let payload = { dapur:dapurNama, tanggal:tgl, judul, deskripsi:desc, data:base64 };
-      tutupModal('modalUploadGaleri');
+      let base64 = e.target.result; let payload = { dapur:dapurNama, tanggal:tgl, judul, deskripsi:desc, data:base64 }; tutupModal('modalUploadGaleri');
       if (!navigator.onLine) { await simpanKeAntrean({ action: 'uploadGaleri', payload, nama: judul }); document.getElementById('upGaleriFile').value=''; document.getElementById('upGaleriJudul').value=''; document.getElementById('upGaleriDesc').value=''; return; }
-      showLoader("MENGUPLOAD GALERI...");
-      let r = await fetchAPI('uploadGaleri', payload); hideLoader();
-      if(r && r.status==='sukses') { showToast("✓ Galeri berhasil diupload!"); base64 = null; document.getElementById('upGaleriFile').value=''; document.getElementById('upGaleriJudul').value=''; document.getElementById('upGaleriDesc').value=''; if(currentView==='galeri') muatGaleri(); } 
-      else { await simpanKeAntrean({ action: 'uploadGaleri', payload, nama: judul }); }
-    };
-    rd.readAsDataURL(file);
+      showLoader("MENGUPLOAD GALERI..."); let r = await fetchAPI('uploadGaleri', payload); hideLoader();
+      if(r && r.status==='sukses') { showToast("✓ Galeri berhasil diupload!"); base64 = null; document.getElementById('upGaleriFile').value=''; document.getElementById('upGaleriJudul').value=''; document.getElementById('upGaleriDesc').value=''; if(currentView==='galeri') muatGaleri(); } else { await simpanKeAntrean({ action: 'uploadGaleri', payload, nama: judul }); }
+    }; rd.readAsDataURL(file);
   }
 
   function bukaModalEdit() { if(imageList.length===0 || isModeGaleri) return showToast("Pilih menu dulu!", true); document.getElementById('editNama').value = imageList[currentIdx].nama; document.getElementById('editTgl').value = imageList[currentIdx].tanggal; document.getElementById('modalEdit').style.display = 'flex'; rekamJejakModal(); }
-  async function executeEdit() {
-    const curr = imageList[currentIdx], file = document.getElementById('editFile').files[0]; tutupModal('modalEdit'); showLoader("MENYIMPAN...");
-    let payload = {id:curr.id, nama:document.getElementById('editNama').value, tanggal:document.getElementById('editTgl').value, fileData:null};
-    if(file) { const rd = new FileReader(); rd.onload = async e => { payload.fileData = e.target.result; await kirimEdit(payload); }; rd.readAsDataURL(file); } else await kirimEdit(payload);
-  }
+  async function executeEdit() { const curr = imageList[currentIdx], file = document.getElementById('editFile').files[0]; tutupModal('modalEdit'); showLoader("MENYIMPAN..."); let payload = {id:curr.id, nama:document.getElementById('editNama').value, tanggal:document.getElementById('editTgl').value, fileData:null}; if(file) { const rd = new FileReader(); rd.onload = async e => { payload.fileData = e.target.result; await kirimEdit(payload); }; rd.readAsDataURL(file); } else await kirimEdit(payload); }
   async function kirimEdit(payload) { const r = await fetchAPI('editMenu', payload); hideLoader(); if(r && r.success) { showToast("Berhasil disimpan!"); fetchGambar(); } else showToast("Gagal menyimpan!", true); }
 
   function bukaModalEditGaleri(index) { const curr = galeriAllData[index]; deleteTargetIndex = index; document.getElementById('editGaleriJudul').value = curr.judul; document.getElementById('editGaleriTgl').value = curr.tanggal; document.getElementById('editGaleriDesc').value = curr.deskripsi || ''; document.getElementById('modalEditGaleri').style.display = 'flex'; rekamJejakModal(); }
-  async function executeEditGaleri() {
-    const curr = galeriAllData[deleteTargetIndex], file = document.getElementById('editGaleriFile').files[0]; tutupModal('modalEditGaleri'); showLoader("MENYIMPAN GALERI...");
-    let payload = {id: curr.id, judul: document.getElementById('editGaleriJudul').value, tanggal: document.getElementById('editGaleriTgl').value, deskripsi: document.getElementById('editGaleriDesc').value, fileData: null};
-    if(file) { const rd = new FileReader(); rd.onload = async e => { payload.fileData = e.target.result; await kirimEditGaleri(payload); }; rd.readAsDataURL(file); } else await kirimEditGaleri(payload);
-  }
+  async function executeEditGaleri() { const curr = galeriAllData[deleteTargetIndex], file = document.getElementById('editGaleriFile').files[0]; tutupModal('modalEditGaleri'); showLoader("MENYIMPAN GALERI..."); let payload = {id: curr.id, judul: document.getElementById('editGaleriJudul').value, tanggal: document.getElementById('editGaleriTgl').value, deskripsi: document.getElementById('editGaleriDesc').value, fileData: null}; if(file) { const rd = new FileReader(); rd.onload = async e => { payload.fileData = e.target.result; await kirimEditGaleri(payload); }; rd.readAsDataURL(file); } else await kirimEditGaleri(payload); }
   async function kirimEditGaleri(payload) { const r = await fetchAPI('editGaleri', payload); hideLoader(); if(r && r.success) { showToast("Galeri diperbarui!"); muatGaleri(); } else showToast("Gagal memperbarui galeri", true); }
 
   function doHapus(type, index=null) { deleteTargetType = type; if(type === 'menu') { if(imageList.length===0) return; document.getElementById('modalText').innerText = `Yakin hapus menu "${imageList[currentIdx].nama}"?`; } else if (type === 'galeri') { deleteTargetIndex = index; document.getElementById('modalText').innerText = `Yakin hapus kegiatan "${galeriAllData[index].judul}"?`; } document.getElementById('modalConfirm').style.display = 'flex'; rekamJejakModal(); }
-  async function executeHapus() {
-    tutupModal('modalConfirm'); showLoader("MENGHAPUS...");
-    if(deleteTargetType === 'menu') {
-      const r = await fetchAPI('hapusMenu', {fileId: imageList[currentIdx].id}); hideLoader();
-      if(r && r.success) { showToast("Menu dihapus!"); imageList.splice(currentIdx,1); currentIdx = 0; if(isGridView) renderMenuGrid(); else if(imageList.length>0) updateDisplay(0); else { document.getElementById('displayImg').src=''; document.getElementById('emptyState').style.display='flex'; } } else showToast("Gagal menghapus!", true);
-      updateCounter();
-    } else if(deleteTargetType === 'galeri') {
-      const r = await fetchAPI('hapusGaleri', {fileId: galeriAllData[deleteTargetIndex].id}); hideLoader();
-      if(r && r.success) { showToast("Kegiatan dihapus!"); muatGaleri(); } else showToast("Gagal menghapus!", true);
-    }
-  }
+  async function executeHapus() { tutupModal('modalConfirm'); showLoader("MENGHAPUS..."); if(deleteTargetType === 'menu') { const r = await fetchAPI('hapusMenu', {fileId: imageList[currentIdx].id}); hideLoader(); if(r && r.success) { showToast("Menu dihapus!"); imageList.splice(currentIdx,1); currentIdx = 0; if(isGridView) renderMenuGrid(); else if(imageList.length>0) updateDisplay(0); else { document.getElementById('displayImg').src=''; document.getElementById('emptyState').style.display='flex'; } } else showToast("Gagal menghapus!", true); updateCounter(); } else if(deleteTargetType === 'galeri') { const r = await fetchAPI('hapusGaleri', {fileId: galeriAllData[deleteTargetIndex].id}); hideLoader(); if(r && r.success) { showToast("Kegiatan dihapus!"); muatGaleri(); } else showToast("Gagal menghapus!", true); } }
 
   function stopSlide() { if(!isPlaying) return; isPlaying = false; clearInterval(slideTimer); const btn = document.getElementById('btnPlayPause'), icon = document.getElementById('iconPlay'); btn.classList.remove('playing'); icon.innerHTML = '<path d="M8 5v14l11-7z"/>'; document.getElementById('playLabel').innerText = 'PLAY SLIDESHOW'; }
-  function runSlide() {
-    if(isModeGaleri || isGridView) return; isPlaying = !isPlaying; const btn = document.getElementById('btnPlayPause'), icon = document.getElementById('iconPlay');
-    if(isPlaying) { btn.classList.add('playing'); icon.innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>'; document.getElementById('playLabel').innerText = 'PAUSE'; slideTimer = setInterval(() => nextSlide(), 5500); } 
-    else { btn.classList.remove('playing'); icon.innerHTML = '<path d="M8 5v14l11-7z"/>'; document.getElementById('playLabel').innerText = 'PLAY SLIDESHOW'; clearInterval(slideTimer); }
-  }
+  function runSlide() { if(isModeGaleri || isGridView) return; isPlaying = !isPlaying; const btn = document.getElementById('btnPlayPause'), icon = document.getElementById('iconPlay'); if(isPlaying) { btn.classList.add('playing'); icon.innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>'; document.getElementById('playLabel').innerText = 'PAUSE'; slideTimer = setInterval(() => nextSlide(), 5500); } else { btn.classList.remove('playing'); icon.innerHTML = '<path d="M8 5v14l11-7z"/>'; document.getElementById('playLabel').innerText = 'PLAY SLIDESHOW'; clearInterval(slideTimer); } }
   function nextSlide() { if(imageList.length>0 && !isGridView) updateDisplay(currentIdx===imageList.length-1 ? 0 : currentIdx+1); }
   function prevSlide() { if(imageList.length>0 && !isGridView) updateDisplay(currentIdx===0 ? imageList.length-1 : currentIdx-1); }
 
   async function downloadPoster() {
     const imgElem = document.getElementById('displayImg'); if(!imgElem || !imgElem.src) return alert("Belum ada gambar!");
-    const canvas = document.getElementById('posterCanvas'), ctx = canvas.getContext('2d'); canvas.width = 1080; canvas.height = 1920;
-    ctx.fillStyle = "#05233f"; ctx.fillRect(0,0,1080,1920);
-    ctx.fillStyle = "rgba(255,255,255,0.05)"; ctx.beginPath(); ctx.moveTo(0,500); ctx.quadraticCurveTo(540,300,1080,500); ctx.lineTo(1080,1500); ctx.quadraticCurveTo(540,1700,0,1500); ctx.fill();
-
+    const canvas = document.getElementById('posterCanvas'), ctx = canvas.getContext('2d'); canvas.width = 1080; canvas.height = 1920; ctx.fillStyle = "#05233f"; ctx.fillRect(0,0,1080,1920); ctx.fillStyle = "rgba(255,255,255,0.05)"; ctx.beginPath(); ctx.moveTo(0,500); ctx.quadraticCurveTo(540,300,1080,500); ctx.lineTo(1080,1500); ctx.quadraticCurveTo(540,1700,0,1500); ctx.fill();
     const loadImg = src => new Promise(res => { const i = new Image(); i.crossOrigin="Anonymous"; i.onload = () => res(i); i.src = src; });
     const imgMenu = await loadImg(imgElem.src), logo1 = await loadImg(document.getElementById('boxLogo1')?.querySelector('img')?.src), logo2 = await loadImg(document.getElementById('boxLogo2')?.querySelector('img')?.src);
-
-    const lw = 160; ctx.drawImage(logo1, 80, 80, lw, lw/(logo1.width/logo1.height)); ctx.drawImage(logo2, 840, 80, lw, lw/(logo2.width/logo2.height));
-    ctx.shadowColor = "rgba(0,0,0,0.5)"; ctx.shadowBlur = 40; ctx.fillStyle = "#fff"; ctx.fillRect(100,600,880,600);
-    
-    let ratio = Math.min(840 / imgMenu.width, 560 / imgMenu.height);
-    ctx.drawImage(imgMenu, 0, 0, imgMenu.width, imgMenu.height, 120 + (840 - imgMenu.width * ratio) / 2, 620 + (560 - imgMenu.height * ratio) / 2, imgMenu.width * ratio, imgMenu.height * ratio);
-    ctx.shadowBlur = 0; ctx.textAlign = "center"; ctx.textBaseline = "top"; ctx.fillStyle = "#ffcc00"; ctx.font = "bold 55px Arial";
-    ctx.fillText(document.getElementById('txtDapur')?.innerText||"SPPG", 540, 430);
-
-    function wrapText(ctx, text, x, y, maxW, lh) {
-      const words = text.split(' '); let line = '', cy = y;
-      for(let n=0; n<words.length; n++) { const test = line + words[n] + ' '; if(ctx.measureText(test).width > maxW && n>0) { ctx.fillText(line,x,cy); line=words[n]+' '; cy+=lh; } else line=test; }
-      ctx.fillText(line,x,cy); return cy+lh;
-    }
-    ctx.fillStyle = "#fff"; ctx.font = "bold 60px Arial"; const endY = wrapText(ctx, document.getElementById('txtMenu')?.innerText||"Menu MBG", 540, 1320, 900, 80);
-    ctx.fillStyle="#ffcc00"; ctx.font="italic 36px Arial"; ctx.fillText(document.getElementById('txtTgl')?.innerText||fmtHariIni(), 540, endY+28);
-
+    const lw = 160; ctx.drawImage(logo1, 80, 80, lw, lw/(logo1.width/logo1.height)); ctx.drawImage(logo2, 840, 80, lw, lw/(logo2.width/logo2.height)); ctx.shadowColor = "rgba(0,0,0,0.5)"; ctx.shadowBlur = 40; ctx.fillStyle = "#fff"; ctx.fillRect(100,600,880,600);
+    let ratio = Math.min(840 / imgMenu.width, 560 / imgMenu.height); ctx.drawImage(imgMenu, 0, 0, imgMenu.width, imgMenu.height, 120 + (840 - imgMenu.width * ratio) / 2, 620 + (560 - imgMenu.height * ratio) / 2, imgMenu.width * ratio, imgMenu.height * ratio);
+    ctx.shadowBlur = 0; ctx.textAlign = "center"; ctx.textBaseline = "top"; ctx.fillStyle = "#ffcc00"; ctx.font = "bold 55px Arial"; ctx.fillText(document.getElementById('txtDapur')?.innerText||"SPPG", 540, 430);
+    function wrapText(ctx, text, x, y, maxW, lh) { const words = text.split(' '); let line = '', cy = y; for(let n=0; n<words.length; n++) { const test = line + words[n] + ' '; if(ctx.measureText(test).width > maxW && n>0) { ctx.fillText(line,x,cy); line=words[n]+' '; cy+=lh; } else line=test; } ctx.fillText(line,x,cy); return cy+lh; }
+    ctx.fillStyle = "#fff"; ctx.font = "bold 60px Arial"; const endY = wrapText(ctx, document.getElementById('txtMenu')?.innerText||"Menu MBG", 540, 1320, 900, 80); ctx.fillStyle="#ffcc00"; ctx.font="italic 36px Arial"; ctx.fillText(document.getElementById('txtTgl')?.innerText||fmtHariIni(), 540, endY+28);
     const a = document.createElement('a'); a.download = "Poster_Premium_MBG.png"; a.href = canvas.toDataURL("image/png"); a.click();
   }
 
@@ -1582,39 +955,18 @@
   setInterval(async () => {
     if (isFetchingSilent || !navigator.onLine || Array.from(document.querySelectorAll('.modal-overlay')).some(m => m.style.display === 'flex')) return;
     isFetchingSilent = true;
-    if (currentView === 'menu') {
-      let r = isGlobalPlayMode ? await fetchAPI('getSemuaMenuHariIni') : await fetchAPI('getGambarMenu', {periodeId: document.getElementById('selPeriode').value});
-      if (r) {
-        let oldStr = JSON.stringify(imageList.filter(i => !i.isPlaceholder)), newStr = JSON.stringify(r.filter(i => !i.isPlaceholder));
-        if (oldStr !== newStr) { imageList = r.filter(i => !i.isPlaceholder); if (isGridView) renderMenuGrid(); else { if (currentIdx >= imageList.length) currentIdx = 0; updateDisplay(currentIdx); } showToast("Data Dapur diperbarui otomatis!"); }
-      }
-    } else {
-      let r = await fetchAPI('getGaleri');
-      if (r && JSON.stringify(r) !== JSON.stringify(galeriAllData)) { galeriAllData = r; applyGaleriFilter(); showToast("Kegiatan baru masuk!"); }
-    }
+    if (currentView === 'menu') { let r = isGlobalPlayMode ? await fetchAPI('getSemuaMenuHariIni') : await fetchAPI('getGambarMenu', {periodeId: document.getElementById('selPeriode').value}); if (r) { let oldStr = JSON.stringify(imageList.filter(i => !i.isPlaceholder)), newStr = JSON.stringify(r.filter(i => !i.isPlaceholder)); if (oldStr !== newStr) { imageList = r.filter(i => !i.isPlaceholder); if (isGridView) renderMenuGrid(); else { if (currentIdx >= imageList.length) currentIdx = 0; updateDisplay(currentIdx); } showToast("Data Dapur diperbarui otomatis!"); } } } 
+    else { let r = await fetchAPI('getGaleri'); if (r && JSON.stringify(r) !== JSON.stringify(galeriAllData)) { galeriAllData = r; applyGaleriFilter(); showToast("Kegiatan baru masuk!"); } }
     isFetchingSilent = false;
   }, 60000);
 
   // HISTORY BACK CONTROLLER ENGINE
   (function() {
-    history.replaceState({ view: 'menu', type: 'page' }, '');
-    let isPopStateTriggered = false;
-    window.rekamJejakModal = () => history.pushState({ view: currentView, type: 'modal' }, '');
-    
-    const originSwitchView = switchView;
-    window.switchView = function(view) { if (currentView !== view) history.pushState({ view: view, type: 'page' }, ''); originSwitchView(view); };
-    
-    const originTutupModal = tutupModal;
-    window.tutupModal = function(id) { originTutupModal(id); if (!isPopStateTriggered) history.back(); };
+    history.replaceState({ view: 'menu', type: 'page' }, ''); let isPopStateTriggered = false; window.rekamJejakModal = () => history.pushState({ view: currentView, type: 'modal' }, '');
+    const originSwitchView = switchView; window.switchView = function(view) { if (currentView !== view) history.pushState({ view: view, type: 'page' }, ''); originSwitchView(view); };
+    const originTutupModal = tutupModal; window.tutupModal = function(id) { originTutupModal(id); if (!isPopStateTriggered) history.back(); };
     window.tutupModalFull = function() { tutupModalFull(); if (!isPopStateTriggered) history.back(); };
-
-    window.addEventListener('popstate', event => {
-      isPopStateTriggered = true;
-      document.querySelectorAll('.modal-overlay').forEach(m => { if(m.style.display === 'flex') { m.style.display = 'none'; if(m.id === 'modalFullGaleri') document.getElementById('fullGaleriContent').innerHTML = ''; } });
-      if (event.state && event.state.type === 'page') originSwitchView(event.state.view);
-      setTimeout(() => isPopStateTriggered = false, 100);
-      saveAppState();
-    });
+    window.addEventListener('popstate', event => { isPopStateTriggered = true; document.querySelectorAll('.modal-overlay').forEach(m => { if(m.style.display === 'flex') { m.style.display = 'none'; if(m.id === 'modalFullGaleri') document.getElementById('fullGaleriContent').innerHTML = ''; } }); if (event.state && event.state.type === 'page') originSwitchView(event.state.view); setTimeout(() => isPopStateTriggered = false, 100); saveAppState(); });
   })();
 </script>
 </body>
