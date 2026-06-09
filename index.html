@@ -348,9 +348,7 @@
     </div>
   </div>
 
-  <!-- HORIZONTAL BOTTOM DOCK -->
   <div id="sideDock">
-    <!-- Baris 1: Tab Menu Utama -->
     <div class="dock-row" style="flex-wrap: nowrap;">
       <button class="dock-view-tab tab-on" id="tabMenu" onclick="switchView('menu')" title="Menu MBG">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
@@ -365,7 +363,6 @@
 
     <div class="dock-sep"></div>
 
-    <!-- Baris 2: Sub-Menu Aksi Flex-Wrap Anti-Gepeng -->
     <div id="menuDockBtns" class="dock-row">
       <button class="dock-btn active-red" id="btnModePlayGlobal" onclick="setMode('playglobal')" title="Play Hari Ini">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg><span class="dock-btn-label">PLAY</span>
@@ -374,7 +371,6 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg><span class="dock-btn-label">LIHAT</span>
       </button>
 
-      <!-- Menu Kelola Dihilangkan, Tombol Admin Langsung Muncul Jika Login -->
       <button class="dock-btn kelola-menu-only" id="btnUploadMenu" onclick="bukaModalUploadMenu()" title="Upload Menu" style="display:none;">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
         <span class="dock-btn-label" style="color:var(--green);">UPLOAD</span>
@@ -390,7 +386,6 @@
       </button>
     </div>
 
-    <!-- Kontrol Khusus Tampilan Galeri Kegiatan -->
     <div id="galeriDockBtns" class="dock-row" style="display:none;">
       <button class="dock-btn active" id="btnGaleriSemua" onclick="filterGaleri('semua')" title="Semua">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg><span class="dock-btn-label">SEMUA</span>
@@ -417,7 +412,6 @@
 <div id="loaderFloat"><div class="spinner"></div><div id="loaderMsg">MEMPROSES...</div></div>
 <div id="toast">Notifikasi</div>
 
-<!-- Modal Galeri Full Screen -->
 <div id="modalFullGaleri" class="modal-overlay" onclick="tutupModalFull()">
   <div class="full-galeri-box" onclick="event.stopPropagation()">
     <button class="btn-share-modal" onclick="bagikanWeb()" title="Bagikan"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></button>
@@ -427,7 +421,6 @@
   </div>
 </div>
 
-<!-- Forms and Modals -->
 <div id="modalLogin" class="modal-overlay">
   <div class="modal-box">
     <h3>LOGIN ADMIN</h3>
@@ -568,6 +561,41 @@
 
   const HARI  = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
   const BULAN = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+
+  // FUNGSI HELPER: OTOMATIS ROTASI GAMBAR VERTIKAL KE LANDSCAPE
+  function processImageFile(file, callback) {
+    if(!file || !file.type.startsWith('image/')) {
+      // Jika bukan gambar (misal video), langsung baca base64 biasa tanpa disentuh
+      const rd = new FileReader();
+      rd.onload = e => callback(e.target.result);
+      rd.readAsDataURL(file);
+      return;
+    }
+    const rd = new FileReader();
+    rd.onload = e => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        // Cek kalau vertikal (tinggi lebih besar dari lebar)
+        if (img.height > img.width) {
+          canvas.width = img.height;
+          canvas.height = img.width;
+          ctx.translate(canvas.width / 2, canvas.height / 2);
+          ctx.rotate(-90 * Math.PI / 180);
+          ctx.drawImage(img, -img.width / 2, -img.height / 2);
+        } else { // Kalau udah landscape, biarin
+          canvas.width = img.width;
+          canvas.height = img.height;
+          ctx.drawImage(img, 0, 0);
+        }
+        // Ubah hasil ke base64 (kualitas 85% biar enteng di server)
+        callback(canvas.toDataURL(file.type, 0.85));
+      };
+      img.src = e.target.result;
+    };
+    rd.readAsDataURL(file);
+  }
 
   // DATABASE OFFLINE (IndexedDB)
   const DB_NAME = "MAP_Offline_Storage";
@@ -901,33 +929,55 @@
   async function doUploadMenu() {
     const dapurId = document.getElementById('upMenuDapur').value, nama = document.getElementById('upMenuNama').value.trim(), tgl = document.getElementById('upMenuTgl').value, file = document.getElementById('upMenuFile').files[0];
     if(!dapurId || !nama || !tgl || !file) return showToast("Lengkapi semua form upload menu!", true);
-    const rd = new FileReader();
-    rd.onload = async e => {
-      let base64 = e.target.result; let payload = { dapurId, namaMenu: nama, tanggal: tgl, data: base64 }; tutupModal('modalUploadMenu');
+    
+    // Pakai helper otomatis rotasi
+    processImageFile(file, async (base64) => {
+      let payload = { dapurId, namaMenu: nama, tanggal: tgl, data: base64 }; tutupModal('modalUploadMenu');
       if (!navigator.onLine) { await simpanKeAntrean({ action: 'uploadMenuAuto', payload, nama: nama }); document.getElementById('upMenuFile').value=''; document.getElementById('upMenuNama').value=''; return; }
       showLoader("MENGUPLOAD MENU..."); let r = await fetchAPI('uploadMenuAuto', payload); hideLoader();
       if(r && r.status==='sukses') { showToast(`✓ Menu '${nama}' berhasil diupload!`); base64 = null; document.getElementById('upMenuFile').value=''; document.getElementById('upMenuNama').value=''; if(!isGlobalPlayMode && currentView==='menu') fetchGambar(); } else { await simpanKeAntrean({ action: 'uploadMenuAuto', payload, nama: nama }); }
-    }; rd.readAsDataURL(file);
+    });
   }
 
   async function doUploadGaleri() {
     const dapurEl = document.getElementById('upGaleriDapur'), dapurNama = dapurEl.options[dapurEl.selectedIndex]?.text || '', tgl = document.getElementById('upGaleriTgl').value, judul = document.getElementById('upGaleriJudul').value.trim(), desc = document.getElementById('upGaleriDesc').value.trim(), file = document.getElementById('upGaleriFile').files[0];
     if(!dapurEl.value || !tgl || !judul || !file) return showToast("Lengkapi data form galeri!", true);
-    const rd = new FileReader();
-    rd.onload = async e => {
-      let base64 = e.target.result; let payload = { dapur:dapurNama, tanggal:tgl, judul, deskripsi:desc, data:base64 }; tutupModal('modalUploadGaleri');
+    
+    // Pakai helper otomatis rotasi
+    processImageFile(file, async (base64) => {
+      let payload = { dapur:dapurNama, tanggal:tgl, judul, deskripsi:desc, data:base64 }; tutupModal('modalUploadGaleri');
       if (!navigator.onLine) { await simpanKeAntrean({ action: 'uploadGaleri', payload, nama: judul }); document.getElementById('upGaleriFile').value=''; document.getElementById('upGaleriJudul').value=''; document.getElementById('upGaleriDesc').value=''; return; }
       showLoader("MENGUPLOAD GALERI..."); let r = await fetchAPI('uploadGaleri', payload); hideLoader();
       if(r && r.status==='sukses') { showToast("✓ Galeri berhasil diupload!"); base64 = null; document.getElementById('upGaleriFile').value=''; document.getElementById('upGaleriJudul').value=''; document.getElementById('upGaleriDesc').value=''; if(currentView==='galeri') muatGaleri(); } else { await simpanKeAntrean({ action: 'uploadGaleri', payload, nama: judul }); }
-    }; rd.readAsDataURL(file);
+    });
   }
 
   function bukaModalEdit() { if(imageList.length===0 || isModeGaleri) return showToast("Pilih menu dulu!", true); document.getElementById('editNama').value = imageList[currentIdx].nama; document.getElementById('editTgl').value = imageList[currentIdx].tanggal; document.getElementById('modalEdit').style.display = 'flex'; rekamJejakModal(); }
-  async function executeEdit() { const curr = imageList[currentIdx], file = document.getElementById('editFile').files[0]; tutupModal('modalEdit'); showLoader("MENYIMPAN..."); let payload = {id:curr.id, nama:document.getElementById('editNama').value, tanggal:document.getElementById('editTgl').value, fileData:null}; if(file) { const rd = new FileReader(); rd.onload = async e => { payload.fileData = e.target.result; await kirimEdit(payload); }; rd.readAsDataURL(file); } else await kirimEdit(payload); }
+  
+  async function executeEdit() { 
+    const curr = imageList[currentIdx], file = document.getElementById('editFile').files[0]; 
+    tutupModal('modalEdit'); showLoader("MENYIMPAN..."); 
+    let payload = {id:curr.id, nama:document.getElementById('editNama').value, tanggal:document.getElementById('editTgl').value, fileData:null}; 
+    if(file) { 
+      processImageFile(file, async (base64) => {
+        payload.fileData = base64; await kirimEdit(payload); 
+      });
+    } else await kirimEdit(payload); 
+  }
   async function kirimEdit(payload) { const r = await fetchAPI('editMenu', payload); hideLoader(); if(r && r.success) { showToast("Berhasil disimpan!"); fetchGambar(); } else showToast("Gagal menyimpan!", true); }
 
   function bukaModalEditGaleri(index) { const curr = galeriAllData[index]; deleteTargetIndex = index; document.getElementById('editGaleriJudul').value = curr.judul; document.getElementById('editGaleriTgl').value = curr.tanggal; document.getElementById('editGaleriDesc').value = curr.deskripsi || ''; document.getElementById('modalEditGaleri').style.display = 'flex'; rekamJejakModal(); }
-  async function executeEditGaleri() { const curr = galeriAllData[deleteTargetIndex], file = document.getElementById('editGaleriFile').files[0]; tutupModal('modalEditGaleri'); showLoader("MENYIMPAN GALERI..."); let payload = {id: curr.id, judul: document.getElementById('editGaleriJudul').value, tanggal: document.getElementById('editGaleriTgl').value, deskripsi: document.getElementById('editGaleriDesc').value, fileData: null}; if(file) { const rd = new FileReader(); rd.onload = async e => { payload.fileData = e.target.result; await kirimEditGaleri(payload); }; rd.readAsDataURL(file); } else await kirimEditGaleri(payload); }
+  
+  async function executeEditGaleri() { 
+    const curr = galeriAllData[deleteTargetIndex], file = document.getElementById('editGaleriFile').files[0]; 
+    tutupModal('modalEditGaleri'); showLoader("MENYIMPAN GALERI..."); 
+    let payload = {id: curr.id, judul: document.getElementById('editGaleriJudul').value, tanggal: document.getElementById('editGaleriTgl').value, deskripsi: document.getElementById('editGaleriDesc').value, fileData: null}; 
+    if(file) { 
+      processImageFile(file, async (base64) => {
+        payload.fileData = base64; await kirimEditGaleri(payload);
+      }); 
+    } else await kirimEditGaleri(payload); 
+  }
   async function kirimEditGaleri(payload) { const r = await fetchAPI('editGaleri', payload); hideLoader(); if(r && r.success) { showToast("Galeri diperbarui!"); muatGaleri(); } else showToast("Gagal memperbarui galeri", true); }
 
   function doHapus(type, index=null) { deleteTargetType = type; if(type === 'menu') { if(imageList.length===0) return; document.getElementById('modalText').innerText = `Yakin hapus menu "${imageList[currentIdx].nama}"?`; } else if (type === 'galeri') { deleteTargetIndex = index; document.getElementById('modalText').innerText = `Yakin hapus kegiatan "${galeriAllData[index].judul}"?`; } document.getElementById('modalConfirm').style.display = 'flex'; rekamJejakModal(); }
@@ -943,11 +993,38 @@
     const canvas = document.getElementById('posterCanvas'), ctx = canvas.getContext('2d'); canvas.width = 1080; canvas.height = 1920; ctx.fillStyle = "#05233f"; ctx.fillRect(0,0,1080,1920); ctx.fillStyle = "rgba(255,255,255,0.05)"; ctx.beginPath(); ctx.moveTo(0,500); ctx.quadraticCurveTo(540,300,1080,500); ctx.lineTo(1080,1500); ctx.quadraticCurveTo(540,1700,0,1500); ctx.fill();
     const loadImg = src => new Promise(res => { const i = new Image(); i.crossOrigin="Anonymous"; i.onload = () => res(i); i.src = src; });
     const imgMenu = await loadImg(imgElem.src), logo1 = await loadImg(document.getElementById('boxLogo1')?.querySelector('img')?.src), logo2 = await loadImg(document.getElementById('boxLogo2')?.querySelector('img')?.src);
-    const lw = 160; ctx.drawImage(logo1, 80, 80, lw, lw/(logo1.width/logo1.height)); ctx.drawImage(logo2, 840, 80, lw, lw/(logo2.width/logo2.height)); ctx.shadowColor = "rgba(0,0,0,0.5)"; ctx.shadowBlur = 40; ctx.fillStyle = "#fff"; ctx.fillRect(100,600,880,600);
-    let ratio = Math.min(840 / imgMenu.width, 560 / imgMenu.height); ctx.drawImage(imgMenu, 0, 0, imgMenu.width, imgMenu.height, 120 + (840 - imgMenu.width * ratio) / 2, 620 + (560 - imgMenu.height * ratio) / 2, imgMenu.width * ratio, imgMenu.height * ratio);
-    ctx.shadowBlur = 0; ctx.textAlign = "center"; ctx.textBaseline = "top"; ctx.fillStyle = "#ffcc00"; ctx.font = "bold 55px Arial"; ctx.fillText(document.getElementById('txtDapur')?.innerText||"SPPG", 540, 430);
+    
+    const lw = 160; ctx.drawImage(logo1, 80, 80, lw, lw/(logo1.width/logo1.height)); ctx.drawImage(logo2, 840, 80, lw, lw/(logo2.width/logo2.height)); 
+    
+    // LOGIC BARU: Hapus background putih, ganti jadi masking rounded corner supaya fit (cover) rapi
+    ctx.save();
+    const x = 100, y = 600, w = 880, h = 600, r = 24;
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.lineTo(x + w - r, y); ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+    ctx.lineTo(x + w, y + h - r); ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+    ctx.lineTo(x + r, y + h); ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+    ctx.lineTo(x, y + r); ctx.quadraticCurveTo(x, y, x + r, y);
+    ctx.closePath();
+    
+    // Bikin efek shadow buat fotonya langsung
+    ctx.shadowColor = "rgba(0,0,0,0.6)"; ctx.shadowBlur = 30; ctx.shadowOffsetY = 10;
+    ctx.fill(); // Buat manggil bayangannya
+    ctx.clip(); // Potong area biar ga keluar garis
+
+    // Gambar di-scale secara dinamis nyesuain rasio layar biar 'cover'
+    let ratio = Math.max(w / imgMenu.width, h / imgMenu.height);
+    let nw = imgMenu.width * ratio;
+    let nh = imgMenu.height * ratio;
+    let ox = x + (w - nw) / 2;
+    let oy = y + (h - nh) / 2;
+    ctx.drawImage(imgMenu, 0, 0, imgMenu.width, imgMenu.height, ox, oy, nw, nh);
+    ctx.restore(); // Tutup masking biar tulisan dibawah ga ikutan kena shadow / kepotong
+
+    ctx.textAlign = "center"; ctx.textBaseline = "top"; ctx.fillStyle = "#ffcc00"; ctx.font = "bold 55px Arial"; ctx.fillText(document.getElementById('txtDapur')?.innerText||"SPPG", 540, 430);
     function wrapText(ctx, text, x, y, maxW, lh) { const words = text.split(' '); let line = '', cy = y; for(let n=0; n<words.length; n++) { const test = line + words[n] + ' '; if(ctx.measureText(test).width > maxW && n>0) { ctx.fillText(line,x,cy); line=words[n]+' '; cy+=lh; } else line=test; } ctx.fillText(line,x,cy); return cy+lh; }
     ctx.fillStyle = "#fff"; ctx.font = "bold 60px Arial"; const endY = wrapText(ctx, document.getElementById('txtMenu')?.innerText||"Menu MBG", 540, 1320, 900, 80); ctx.fillStyle="#ffcc00"; ctx.font="italic 36px Arial"; ctx.fillText(document.getElementById('txtTgl')?.innerText||fmtHariIni(), 540, endY+28);
+    
     const a = document.createElement('a'); a.download = "Poster_Premium_MBG.png"; a.href = canvas.toDataURL("image/png"); a.click();
   }
 
