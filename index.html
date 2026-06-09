@@ -62,9 +62,9 @@
       position: fixed;
       left: 50%;
       bottom: 0;
-      transform: translate(-50%, calc(100% + 40px)); /* Sembunyi total ke bawah layar */
+      transform: translate(-50%, calc(100% + 40px));
       width: 95%;
-      max-width: 800px; /* Lebar max agar di PC tetap estetik di tengah */
+      max-width: 800px;
       background: var(--bg-panel);
       backdrop-filter: blur(28px);
       -webkit-backdrop-filter: blur(28px);
@@ -74,7 +74,7 @@
       z-index: 1000;
       display: flex;
       flex-direction: column;
-      padding: 20px 24px 30px; /* Padding bawah ekstra untuk keamanan safe-area HP */
+      padding: 20px 24px 30px; 
       gap: 16px;
       box-shadow: 0 -10px 50px rgba(0,0,0,0.8);
       transition: transform 0.45s cubic-bezier(0.2, 0.9, 0.2, 1);
@@ -83,14 +83,13 @@
 
     .dock-sep { width: 100%; height: 1px; background: var(--glass-b); margin: 2px 0; }
 
-    /* Pengaturan Baris Fleksibel Anti-Gepeng */
     .dock-row {
       display: flex;
       flex-direction: row;
       align-items: center;
       justify-content: center;
       gap: 10px;
-      flex-wrap: wrap; /* MENGIZINKAN TOMBOL TURUN KE BAWAH JIKA PENUH */
+      flex-wrap: wrap; 
       width: 100%;
     }
 
@@ -551,7 +550,7 @@
 
 <script>
   // URL GAS Milikmu
-  const GAS_API_URL = "https://script.google.com/macros/s/AKfycbyi5jT2Bf6DlAefUB_bC3s1QCMob1w0Q5sfZVSXUVrrH707PlXyDFahe9uRHaKeyGkE/exec";
+  const GAS_API_URL = "https://script.google.com/macros/s/AKfycbwO2Z0vLyUoOcH_YGRmUcRPMj423ualnX68kt0XXjFa2sb-l-gusqRZitbjM0AWoIMx/exec";
 
   let isAdmin = false;
   let imageList = [], galeriAllData = [], currentIdx = 0;
@@ -565,7 +564,6 @@
   // FUNGSI HELPER: OTOMATIS ROTASI GAMBAR VERTIKAL KE LANDSCAPE
   function processImageFile(file, callback) {
     if(!file || !file.type.startsWith('image/')) {
-      // Jika bukan gambar (misal video), langsung baca base64 biasa tanpa disentuh
       const rd = new FileReader();
       rd.onload = e => callback(e.target.result);
       rd.readAsDataURL(file);
@@ -577,19 +575,17 @@
       img.onload = () => {
         const canvas = document.createElement('canvas');
         const ctx = canvas.getContext('2d');
-        // Cek kalau vertikal (tinggi lebih besar dari lebar)
         if (img.height > img.width) {
           canvas.width = img.height;
           canvas.height = img.width;
           ctx.translate(canvas.width / 2, canvas.height / 2);
           ctx.rotate(-90 * Math.PI / 180);
           ctx.drawImage(img, -img.width / 2, -img.height / 2);
-        } else { // Kalau udah landscape, biarin
+        } else {
           canvas.width = img.width;
           canvas.height = img.height;
           ctx.drawImage(img, 0, 0);
         }
-        // Ubah hasil ke base64 (kualitas 85% biar enteng di server)
         callback(canvas.toDataURL(file.type, 0.85));
       };
       img.src = e.target.result;
@@ -603,6 +599,13 @@
     const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
     const match = url.match(regExp);
     return (match && match[2].length === 11) ? match[2] : null;
+  }
+
+  // FUNGSI HELPER BARU: BACA TIKTOK ID
+  function getTikTokID(url) {
+    if (!url || typeof url !== 'string') return null;
+    if (url.startsWith('tiktok:')) return url.split(':')[1];
+    return null;
   }
 
   // DATABASE OFFLINE (IndexedDB)
@@ -672,7 +675,7 @@
     fetchAPI('getLogo',{namaFile:'Logo Badan Gizi.png'}).then(r => { if(r) document.getElementById('boxLogo2').innerHTML = `<img src="${r}" class="logo-img">`; });
     fetchAPI('getDaftarDapur').then(r => { if(r) { dapurList = r; populateDapurSelects(); } });
 
-    // SENSOR DOCK (Sentuh dimana saja untuk memunculkan Dock Elastis)
+    // SENSOR DOCK 
     window.addEventListener('mousemove', showDock);
     window.addEventListener('touchstart', showDock, {passive:true});
     const dock = document.getElementById('sideDock');
@@ -725,7 +728,6 @@
     else { const dummy = document.createElement('input'); document.body.appendChild(dummy); dummy.value = urlString; dummy.select(); document.execCommand('copy'); document.body.removeChild(dummy); showToast("Link disalin! Silakan paste di WA."); }
   }
 
-  // UPDATED DOCK LAYOUT MANAGER - LEBIH BERSIH & SERAGAM
   function updateDockLayout() {
     const btnAuth = document.getElementById('btnAdminAuth');
     if (isAdmin) {
@@ -793,7 +795,7 @@
 
   function setMode(mode) {
     saveAppState();
-    if (mode === 'kelola') mode = 'lihat'; // Tombol Kelola telah dilebur jadi satu.
+    if (mode === 'kelola') mode = 'lihat'; 
 
     if(mode==='playglobal') {
       document.getElementById('btnModePlayGlobal').className = 'dock-btn active-red'; document.getElementById('btnModeLihat').className = 'dock-btn'; document.getElementById('menuFilterBar').style.display = 'none';
@@ -801,7 +803,7 @@
     } else if(mode==='lihat') {
       document.getElementById('btnModePlayGlobal').className = 'dock-btn'; document.getElementById('btnModeLihat').className = 'dock-btn active'; document.getElementById('menuFilterBar').style.display = 'flex'; 
       isGlobalPlayMode = false; stopSlide();
-      if(imageList.length === 0) fetchGambar(); // Pancing gambar jika kosong
+      if(imageList.length === 0) fetchGambar(); 
     }
     updateDockLayout(); 
   }
@@ -916,13 +918,21 @@
         
         let mediaTag = `<img src="${g.src}" loading="lazy">`;
         let ytId = getYouTubeID(g.src);
+        let tkId = getTikTokID(g.src);
         
-        // Logika Deteksi YouTube vs MP4 vs Gambar biasa
+        // Logika Deteksi YouTube vs TikTok vs MP4 vs Gambar biasa
         if (ytId) {
           mediaTag = `<div style="position:relative; width:100%; height:180px; display:flex; align-items:center; justify-content:center; border-radius:12px; margin-bottom:12px; overflow:hidden;">
                         <img src="https://img.youtube.com/vi/${ytId}/hqdefault.jpg" style="width:100%; height:100%; object-fit:cover; position:absolute; top:0; left:0;">
                         <div style="position:absolute; background:rgba(0,0,0,0.6); border-radius:50%; width:44px; height:44px; display:flex; align-items:center; justify-content:center; z-index:2;">
                           <svg viewBox="0 0 24 24" width="24" height="24" fill="var(--gold)"><path d="M8 5v14l11-7z"/></svg>
+                        </div>
+                      </div>`;
+        } else if (tkId) {
+          mediaTag = `<div style="position:relative; width:100%; height:180px; background:#111; display:flex; align-items:center; justify-content:center; border-radius:12px; margin-bottom:12px; overflow:hidden;">
+                        <div style="position:absolute; background:rgba(255,255,255,0.1); border-radius:12px; padding:10px; display:flex; align-items:center; gap:8px;">
+                           <svg viewBox="0 0 448 512" width="20" height="20" fill="#fff"><path d="M448 209.91a210.06 210.06 0 0 1-122.77-39.25v178.72A162.55 162.55 0 1 1 162.6 186v73.27a89.12 89.12 0 1 0 88.51 88.44V0h73.25a143.49 143.49 0 0 0 123.64 123.6z"/></svg>
+                           <span style="color:#fff; font-size:12px; font-weight:bold;">Video TikTok</span>
                         </div>
                       </div>`;
         } else if (g.src.includes('data:video') || g.src.includes('video/mp4')) { 
@@ -938,13 +948,16 @@
   let galeriListFullscreen = [], galIdx = 0;
   function bukaGaleriFull(index) { galeriListFullscreen = galeriAllData; galIdx = index; renderFullGaleri(); document.getElementById('modalFullGaleri').style.display = 'flex'; rekamJejakModal(); }
   
-  // RENDER POPUP FULLSCREEN (YouTube Iframe ditambahkan ke sini)
+  // RENDER POPUP FULLSCREEN (YouTube & TikTok Iframe ditambahkan ke sini)
   function renderFullGaleri() { 
     const item = galeriListFullscreen[galIdx], container = document.getElementById('fullGaleriContent'); 
     let ytId = getYouTubeID(item.src);
+    let tkId = getTikTokID(item.src);
     
     if (ytId) {
       container.innerHTML = `<iframe width="100%" height="100%" style="max-width:90vw; max-height:85vh; aspect-ratio: 16/9; border-radius:12px; border:none;" src="https://www.youtube.com/embed/${ytId}?autoplay=1&rel=0&vq=hd720" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+    } else if (tkId) {
+      container.innerHTML = `<iframe width="100%" height="100%" style="max-width:90vw; max-height:85vh; border-radius:12px; border:none;" src="https://www.tiktok.com/embed/v2/${tkId}" allow="encrypted-media" allowfullscreen></iframe>`;
     } else if (item.src.includes('data:video') || item.src.includes('video/mp4')) { 
       container.innerHTML = `<video src="${item.src}" controls autoplay playsinline style="max-width:100%; max-height:85vh; border-radius:12px; background:black;"></video>`; 
     } else { 
@@ -966,7 +979,6 @@
     const dapurId = document.getElementById('upMenuDapur').value, nama = document.getElementById('upMenuNama').value.trim(), tgl = document.getElementById('upMenuTgl').value, file = document.getElementById('upMenuFile').files[0];
     if(!dapurId || !nama || !tgl || !file) return showToast("Lengkapi semua form upload menu!", true);
     
-    // Pakai helper otomatis rotasi
     processImageFile(file, async (base64) => {
       let payload = { dapurId, namaMenu: nama, tanggal: tgl, data: base64 }; tutupModal('modalUploadMenu');
       if (!navigator.onLine) { await simpanKeAntrean({ action: 'uploadMenuAuto', payload, nama: nama }); document.getElementById('upMenuFile').value=''; document.getElementById('upMenuNama').value=''; return; }
@@ -979,7 +991,6 @@
     const dapurEl = document.getElementById('upGaleriDapur'), dapurNama = dapurEl.options[dapurEl.selectedIndex]?.text || '', tgl = document.getElementById('upGaleriTgl').value, judul = document.getElementById('upGaleriJudul').value.trim(), desc = document.getElementById('upGaleriDesc').value.trim(), file = document.getElementById('upGaleriFile').files[0];
     if(!dapurEl.value || !tgl || !judul || !file) return showToast("Lengkapi data form galeri!", true);
     
-    // Pakai helper otomatis rotasi
     processImageFile(file, async (base64) => {
       let payload = { dapur:dapurNama, tanggal:tgl, judul, deskripsi:desc, data:base64 }; tutupModal('modalUploadGaleri');
       if (!navigator.onLine) { await simpanKeAntrean({ action: 'uploadGaleri', payload, nama: judul }); document.getElementById('upGaleriFile').value=''; document.getElementById('upGaleriJudul').value=''; document.getElementById('upGaleriDesc').value=''; return; }
@@ -1032,7 +1043,6 @@
     
     const lw = 160; ctx.drawImage(logo1, 80, 80, lw, lw/(logo1.width/logo1.height)); ctx.drawImage(logo2, 840, 80, lw, lw/(logo2.width/logo2.height)); 
     
-    // LOGIC BARU: Hapus background putih, ganti jadi masking rounded corner supaya fit (cover) rapi
     ctx.save();
     const x = 100, y = 600, w = 880, h = 600, r = 24;
     ctx.beginPath();
@@ -1043,19 +1053,17 @@
     ctx.lineTo(x, y + r); ctx.quadraticCurveTo(x, y, x + r, y);
     ctx.closePath();
     
-    // Bikin efek shadow buat fotonya langsung
     ctx.shadowColor = "rgba(0,0,0,0.6)"; ctx.shadowBlur = 30; ctx.shadowOffsetY = 10;
-    ctx.fill(); // Buat manggil bayangannya
-    ctx.clip(); // Potong area biar ga keluar garis
+    ctx.fill(); 
+    ctx.clip(); 
 
-    // Gambar di-scale secara dinamis nyesuain rasio layar biar 'cover'
     let ratio = Math.max(w / imgMenu.width, h / imgMenu.height);
     let nw = imgMenu.width * ratio;
     let nh = imgMenu.height * ratio;
     let ox = x + (w - nw) / 2;
     let oy = y + (h - nh) / 2;
     ctx.drawImage(imgMenu, 0, 0, imgMenu.width, imgMenu.height, ox, oy, nw, nh);
-    ctx.restore(); // Tutup masking biar tulisan dibawah ga ikutan kena shadow / kepotong
+    ctx.restore(); 
 
     ctx.textAlign = "center"; ctx.textBaseline = "top"; ctx.fillStyle = "#ffcc00"; ctx.font = "bold 55px Arial"; ctx.fillText(document.getElementById('txtDapur')?.innerText||"SPPG", 540, 430);
     function wrapText(ctx, text, x, y, maxW, lh) { const words = text.split(' '); let line = '', cy = y; for(let n=0; n<words.length; n++) { const test = line + words[n] + ' '; if(ctx.measureText(test).width > maxW && n>0) { ctx.fillText(line,x,cy); line=words[n]+' '; cy+=lh; } else line=test; } ctx.fillText(line,x,cy); return cy+lh; }
@@ -1064,7 +1072,6 @@
     const a = document.createElement('a'); a.download = "Poster_Premium_MBG.png"; a.href = canvas.toDataURL("image/png"); a.click();
   }
 
-  // SILENT POLLING TIMER
   setInterval(async () => {
     if (isFetchingSilent || !navigator.onLine || Array.from(document.querySelectorAll('.modal-overlay')).some(m => m.style.display === 'flex')) return;
     isFetchingSilent = true;
@@ -1073,7 +1080,6 @@
     isFetchingSilent = false;
   }, 60000);
 
-  // HISTORY BACK CONTROLLER ENGINE
   (function() {
     history.replaceState({ view: 'menu', type: 'page' }, ''); let isPopStateTriggered = false; window.rekamJejakModal = () => history.pushState({ view: currentView, type: 'modal' }, '');
     const originSwitchView = switchView; window.switchView = function(view) { if (currentView !== view) history.pushState({ view: view, type: 'page' }, ''); originSwitchView(view); };
