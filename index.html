@@ -185,6 +185,22 @@
     .galeri-admin-actions { display: flex; gap: 8px; margin-top: 12px; padding-top: 12px; border-top: 1px dashed var(--glass-b); }
     .galeri-admin-actions button { flex: 1; padding: 7px; font-size: 10px; border-radius: 8px; }
 
+    /* CSS HALAMAN TENTANG YAYASAN */
+    #tentangContainer { width: 100%; height: 100%; display: none; flex-direction: column; align-items: center; position: absolute; top: 0; left: 0; padding: 40px 24px; overflow-y: auto; z-index: 8; background: var(--bg-main); text-align: center; }
+    .tentang-logo { height: 120px; object-fit: contain; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.6)); margin-bottom: 24px; }
+    .sosmed-row { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-bottom: 32px; width: 100%; max-width: 600px; }
+    .sosmed-btn { display: flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: 12px; font-family: var(--fb); font-size: 13px; font-weight: 800; text-decoration: none; color: white; transition: 0.25s; border: 1px solid var(--glass-b); background: var(--glass); }
+    .sosmed-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.5); border-color: var(--gold); }
+    .sosmed-btn.fb { background: rgba(24, 119, 242, 0.2); border-color: rgba(24, 119, 242, 0.4); }
+    .sosmed-btn.ig { background: rgba(225, 48, 108, 0.2); border-color: rgba(225, 48, 108, 0.4); }
+    .sosmed-btn.tt { background: rgba(0, 0, 0, 0.4); border-color: rgba(255, 255, 255, 0.3); }
+    .sosmed-btn.yt { background: rgba(255, 0, 0, 0.2); border-color: rgba(255, 0, 0, 0.4); }
+    .tentang-teks { max-width: 700px; text-align: left; background: var(--glass); border: 1px solid var(--glass-b); border-radius: 16px; padding: 24px; margin-bottom: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.4); }
+    .tentang-teks h3 { font-family: var(--fd); color: var(--gold); font-size: 24px; margin-bottom: 16px; text-align: center; letter-spacing: 1px; text-transform: uppercase; }
+    .tentang-teks p { font-size: 14px; line-height: 1.6; color: #ddd; margin-bottom: 12px; text-align: justify; }
+    .tentang-copyright { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #aaa; font-weight: 600; letter-spacing: 0.5px; margin-top: auto; padding-top: 20px; padding-bottom: 30px; opacity: 0.8; }
+    .tentang-copyright svg { width: 14px; height: 14px; }
+
     #galeriFilterBar, #menuFilterBar { display: none; align-items: center; justify-content: center; gap: 14px; padding: 10px 24px; background: var(--bg-panel); border-bottom: 1px solid var(--glass-b); flex-shrink: 0; flex-wrap: wrap; }
     #galeriFilterBar label, #menuFilterBar label { font-size: 10px; opacity: 0.6; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: white; }
     .galeri-filter-group, .menu-filter-group { display: flex; flex-direction: column; gap: 4px; }
@@ -267,6 +283,13 @@
       #menuFilterBar, #galeriFilterBar { flex-direction: row; gap: 8px; padding: 10px 12px; }
       select, input[type="date"] { padding: 6px 10px; font-size: 12px; }
       #navPrevGal { left: 10px; } #navNextGal { right: 10px; }
+
+      /* Responsif Tentang Kami */
+      .tentang-logo { height: 90px; margin-bottom: 16px; }
+      .tentang-teks { padding: 16px; }
+      .tentang-teks h3 { font-size: 20px; }
+      .tentang-teks p { font-size: 13px; }
+      .sosmed-btn { padding: 8px 16px; font-size: 12px; }
     }
   </style>
 </head>
@@ -345,6 +368,40 @@
       </div>
       <div id="gridContainer"></div>
       <div id="galeriContainer"></div>
+      
+      <div id="tentangContainer">
+        <img id="logoTentang" class="tentang-logo" src="icon.png" alt="Logo Yayasan">
+        
+        <div class="sosmed-row">
+          <a href="https://www.facebook.com/share/18nzXEbG7y/" target="_blank" class="sosmed-btn fb">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M22.675 0h-21.35C.597 0 0 .597 0 1.325v21.351C0 23.403.597 24 1.325 24H12.82v-9.294H9.692v-3.622h3.128V8.413c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12V24h6.116c.73 0 1.323-.597 1.323-1.324V1.325C24 .597 23.403 0 22.675 0z"/></svg>
+            Facebook
+          </a>
+          <a href="https://www.instagram.com/yayasanmuslimacehpeduli?igsh=MTA2MjY1MjN5cnUzYw==" target="_blank" class="sosmed-btn ig">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+            Instagram
+          </a>
+          <a href="https://www.tiktok.com/@yayasanmap?_r=1&_t=ZS-976VyIiXpor" target="_blank" class="sosmed-btn tt">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 2.78-1.15 5.54-3.33 7.31-1.92 1.54-4.54 2.11-6.95 1.54-2.31-.53-4.3-2.12-5.32-4.24-1.04-2.22-1-4.9.15-7.05 1.15-2.06 3.16-3.6 5.46-4.04 2.13-.41 4.41-.03 6.27 1.13.06-1.39.04-2.79.05-4.18-1.36-.61-2.92-.85-4.4-.73-2.33.15-4.57 1.25-6.06 3.05-1.55 1.9-2.21 4.4-1.84 6.78.36 2.39 1.67 4.58 3.59 5.92 1.83 1.25 4.19 1.66 6.33 1.09 2.08-.55 3.86-2.02 4.85-3.95.84-1.63 1.15-3.5 1.11-5.35-.04-3.67-.02-7.34-.02-11.01z"/></svg>
+            TikTok
+          </a>
+          <a href="https://youtube.com/@muslimacehpeduli?si=8IhSbdGWe_RFbfZK" target="_blank" class="sosmed-btn yt">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.5 12 3.5 12 3.5s-7.505 0-9.377.55a3.016 3.016 0 0 0-2.122 2.136C0 8.07 0 12 0 12s0 3.93.501 5.814a3.016 3.016 0 0 0 2.122 2.136c1.872.55 9.377.55 9.377.55s7.505 0 9.377-.55a3.016 3.016 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+            YouTube
+          </a>
+        </div>
+        
+        <div class="tentang-teks">
+          <h3>Yayasan Muslim Aceh Peduli</h3>
+          <p>Yayasan Muslim Aceh Peduli hadir sebagai lembaga sosial, kemanusiaan, dan dakwah yang berkomitmen untuk memberikan kontribusi nyata bagi masyarakat, khususnya dalam bidang pendidikan, sosial keagamaan, pemberdayaan ekonomi umat, serta bantuan kemanusiaan. Yayasan ini didirikan atas dasar kepedulian terhadap kondisi sosial masyarakat yang masih membutuhkan perhatian bersama, baik dalam aspek kesejahteraan, pendidikan, maupun pembinaan spiritual.</p>
+          <p>Berangkat dari semangat ukhuwah Islamiyah dan nilai-nilai kepedulian sosial, Yayasan Muslim Aceh Peduli berupaya menjadi wadah yang amanah, profesional, dan terpercaya dalam menyalurkan bantuan serta menjalankan berbagai program pemberdayaan masyarakat. Kehadiran yayasan ini diharapkan mampu menjadi jembatan kebaikan antara para dermawan dengan masyarakat yang membutuhkan, sehingga tercipta kehidupan sosial yang lebih harmonis, mandiri, dan berkeadilan.</p>
+        </div>
+
+        <div class="tentang-copyright">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M14.83 14.83a4 4 0 1 1 0-5.66"/></svg>
+          2026 Yayasan Muslim Aceh Peduli
+        </div>
+      </div>
     </div>
   </div>
 
@@ -358,7 +415,10 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
         <span>GALERI</span>
       </button>
-      <button class="dock-view-tab" id="btnAdminAuth" onclick="handleAuthClick()" title="Akses Admin"></button>
+      <button class="dock-view-tab" id="tabTentang" onclick="switchView('tentang')" title="Tentang Yayasan">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        <span>TENTANG</span>
+      </button>
     </div>
 
     <div class="dock-sep"></div>
@@ -384,6 +444,8 @@
       <button class="dock-btn kelola-menu-only" id="btnBuatPeriode" onclick="buatPeriodeOtomatis()" title="Buat Periode" style="display:none;">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="12" y1="14" x2="12" y2="18"/><line x1="10" y1="16" x2="14" y2="16"/></svg><span class="dock-btn-label">PERIODE</span>
       </button>
+
+      <button class="dock-btn btn-admin-auth" id="btnAdminAuth" onclick="handleAuthClick()" title="Akses Admin"></button>
     </div>
 
     <div id="galeriDockBtns" class="dock-row" style="display:none;">
@@ -405,6 +467,9 @@
         <span class="dock-btn-label" style="color:var(--orange);">UPLOAD</span>
       </button>
     </div>
+
+    <div id="tentangDockBtns" class="dock-row" style="display:none;">
+      </div>
   </div>
 </div>
 
@@ -565,7 +630,6 @@
   // FUNGSI HELPER: OTOMATIS ROTASI GAMBAR VERTIKAL KE LANDSCAPE
   function processImageFile(file, callback) {
     if(!file || !file.type.startsWith('image/')) {
-      // Jika bukan gambar (misal video), langsung baca base64 biasa tanpa disentuh
       const rd = new FileReader();
       rd.onload = e => callback(e.target.result);
       rd.readAsDataURL(file);
@@ -577,19 +641,17 @@
       img.onload = () => {
         const canvas = document.createElement('canvas');
         const ctx = canvas.getContext('2d');
-        // Cek kalau vertikal (tinggi lebih besar dari lebar)
         if (img.height > img.width) {
           canvas.width = img.height;
           canvas.height = img.width;
           ctx.translate(canvas.width / 2, canvas.height / 2);
           ctx.rotate(-90 * Math.PI / 180);
           ctx.drawImage(img, -img.width / 2, -img.height / 2);
-        } else { // Kalau udah landscape, biarin
+        } else {
           canvas.width = img.width;
           canvas.height = img.height;
           ctx.drawImage(img, 0, 0);
         }
-        // Ubah hasil ke base64 (kualitas 85% biar enteng di server)
         callback(canvas.toDataURL(file.type, 0.85));
       };
       img.src = e.target.result;
@@ -668,7 +730,12 @@
     if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js');
     if (localStorage.getItem('map_is_admin') === 'true') isAdmin = true;
 
-    fetchAPI('getLogo',{namaFile:'Logo Yayasan.png'}).then(r => { if(r) document.getElementById('boxLogo1').innerHTML = `<img src="${r}" class="logo-img">`; });
+    fetchAPI('getLogo',{namaFile:'Logo Yayasan.png'}).then(r => { 
+      if(r) {
+        document.getElementById('boxLogo1').innerHTML = `<img src="${r}" class="logo-img">`; 
+        document.getElementById('logoTentang').src = r; // Mengisi logo halaman Tentang Kami
+      }
+    });
     fetchAPI('getLogo',{namaFile:'Logo Badan Gizi.png'}).then(r => { if(r) document.getElementById('boxLogo2').innerHTML = `<img src="${r}" class="logo-img">`; });
     fetchAPI('getDaftarDapur').then(r => { if(r) { dapurList = r; populateDapurSelects(); } });
 
@@ -681,7 +748,7 @@
 
     const ca = document.getElementById('contentArea');
     ca.addEventListener('mousemove', showDl); ca.addEventListener('touchstart', showDl, {passive:true}); ca.addEventListener('mouseleave', scheduleDlHide);
-    ca.addEventListener('mouseenter', () => { if(!isModeGaleri) document.getElementById('slideBar').classList.add('visible'); });
+    ca.addEventListener('mouseenter', () => { if(!isModeGaleri && currentView !== 'tentang') document.getElementById('slideBar').classList.add('visible'); });
     ca.addEventListener('mouseleave', () => { document.getElementById('slideBar').classList.remove('visible'); });
 
     setTimeout(() => {
@@ -693,9 +760,10 @@
         if (savedState) {
           const s = JSON.parse(savedState); currentIdx = s.currentIdx || 0; isGridView = s.isGridView || false;
           if (s.currentView === 'galeri') { switchView('galeri'); if (s.isGaleriKelola && isAdmin) setGaleriKelola(); } 
-          else { if (s.isGlobalPlayMode) setMode('playglobal'); else setMode('lihat'); }
+          else if (s.currentView === 'tentang') { switchView('tentang'); }
+          else { if (s.isGlobalPlayMode) setMode('playglobal'); else setMode('lihat'); switchView('menu'); }
           if (s.modalOpenId) { const m = document.getElementById(s.modalOpenId); if (m) m.style.display = 'flex'; }
-        } else { setMode('playglobal'); }
+        } else { setMode('playglobal'); switchView('menu'); }
         updateDockLayout(); prosesAntreanOffline(); 
       }, 1000);
     }, 2500);
@@ -710,7 +778,7 @@
   function showDock() { document.getElementById('sideDock').classList.add('show-dock'); clearTimeout(idleDockTimer); idleDockTimer = setTimeout(() => { if(!isDockHovered) document.getElementById('sideDock').classList.remove('show-dock'); }, 3500); }
   function scheduleHideDock() { clearTimeout(idleDockTimer); idleDockTimer = setTimeout(() => { document.getElementById('sideDock').classList.remove('show-dock'); }, 800); }
 
-  function showDl() { const btnDl = document.getElementById('btnDownload'), btnShare = document.getElementById('btnShare'), img = document.getElementById('displayImg'); if(isGridView || isModeGaleri || !img.src || img.style.display==='none') return; btnDl.classList.add('visible'); btnShare.classList.add('visible'); clearTimeout(dlHideTimer); dlHideTimer = setTimeout(() => { btnDl.classList.remove('visible'); btnShare.classList.remove('visible'); }, 2800); }
+  function showDl() { const btnDl = document.getElementById('btnDownload'), btnShare = document.getElementById('btnShare'), img = document.getElementById('displayImg'); if(isGridView || isModeGaleri || currentView === 'tentang' || !img.src || img.style.display==='none') return; btnDl.classList.add('visible'); btnShare.classList.add('visible'); clearTimeout(dlHideTimer); dlHideTimer = setTimeout(() => { btnDl.classList.remove('visible'); btnShare.classList.remove('visible'); }, 2800); }
   function scheduleDlHide() { clearTimeout(dlHideTimer); dlHideTimer = setTimeout(() => { document.getElementById('btnDownload').classList.remove('visible'); document.getElementById('btnShare').classList.remove('visible'); }, 900); }
 
   function showLoader(m) { document.getElementById('loaderMsg').innerText=m; document.getElementById('loaderFloat').classList.add('show'); }
@@ -725,28 +793,35 @@
     else { const dummy = document.createElement('input'); document.body.appendChild(dummy); dummy.value = urlString; dummy.select(); document.execCommand('copy'); document.body.removeChild(dummy); showToast("Link disalin! Silakan paste di WA."); }
   }
 
-  // UPDATED DOCK LAYOUT MANAGER - LEBIH BERSIH & SERAGAM
+  // UPDATED DOCK LAYOUT MANAGER - LEBIH BERSIH & SERAGAM & ADMIN DIPINDAH
   function updateDockLayout() {
     const btnAuth = document.getElementById('btnAdminAuth');
+    
     if (isAdmin) {
-      btnAuth.innerHTML = `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg><span>LOGOUT</span>`;
-      btnAuth.className = "dock-view-tab tab-on";
+      btnAuth.innerHTML = `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg><span class="dock-btn-label">LOGOUT</span>`;
+      btnAuth.className = "dock-btn active-red btn-admin-auth";
     } else {
-      btnAuth.innerHTML = `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg><span>ADMIN</span>`;
-      btnAuth.className = "dock-view-tab";
+      btnAuth.innerHTML = `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg><span class="dock-btn-label">ADMIN</span>`;
+      btnAuth.className = "dock-btn btn-admin-auth";
     }
+
+    document.getElementById('menuDockBtns').style.display = 'none';
+    document.getElementById('galeriDockBtns').style.display = 'none';
+    document.getElementById('tentangDockBtns').style.display = 'none';
 
     if (currentView === 'menu') {
       document.getElementById('menuDockBtns').style.display = 'flex';
-      document.getElementById('galeriDockBtns').style.display = 'none';
+      document.getElementById('menuDockBtns').appendChild(btnAuth); // Pindah ke ujung baris menu
+      
       if (isAdmin) {
         document.querySelectorAll('.kelola-menu-only').forEach(el => el.style.display = 'inline-flex');
       } else {
         document.querySelectorAll('.kelola-menu-only').forEach(el => el.style.display = 'none');
       }
-    } else {
-      document.getElementById('menuDockBtns').style.display = 'none';
+    } else if (currentView === 'galeri') {
       document.getElementById('galeriDockBtns').style.display = 'flex';
+      document.getElementById('galeriDockBtns').appendChild(btnAuth); // Pindah ke ujung baris galeri
+      
       if (isAdmin) {
         document.getElementById('btnKelolGaleri').style.display = 'inline-flex';
         if(isGaleriKelola) document.querySelectorAll('.galeri-kelola-only').forEach(el => el.style.display = 'inline-flex');
@@ -755,13 +830,16 @@
         document.getElementById('btnKelolGaleri').style.display = 'none';
         document.querySelectorAll('.galeri-kelola-only').forEach(el => el.style.display = 'none');
       }
+    } else if (currentView === 'tentang') {
+      document.getElementById('tentangDockBtns').style.display = 'flex';
+      document.getElementById('tentangDockBtns').appendChild(btnAuth); // Pindah ke ujung baris tentang
     }
   }
 
   function handleAuthClick() {
     if (isAdmin) {
       isAdmin = false; localStorage.setItem('map_is_admin', 'false'); showToast("Berhasil logout dari sistem kelola.");
-      setMode('playglobal'); switchView('menu');
+      if(currentView === 'tentang') { updateDockLayout(); } else { setMode('playglobal'); switchView('menu'); }
     } else { document.getElementById('modalLogin').style.display = 'flex'; rekamJejakModal(); }
   }
 
@@ -769,16 +847,40 @@
     currentView = view;
     document.getElementById('tabMenu').classList.toggle('tab-on', view==='menu');
     document.getElementById('tabGaleri').classList.toggle('tab-on', view==='galeri');
-    updateDockLayout();
+    document.getElementById('tabTentang').classList.toggle('tab-on', view==='tentang');
 
-    if(view==='galeri') {
-      document.getElementById('menuFilterBar').style.display = 'none'; document.getElementById('imgContainer').style.display = 'none'; document.getElementById('gridContainer').style.display = 'none'; document.getElementById('slideBar').classList.remove('visible');
+    // Hide all containers
+    document.getElementById('imgContainer').style.display = 'none';
+    document.getElementById('gridContainer').style.display = 'none';
+    document.getElementById('galeriContainer').style.display = 'none';
+    document.getElementById('tentangContainer').style.display = 'none';
+    document.getElementById('menuFilterBar').style.display = 'none';
+    document.getElementById('galeriFilterBar').style.display = 'none';
+    document.getElementById('slideBar').classList.remove('visible');
+
+    if(view === 'tentang') {
+      isModeGaleri = false; isGaleriKelola = false; stopSlide();
+      document.getElementById('tentangContainer').style.display = 'flex';
+      document.getElementById('txtDapur').innerText = "PROFIL YAYASAN";
+      document.getElementById('txtMenu').innerText = "TENTANG KAMI";
+      document.getElementById('txtTgl').innerText = fmtHariIni();
+      updateDockLayout();
+    }
+    else if(view === 'galeri') {
       isModeGaleri = true; isGaleriKelola = false; stopSlide();
-      document.getElementById('galeriContainer').style.display = 'grid'; document.getElementById('galeriFilterBar').style.display = 'none'; document.getElementById('galeriFilterDapur').style.display = 'none'; document.getElementById('galeriFilterBulan').style.display = 'none';
+      document.getElementById('galeriContainer').style.display = 'grid';
       muatGaleri(); updateDockLayout();
-    } else {
-      document.getElementById('galeriContainer').style.display = 'none'; document.getElementById('galeriFilterBar').style.display = 'none'; document.getElementById('imgContainer').style.display = 'flex';
-      isModeGaleri = false; isGaleriKelola = false; setMode('playglobal');
+    } 
+    else {
+      isModeGaleri = false; isGaleriKelola = false; 
+      if(isGridView) {
+        document.getElementById('gridContainer').style.display = 'grid';
+        if(!isGlobalPlayMode) document.getElementById('menuFilterBar').style.display = 'flex';
+        updateDockLayout();
+      } else {
+        document.getElementById('imgContainer').style.display = 'flex';
+        setMode(isGlobalPlayMode ? 'playglobal' : 'lihat');
+      }
     }
     saveAppState();
   }
@@ -787,14 +889,15 @@
     const pwd = document.getElementById('inPassword').value; showLoader("Mengecek..."); const r = await fetchAPI('login',{password:pwd}); hideLoader();
     if(r && r.success) {
       isAdmin = true; localStorage.setItem('map_is_admin', 'true'); tutupModal('modalLogin'); showToast("Berhasil Login!"); 
-      updateDockLayout(); if(currentView === 'menu') setMode('lihat'); else setGaleriKelola();
+      updateDockLayout(); if(currentView === 'menu') setMode('lihat'); else if(currentView === 'galeri') setGaleriKelola();
     } else { showToast("Password Salah!", true); }
   }
 
   function setMode(mode) {
-    saveAppState();
     if (mode === 'kelola') mode = 'lihat'; // Tombol Kelola telah dilebur jadi satu.
+    if(currentView !== 'menu') return;
 
+    saveAppState();
     if(mode==='playglobal') {
       document.getElementById('btnModePlayGlobal').className = 'dock-btn active-red'; document.getElementById('btnModeLihat').className = 'dock-btn'; document.getElementById('menuFilterBar').style.display = 'none';
       jalankanPlaySemua();
@@ -938,7 +1041,6 @@
   let galeriListFullscreen = [], galIdx = 0;
   function bukaGaleriFull(index) { galeriListFullscreen = galeriAllData; galIdx = index; renderFullGaleri(); document.getElementById('modalFullGaleri').style.display = 'flex'; rekamJejakModal(); }
   
-  // RENDER POPUP FULLSCREEN (YouTube Iframe ditambahkan ke sini)
   function renderFullGaleri() { 
     const item = galeriListFullscreen[galIdx], container = document.getElementById('fullGaleriContent'); 
     let ytId = getYouTubeID(item.src);
@@ -966,7 +1068,6 @@
     const dapurId = document.getElementById('upMenuDapur').value, nama = document.getElementById('upMenuNama').value.trim(), tgl = document.getElementById('upMenuTgl').value, file = document.getElementById('upMenuFile').files[0];
     if(!dapurId || !nama || !tgl || !file) return showToast("Lengkapi semua form upload menu!", true);
     
-    // Pakai helper otomatis rotasi
     processImageFile(file, async (base64) => {
       let payload = { dapurId, namaMenu: nama, tanggal: tgl, data: base64 }; tutupModal('modalUploadMenu');
       if (!navigator.onLine) { await simpanKeAntrean({ action: 'uploadMenuAuto', payload, nama: nama }); document.getElementById('upMenuFile').value=''; document.getElementById('upMenuNama').value=''; return; }
@@ -979,7 +1080,6 @@
     const dapurEl = document.getElementById('upGaleriDapur'), dapurNama = dapurEl.options[dapurEl.selectedIndex]?.text || '', tgl = document.getElementById('upGaleriTgl').value, judul = document.getElementById('upGaleriJudul').value.trim(), desc = document.getElementById('upGaleriDesc').value.trim(), file = document.getElementById('upGaleriFile').files[0];
     if(!dapurEl.value || !tgl || !judul || !file) return showToast("Lengkapi data form galeri!", true);
     
-    // Pakai helper otomatis rotasi
     processImageFile(file, async (base64) => {
       let payload = { dapur:dapurNama, tanggal:tgl, judul, deskripsi:desc, data:base64 }; tutupModal('modalUploadGaleri');
       if (!navigator.onLine) { await simpanKeAntrean({ action: 'uploadGaleri', payload, nama: judul }); document.getElementById('upGaleriFile').value=''; document.getElementById('upGaleriJudul').value=''; document.getElementById('upGaleriDesc').value=''; return; }
@@ -1020,7 +1120,7 @@
   async function executeHapus() { tutupModal('modalConfirm'); showLoader("MENGHAPUS..."); if(deleteTargetType === 'menu') { const r = await fetchAPI('hapusMenu', {fileId: imageList[currentIdx].id}); hideLoader(); if(r && r.success) { showToast("Menu dihapus!"); imageList.splice(currentIdx,1); currentIdx = 0; if(isGridView) renderMenuGrid(); else if(imageList.length>0) updateDisplay(0); else { document.getElementById('displayImg').src=''; document.getElementById('emptyState').style.display='flex'; } } else showToast("Gagal menghapus!", true); updateCounter(); } else if(deleteTargetType === 'galeri') { const r = await fetchAPI('hapusGaleri', {fileId: galeriAllData[deleteTargetIndex].id}); hideLoader(); if(r && r.success) { showToast("Kegiatan dihapus!"); muatGaleri(); } else showToast("Gagal menghapus!", true); } }
 
   function stopSlide() { if(!isPlaying) return; isPlaying = false; clearInterval(slideTimer); const btn = document.getElementById('btnPlayPause'), icon = document.getElementById('iconPlay'); btn.classList.remove('playing'); icon.innerHTML = '<path d="M8 5v14l11-7z"/>'; document.getElementById('playLabel').innerText = 'PLAY SLIDESHOW'; }
-  function runSlide() { if(isModeGaleri || isGridView) return; isPlaying = !isPlaying; const btn = document.getElementById('btnPlayPause'), icon = document.getElementById('iconPlay'); if(isPlaying) { btn.classList.add('playing'); icon.innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>'; document.getElementById('playLabel').innerText = 'PAUSE'; slideTimer = setInterval(() => nextSlide(), 5500); } else { btn.classList.remove('playing'); icon.innerHTML = '<path d="M8 5v14l11-7z"/>'; document.getElementById('playLabel').innerText = 'PLAY SLIDESHOW'; clearInterval(slideTimer); } }
+  function runSlide() { if(isModeGaleri || isGridView || currentView === 'tentang') return; isPlaying = !isPlaying; const btn = document.getElementById('btnPlayPause'), icon = document.getElementById('iconPlay'); if(isPlaying) { btn.classList.add('playing'); icon.innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>'; document.getElementById('playLabel').innerText = 'PAUSE'; slideTimer = setInterval(() => nextSlide(), 5500); } else { btn.classList.remove('playing'); icon.innerHTML = '<path d="M8 5v14l11-7z"/>'; document.getElementById('playLabel').innerText = 'PLAY SLIDESHOW'; clearInterval(slideTimer); } }
   function nextSlide() { if(imageList.length>0 && !isGridView) updateDisplay(currentIdx===imageList.length-1 ? 0 : currentIdx+1); }
   function prevSlide() { if(imageList.length>0 && !isGridView) updateDisplay(currentIdx===0 ? imageList.length-1 : currentIdx-1); }
 
@@ -1032,7 +1132,6 @@
     
     const lw = 160; ctx.drawImage(logo1, 80, 80, lw, lw/(logo1.width/logo1.height)); ctx.drawImage(logo2, 840, 80, lw, lw/(logo2.width/logo2.height)); 
     
-    // LOGIC BARU: Hapus background putih, ganti jadi masking rounded corner supaya fit (cover) rapi
     ctx.save();
     const x = 100, y = 600, w = 880, h = 600, r = 24;
     ctx.beginPath();
@@ -1043,19 +1142,17 @@
     ctx.lineTo(x, y + r); ctx.quadraticCurveTo(x, y, x + r, y);
     ctx.closePath();
     
-    // Bikin efek shadow buat fotonya langsung
     ctx.shadowColor = "rgba(0,0,0,0.6)"; ctx.shadowBlur = 30; ctx.shadowOffsetY = 10;
-    ctx.fill(); // Buat manggil bayangannya
-    ctx.clip(); // Potong area biar ga keluar garis
+    ctx.fill(); 
+    ctx.clip(); 
 
-    // Gambar di-scale secara dinamis nyesuain rasio layar biar 'cover'
     let ratio = Math.max(w / imgMenu.width, h / imgMenu.height);
     let nw = imgMenu.width * ratio;
     let nh = imgMenu.height * ratio;
     let ox = x + (w - nw) / 2;
     let oy = y + (h - nh) / 2;
     ctx.drawImage(imgMenu, 0, 0, imgMenu.width, imgMenu.height, ox, oy, nw, nh);
-    ctx.restore(); // Tutup masking biar tulisan dibawah ga ikutan kena shadow / kepotong
+    ctx.restore(); 
 
     ctx.textAlign = "center"; ctx.textBaseline = "top"; ctx.fillStyle = "#ffcc00"; ctx.font = "bold 55px Arial"; ctx.fillText(document.getElementById('txtDapur')?.innerText||"SPPG", 540, 430);
     function wrapText(ctx, text, x, y, maxW, lh) { const words = text.split(' '); let line = '', cy = y; for(let n=0; n<words.length; n++) { const test = line + words[n] + ' '; if(ctx.measureText(test).width > maxW && n>0) { ctx.fillText(line,x,cy); line=words[n]+' '; cy+=lh; } else line=test; } ctx.fillText(line,x,cy); return cy+lh; }
@@ -1069,7 +1166,7 @@
     if (isFetchingSilent || !navigator.onLine || Array.from(document.querySelectorAll('.modal-overlay')).some(m => m.style.display === 'flex')) return;
     isFetchingSilent = true;
     if (currentView === 'menu') { let r = isGlobalPlayMode ? await fetchAPI('getSemuaMenuHariIni') : await fetchAPI('getGambarMenu', {periodeId: document.getElementById('selPeriode').value}); if (r) { let oldStr = JSON.stringify(imageList.filter(i => !i.isPlaceholder)), newStr = JSON.stringify(r.filter(i => !i.isPlaceholder)); if (oldStr !== newStr) { imageList = r.filter(i => !i.isPlaceholder); if (isGridView) renderMenuGrid(); else { if (currentIdx >= imageList.length) currentIdx = 0; updateDisplay(currentIdx); } showToast("Data Dapur diperbarui otomatis!"); } } } 
-    else { let r = await fetchAPI('getGaleri'); if (r && JSON.stringify(r) !== JSON.stringify(galeriAllData)) { galeriAllData = r; applyGaleriFilter(); showToast("Kegiatan baru masuk!"); } }
+    else if (currentView === 'galeri') { let r = await fetchAPI('getGaleri'); if (r && JSON.stringify(r) !== JSON.stringify(galeriAllData)) { galeriAllData = r; applyGaleriFilter(); showToast("Kegiatan baru masuk!"); } }
     isFetchingSilent = false;
   }, 60000);
 
