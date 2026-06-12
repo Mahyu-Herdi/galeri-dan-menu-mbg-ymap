@@ -422,9 +422,9 @@
           <h3>Yayasan Muslim Aceh Peduli</h3>
           <p>Yayasan Muslim Aceh Peduli hadir sebagai lembaga sosial, kemanusiaan, dan dakwah yang berkomitmen untuk memberikan kontribusi nyata bagi masyarakat, khususnya dalam bidang pendidikan, sosial keagamaan, pemberdayaan ekonomi umat, serta bantuan kemanusiaan. Yayasan ini didirikan atas dasar kepedulian terhadap kondisi sosial masyarakat yang masih membutuhkan perhatian bersama, baik dalam aspek kesejahteraan, pendidikan, maupun pembinaan spiritual.</p>
           <p>Berangkat dari semangat ukhuwah Islamiyah dan nilai-nilai kepedulian sosial, Yayasan Muslim Aceh Peduli berupaya menjadi wadah yang amanah, profesional, dan terpercaya dalam menyalurkan bantuan serta menjalankan berbagai program pemberdayaan masyarakat. Kehadiran yayasan ini diharapkan mampu menjadi jembatan kebaikan antara para dermawan dengan masyarakat yang membutuhkan, sehingga tercipta kehidupan sosial yang lebih harmonis, mandiri, dan berkeadilan.</p>
-          
-          <div id="dinamisTentangTeks"></div>
         </div>
+
+        <div id="dynamicCardsContainer" style="width: 100%; display: flex; flex-direction: column; align-items: center;"></div>
 
         <div class="struktur-header" id="labelStruktur" style="display:none;">STRUKTUR PENGURUS</div>
         <div id="strukturContainer"></div>
@@ -499,9 +499,9 @@
     </div>
 
     <div id="tentangDockBtns" class="dock-row" style="display:none;">
-      <button class="dock-btn kelola-tentang-only" id="btnEditTentang" onclick="bukaModalEditTentang()" title="Edit Teks Tambahan" style="display:none;">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-        <span class="dock-btn-label">EDIT TEKS</span>
+      <button class="dock-btn kelola-tentang-only" id="btnEditTentang" onclick="bukaModalEditTentang()" title="Tambah Kartu Informasi" style="display:none;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+        <span class="dock-btn-label">TAMBAH KARTU</span>
       </button>
       <button class="dock-btn kelola-tentang-only" id="btnUploadStruktur" onclick="bukaModalUploadStruktur()" title="Upload Pengurus" style="display:none;">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
@@ -550,14 +550,18 @@
 
 <div id="modalEditTentang" class="modal-overlay">
   <div class="modal-box modal-wide">
-    <h3>EDIT VISI & MISI</h3>
+    <h3>TAMBAH KARTU INFORMASI</h3>
     <div class="modal-form-row">
-      <label>Teks Tambahan (Visi/Misi/Lainnya)</label>
-      <textarea id="inTentangTeks" placeholder="Tulis tambahan paragraf disini..." style="height:150px;"></textarea>
+      <label>Judul Kartu</label>
+      <input type="text" id="inTentangJudul" placeholder="Contoh: Visi & Misi">
+    </div>
+    <div class="modal-form-row">
+      <label>Deskripsi (Paragraf)</label>
+      <textarea id="inTentangTeks" placeholder="Tulis paragraf disini..." style="height:150px;"></textarea>
     </div>
     <div class="modal-actions">
       <button class="btn-secondary" onclick="tutupModal('modalEditTentang')">Batal</button>
-      <button class="btn-action" onclick="doEditTentang()">Simpan Teks</button>
+      <button class="btn-action" onclick="doTambahTentangCard()">Simpan Kartu</button>
     </div>
   </div>
 </div>
@@ -700,7 +704,8 @@
   let isPlaying = false, slideTimer, idleDockTimer, dlHideTimer;
   let isDockHovered = false, isGlobalPlayMode = true, isModeGaleri = false, currentView = 'menu', isGaleriKelola = false, isGridView = false;
   let dapurList = [], deleteTargetType = 'menu', deleteTargetIndex = 0, isFetchingSilent = false, isTentangFetched = false;
-  let teksTentangDinamis = "";
+  
+  let teksTentangDinamis = "", tentangCards = [];
 
   const HARI  = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
   const BULAN = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
@@ -780,9 +785,21 @@
   };
 
   function populateDapurSelects() {
-    let h = '<option value="">-- Pilih Dapur --</option>'; dapurList.forEach(d => h += `<option value="${d.id}">${d.nama}</option>`);
-    document.getElementById('selDapur').innerHTML = h; document.getElementById('upMenuDapur').innerHTML = h; document.getElementById('upGaleriDapur').innerHTML = h;
-    let h4 = '<option value="">-- Semua Dapur --</option>'; dapurList.forEach(d => h4 += `<option value="${d.nama}">${d.nama}</option>`); document.getElementById('selGaleriDapur').innerHTML = h4;
+    let h = '<option value="">-- Pilih Dapur --</option>'; 
+    let h4 = '<option value="">-- Semua Dapur --</option>';
+    
+    // Mencegah TENTANG_KAMI_DATA muncul di list drowdown pilihan
+    dapurList.forEach(d => {
+      if (d.nama !== "TENTANG_KAMI_DATA" && d.id !== "TENTANG_KAMI_DATA") {
+        h += `<option value="${d.id}">${d.nama}</option>`;
+        h4 += `<option value="${d.nama}">${d.nama}</option>`;
+      }
+    });
+    
+    document.getElementById('selDapur').innerHTML = h; 
+    document.getElementById('upMenuDapur').innerHTML = h; 
+    document.getElementById('upGaleriDapur').innerHTML = h;
+    document.getElementById('selGaleriDapur').innerHTML = h4;
   }
 
   function showDock() { document.getElementById('sideDock').classList.add('show-dock'); clearTimeout(idleDockTimer); idleDockTimer = setTimeout(() => { if(!isDockHovered) document.getElementById('sideDock').classList.remove('show-dock'); }, 3500); }
@@ -928,14 +945,33 @@
     if(!isTentangFetched) {
       showLoader("Memuat Profil...");
       const r = await fetchAPI('getTentangData'); hideLoader();
-      if(r) { teksTentangDinamis = r.teks || ""; strukturAllData = r.struktur || []; }
+      if(r) { 
+        teksTentangDinamis = r.teks || ""; 
+        try {
+          tentangCards = JSON.parse(teksTentangDinamis);
+          if (!Array.isArray(tentangCards)) tentangCards = [{judul: '', teks: teksTentangDinamis}];
+        } catch(e) {
+          if(teksTentangDinamis.trim() !== "") tentangCards = [{judul: '', teks: teksTentangDinamis}];
+          else tentangCards = [];
+        }
+        strukturAllData = r.struktur || []; 
+      }
       isTentangFetched = true;
     } renderTentangUI();
   }
 
   function renderTentangUI() {
-    const divTeks = document.getElementById('dinamisTentangTeks');
-    if(teksTentangDinamis) divTeks.innerHTML = `<br><p>${teksTentangDinamis.replace(/\n/g, '<br>')}</p>`; else divTeks.innerHTML = '';
+    let cardsHtml = '';
+    tentangCards.forEach((c, idx) => {
+      if(!c.judul && !c.teks) return;
+      let btnHapus = isSuperAdmin ? `<div style="text-align:center; margin-top:16px; padding-top:12px; border-top:1px dashed var(--glass-b);"><button class="btn-danger" style="font-size:11px; padding:6px 16px; border-radius:8px;" onclick="doHapus('tentangCard', ${idx})">Hapus Kartu</button></div>` : '';
+      cardsHtml += `<div class="tentang-teks" style="width:100%; max-width:700px; margin-bottom:30px;">
+        ${c.judul ? `<h3>${c.judul}</h3>` : ''}
+        ${c.teks ? `<p>${c.teks.replace(/\n/g, '<br>')}</p>` : ''}
+        ${btnHapus}
+      </div>`;
+    });
+    document.getElementById('dynamicCardsContainer').innerHTML = cardsHtml;
     
     const divStruktur = document.getElementById('strukturContainer');
     if(strukturAllData.length > 0) document.getElementById('labelStruktur').style.display = 'block'; else document.getElementById('labelStruktur').style.display = 'none';
@@ -947,13 +983,32 @@
     }); divStruktur.innerHTML = html;
   }
 
-  function bukaModalEditTentang() { document.getElementById('inTentangTeks').value = teksTentangDinamis; document.getElementById('modalEditTentang').style.display = 'flex'; rekamJejakModal(); }
+  function bukaModalEditTentang() { 
+    document.getElementById('inTentangJudul').value = '';
+    document.getElementById('inTentangTeks').value = '';
+    document.getElementById('modalEditTentang').style.display = 'flex'; 
+    rekamJejakModal(); 
+  }
   function bukaModalUploadStruktur() { document.getElementById('modalUploadStruktur').style.display = 'flex'; rekamJejakModal(); }
 
-  async function doEditTentang() {
-    const teks = document.getElementById('inTentangTeks').value; tutupModal('modalEditTentang');
-    showLoader("Menyimpan Teks..."); const r = await fetchAPI('simpanTentangTeks', {teks: teks}); hideLoader();
-    if(r && r.success) { teksTentangDinamis = teks; renderTentangUI(); showToast("Teks profil diperbarui!"); } else { showToast("Gagal (Pastikan GS sudah diupdate)", true); }
+  async function doTambahTentangCard() {
+    const judul = document.getElementById('inTentangJudul').value.trim();
+    const teks = document.getElementById('inTentangTeks').value.trim();
+    if(!judul && !teks) return showToast("Isi judul atau deskripsi!", true);
+    
+    tentangCards.push({judul, teks});
+    
+    tutupModal('modalEditTentang');
+    showLoader("Menyimpan..."); 
+    const r = await fetchAPI('simpanTentangTeks', {teks: JSON.stringify(tentangCards)}); 
+    hideLoader();
+    if(r && r.success) { 
+      renderTentangUI(); 
+      showToast("Kartu berhasil ditambahkan!"); 
+    } else { 
+      tentangCards.pop(); // rollback
+      showToast("Gagal menyimpan data!", true); 
+    }
   }
 
   async function doUploadStruktur() {
@@ -982,7 +1037,23 @@
   function bukaModalEditGaleri(idx) { const curr = galeriAllData[idx]; deleteTargetIndex = idx; document.getElementById('editGaleriJudul').value = curr.judul; document.getElementById('editGaleriTgl').value = curr.tanggal; document.getElementById('editGaleriDesc').value = curr.deskripsi || ''; document.getElementById('modalEditGaleri').style.display = 'flex'; rekamJejakModal(); }
   async function executeEditGaleri() { const curr = galeriAllData[deleteTargetIndex], file = document.getElementById('editGaleriFile').files[0]; tutupModal('modalEditGaleri'); showLoader("MENYIMPAN..."); let payload = {id: curr.id, judul: document.getElementById('editGaleriJudul').value, tanggal: document.getElementById('editGaleriTgl').value, deskripsi: document.getElementById('editGaleriDesc').value, fileData: null}; if(file) { processImageFile(file, async (base64) => { payload.fileData = base64; const r = await fetchAPI('editGaleri', payload); hideLoader(); if(r && r.success) { showToast("Diperbarui!"); muatGaleri(); } }); } else { const r = await fetchAPI('editGaleri', payload); hideLoader(); if(r && r.success) { showToast("Diperbarui!"); muatGaleri(); } } }
 
-  function doHapus(type, idx=null) { deleteTargetType = type; if(type === 'menu') { if(imageList.length===0) return; document.getElementById('modalText').innerText = `Hapus menu "${imageList[currentIdx].nama}"?`; } else if (type === 'galeri') { deleteTargetIndex = idx; document.getElementById('modalText').innerText = `Hapus kegiatan "${galeriAllData[idx].judul}"?`; } else if (type === 'struktur') { deleteTargetIndex = idx; document.getElementById('modalText').innerText = `Hapus pengurus "${strukturAllData[idx].nama}"?`; } document.getElementById('modalConfirm').style.display = 'flex'; rekamJejakModal(); }
+  function doHapus(type, idx=null) { 
+    deleteTargetType = type; 
+    if(type === 'menu') { 
+      if(imageList.length===0) return; 
+      document.getElementById('modalText').innerText = `Hapus menu "${imageList[currentIdx].nama}"?`; 
+    } else if (type === 'galeri') { 
+      deleteTargetIndex = idx; 
+      document.getElementById('modalText').innerText = `Hapus kegiatan "${galeriAllData[idx].judul}"?`; 
+    } else if (type === 'struktur') { 
+      deleteTargetIndex = idx; 
+      document.getElementById('modalText').innerText = `Hapus pengurus "${strukturAllData[idx].nama}"?`; 
+    } else if (type === 'tentangCard') {
+      deleteTargetIndex = idx; 
+      document.getElementById('modalText').innerText = `Hapus kartu "${tentangCards[idx].judul || 'tanpa judul'}"?`; 
+    }
+    document.getElementById('modalConfirm').style.display = 'flex'; rekamJejakModal(); 
+  }
   
   async function executeHapus() { 
     tutupModal('modalConfirm'); showLoader("MENGHAPUS..."); 
@@ -997,6 +1068,18 @@
     else if(deleteTargetType === 'struktur') {
       const r = await fetchAPI('hapusStruktur', {fileId: strukturAllData[deleteTargetIndex].id}); hideLoader();
       if(r && r.success) { showToast("Pengurus dihapus!"); isTentangFetched = false; muatTentang(); } else showToast("Gagal hapus pengurus!", true);
+    }
+    else if(deleteTargetType === 'tentangCard') {
+      const removed = tentangCards.splice(deleteTargetIndex, 1)[0];
+      const r = await fetchAPI('simpanTentangTeks', {teks: JSON.stringify(tentangCards)}); 
+      hideLoader();
+      if(r && r.success) { 
+        showToast("Kartu dihapus!"); 
+        renderTentangUI(); 
+      } else { 
+        tentangCards.splice(deleteTargetIndex, 0, removed); // rollback
+        showToast("Gagal menghapus kartu!", true); 
+      }
     }
   }
 
