@@ -273,16 +273,30 @@
     .modal-form-row label { font-size: 10px; opacity: 0.6; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: white; }
     .modal-form-row select, .modal-form-row input, .modal-form-row textarea { width: 100%; }
     
+    /* Custom Select Component CSS */
+    .custom-select-wrapper { position: relative; user-select: none; width: 100%; min-width: 140px; }
+    .custom-select-trigger { background: rgba(255,255,255,0.07); color: white; border: 1px solid var(--glass-b); border-radius: 10px; padding: 8px 12px; font-family: var(--fb); font-size: 13px; font-weight: 600; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: 0.2s; }
+    .custom-select-trigger:hover, .custom-select-trigger.open { border-color: var(--gold); background: rgba(255,255,255,0.1); }
+    .custom-select-arrow { margin-left: 8px; display: flex; transition: transform 0.2s; }
+    .custom-select-trigger.open .custom-select-arrow { transform: rotate(180deg); }
+    .custom-select-options { position: absolute; top: calc(100% + 4px); left: 0; right: 0; background: #0a2040; border: 1px solid var(--glass-b); border-radius: 10px; box-shadow: 0 4px 16px rgba(0,0,0,0.5); overflow: hidden; z-index: 1000; opacity: 0; visibility: hidden; transform: translateY(-5px); transition: all 0.2s; max-height: 250px; overflow-y: auto; }
+    .custom-select-options.open { opacity: 1; visibility: visible; transform: translateY(0); }
+    .custom-select-option { padding: 10px 12px; font-family: var(--fb); font-size: 13px; color: #e2e8f0; cursor: pointer; transition: background 0.15s; }
+    .custom-select-option:hover { background: rgba(255,255,255,0.1); color: white; }
+    .custom-select-option.selected { background: rgba(255,204,0,0.15); color: var(--gold); font-weight: bold; }
+    .custom-select-options::-webkit-scrollbar { width: 6px; }
+    .custom-select-options::-webkit-scrollbar-thumb { background: var(--glass-b); border-radius: 4px; }
+
     .modal-badge { font-family: var(--fd); font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; padding: 6px 12px; border-radius: 8px; display: inline-block; margin-bottom: 8px; }
     .badge-menu   { background: rgba(52,199,89,0.15); color: var(--green); border: 1px solid rgba(52,199,89,0.25); }
     .badge-galeri { background: rgba(255,149,0,0.15); color: var(--orange); border: 1px solid rgba(255,149,0,0.25); }
 
     @keyframes spin { to { transform: rotate(360deg); } }
     #loaderFloat, #toast { visibility: hidden; opacity: 0; position: fixed; transition: all 0.3s ease; z-index: 10005; }
-    #loaderFloat { top: 50%; left: 50%; transform: translate(-50%,-50%); background: rgba(6,18,34,0.95); backdrop-filter: blur(16px); padding: 24px 36px; border-radius: 20px; border: 1px solid var(--glass-b); display: flex; flex-direction: column; align-items: center; gap: 12px; box-shadow: 0 16px 48px rgba(0,0,0,0.8); }
+    #loaderFloat { top: 20px; left: 50%; transform: translateX(-50%); background: rgba(6,18,34,0.9); backdrop-filter: blur(8px); padding: 8px 16px; border-radius: 30px; border: 1px solid var(--glass-b); display: flex; flex-direction: row; align-items: center; gap: 8px; box-shadow: 0 4px 16px rgba(0,0,0,0.5); }
     #loaderFloat.show { visibility: visible; opacity: 1; }
-    .spinner { width: 40px; height: 40px; border: 4px solid var(--gold-dim); border-top: 4px solid var(--gold); border-radius: 50%; animation: spin 0.75s linear infinite; }
-    #loaderMsg { color: white; font-weight: 800; font-size: 13px; letter-spacing: 1px; }
+    .spinner { width: 18px; height: 18px; border: 3px solid var(--gold-dim); border-top: 3px solid var(--gold); border-radius: 50%; animation: spin 0.75s linear infinite; }
+    #loaderMsg { color: white; font-weight: 700; font-size: 11px; letter-spacing: 0.5px; text-transform: uppercase; }
     
     #toast { background: rgba(52,199,89,0.95); backdrop-filter: blur(8px); color: #fff; padding: 14px 24px; border-radius: 14px; left: 50%; bottom: 120px; transform: translateX(-50%) translateY(20px); font-weight: 800; font-size: 14px; white-space: nowrap; box-shadow: 0 8px 32px rgba(0,0,0,0.5); }
     #toast.show { visibility: visible; opacity: 1; transform: translateX(-50%) translateY(0); }
@@ -385,13 +399,11 @@
         <span class="slide-counter" id="slideCounter"></span>
       </div>
 
-      <button class="nav-arrow" id="navPrev" onclick="prevSlide()"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
-      <button class="nav-arrow" id="navNext" onclick="nextSlide()"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
 
       <div id="imgContainer">
         <img id="displayImg" src="" alt="" class="fade-anim">
-        <button id="btnShare" onclick="bagikanWeb()"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg> Bagikan</button>
-        <button id="btnDownload" onclick="downloadPoster()"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Unduh Poster</button>
+        
+        
         <div id="emptyState">
           <svg viewBox="0 0 24 24" width="80" height="80" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.6; margin-bottom:12px;"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
           <div id="emptyPesan">Belum ada menu hari ini</div>
@@ -463,6 +475,16 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg><span class="dock-btn-label">LIHAT</span>
       </button>
 
+      <button class="dock-btn" id="btnDockDownload" onclick="downloadPoster()" title="Unduh Poster">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        <span class="dock-btn-label" style="color:var(--orange);">POSTER</span>
+      </button>
+      
+      <button class="dock-btn" id="btnDockShare" onclick="bagikanWeb()" title="Bagikan Web">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+        <span class="dock-btn-label" style="color:var(--gold);">SHARE</span>
+      </button>
+
       <button class="dock-btn kelola-menu-only" id="btnUploadMenu" onclick="bukaModalUploadMenu()" title="Upload Menu" style="display:none;">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
         <span class="dock-btn-label" style="color:var(--green);">UPLOAD</span>
@@ -521,8 +543,6 @@
   <div class="full-galeri-box" onclick="event.stopPropagation()">
     <button class="btn-share-modal" onclick="bagikanWeb()" title="Bagikan"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></button>
     <div id="fullGaleriContent" style="display:flex; justify-content:center; align-items:center; width:100%; height:100%;"></div>
-    <button class="nav-arrow-gal" id="navPrevGal" onclick="slideGal(false)"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
-    <button class="nav-arrow-gal" id="navNextGal" onclick="slideGal(true)"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
   </div>
 </div>
 
@@ -628,7 +648,9 @@
     </div>
     <div class="modal-form-row">
       <label>Ganti Foto (opsional)</label>
-      <input type="file" id="editGaleriFile" accept="image/*">
+      <input type="file" id="editGaleriFile" accept="image/*,video/mp4">
+      <div style="margin: 8px 0; text-align: center; font-size: 12px; color: #888; font-weight: bold;">ATAU</div>
+      <input type="text" id="editGaleriYT" placeholder="Link Video YouTube (Opsional)">
     </div>
     <div class="modal-actions">
       <button class="btn-secondary" onclick="tutupModal('modalEditGaleri')">Batal</button>
@@ -687,6 +709,8 @@
     <div class="modal-form-row">
       <label>Foto/Video Kegiatan</label>
       <input type="file" id="upGaleriFile" accept="image/*,video/mp4">
+      <div style="margin: 8px 0; text-align: center; font-size: 12px; color: #888; font-weight: bold;">ATAU</div>
+      <input type="text" id="upGaleriYT" placeholder="Link Video YouTube (Opsional)">
     </div>
     <div class="modal-actions">
       <button class="btn-secondary" onclick="tutupModal('modalUploadGaleri')">Batal</button>
@@ -696,6 +720,78 @@
 </div>
 
 <script>
+  function setupCustomSelects() {
+    document.querySelectorAll('select').forEach(select => {
+      if (select.nextElementSibling && select.nextElementSibling.classList.contains('custom-select-wrapper')) return;
+
+      select.style.display = 'none';
+      const wrapper = document.createElement('div');
+      wrapper.className = 'custom-select-wrapper';
+      
+      const trigger = document.createElement('div');
+      trigger.className = 'custom-select-trigger';
+      if (select.style.minWidth) wrapper.style.minWidth = select.style.minWidth;
+      
+      const triggerText = document.createElement('span');
+      triggerText.textContent = select.options[select.selectedIndex]?.text || select.options[0]?.text || '';
+      trigger.appendChild(triggerText);
+      
+      const arrow = document.createElement('div');
+      arrow.className = 'custom-select-arrow';
+      arrow.innerHTML = `<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>`;
+      trigger.appendChild(arrow);
+      
+      const optionsContainer = document.createElement('div');
+      optionsContainer.className = 'custom-select-options';
+      
+      function renderOptions() {
+        optionsContainer.innerHTML = '';
+        Array.from(select.options).forEach((option, index) => {
+          const optDiv = document.createElement('div');
+          optDiv.className = 'custom-select-option';
+          if (index === select.selectedIndex) optDiv.classList.add('selected');
+          optDiv.textContent = option.text;
+          optDiv.addEventListener('click', (e) => {
+            e.stopPropagation();
+            select.selectedIndex = index;
+            triggerText.textContent = option.text;
+            optionsContainer.classList.remove('open');
+            trigger.classList.remove('open');
+            Array.from(optionsContainer.children).forEach(c => c.classList.remove('selected'));
+            optDiv.classList.add('selected');
+            select.dispatchEvent(new Event('change'));
+          });
+          optionsContainer.appendChild(optDiv);
+        });
+      }
+      
+      renderOptions();
+      wrapper.appendChild(trigger);
+      wrapper.appendChild(optionsContainer);
+      select.parentNode.insertBefore(wrapper, select.nextSibling);
+      
+      trigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        document.querySelectorAll('.custom-select-options.open').forEach(el => {
+          if (el !== optionsContainer) { el.classList.remove('open'); el.previousElementSibling.classList.remove('open'); }
+        });
+        optionsContainer.classList.toggle('open');
+        trigger.classList.toggle('open');
+      });
+
+      const observer = new MutationObserver(() => {
+        triggerText.textContent = select.options[select.selectedIndex]?.text || select.options[0]?.text || '';
+        renderOptions();
+      });
+      observer.observe(select, { childList: true, attributes: true, attributeFilter: ['value'] });
+    });
+    
+    document.addEventListener('click', () => {
+      document.querySelectorAll('.custom-select-options.open').forEach(el => el.classList.remove('open'));
+      document.querySelectorAll('.custom-select-trigger.open').forEach(el => el.classList.remove('open'));
+    });
+  }
+
   // URL GAS Milikmu
   const GAS_API_URL = "https://script.google.com/macros/s/AKfycbxkPYBmAueaVHpGC3wAwuuuYw7Aot5qACpu_Sc7887duRirr_pJDLGiUuraFSZo7ice/exec";
 
@@ -703,7 +799,7 @@
   let imageList = [], galeriAllData = [], strukturAllData = [], currentIdx = 0;
   let isPlaying = false, slideTimer, idleDockTimer, dlHideTimer;
   let isDockHovered = false, isGlobalPlayMode = true, isModeGaleri = false, currentView = 'menu', isGaleriKelola = false, isGridView = false;
-  let dapurList = [], deleteTargetType = 'menu', deleteTargetIndex = 0, isFetchingSilent = false, isTentangFetched = false;
+  let dapurList = [], deleteTargetType = 'menu', deleteTargetIndex = 0, isFetchingSilent = false, isTentangFetched = false, isGaleriFetched = false, isMenuFetched = false;
   
   let teksTentangDinamis = "", tentangCards = [];
 
@@ -737,7 +833,7 @@
       let cursor = e.target.result;
       if (cursor) {
         let job = cursor.value; showToast("Menyambungkan kembali..."); let r = await fetchAPI(job.action, job.payload);
-        if (r && (r.status === 'sukses' || r.success)) { db.transaction("antreanUpload", "readwrite").objectStore("antreanUpload").delete(job.id); showToast(`✓ '${job.nama}' sukses terkirim!`); if (currentView === 'menu') fetchGambar(); else if(currentView === 'galeri') muatGaleri(); } cursor.continue();
+        if (r && (r.status === 'sukses' || r.success)) { db.transaction("antreanUpload", "readwrite").objectStore("antreanUpload").delete(job.id); showToast(`✓ '${job.nama}' sukses terkirim!`); isMenuFetched = false; if (currentView === 'menu') fetchGambar(); else if(currentView === 'galeri') { isGaleriFetched = false; muatGaleri(); } } cursor.continue();
       }
     };
   } window.addEventListener('online', prosesAntreanOffline);
@@ -753,11 +849,13 @@
   async function fetchAPI(action, payload={}) { try { const r = await fetch(GAS_API_URL + "?action=" + action, { method: 'POST', headers: {'Content-Type':'text/plain;charset=utf-8'}, body: JSON.stringify(payload) }); return await r.json(); } catch(e) { return null; } }
 
   window.onload = () => {
+    setupCustomSelects();
     if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js');
     if (localStorage.getItem('map_is_admin') === 'true') isAdmin = true;
     if (localStorage.getItem('map_is_super') === 'true') { isAdmin = true; isSuperAdmin = true; }
 
-    fetchAPI('getLogo',{namaFile:'Logo Yayasan.png'}).then(r => { if(r) { document.getElementById('boxLogo1').innerHTML = `<img src="${r}" class="logo-img">`; document.getElementById('logoTentang').src = r; } });
+    document.getElementById('boxLogo1').innerHTML = `<img src="icon.png" class="logo-img">`;
+    document.getElementById('logoTentang').src = "icon.png";
     fetchAPI('getLogo',{namaFile:'Logo Badan Gizi.png'}).then(r => { if(r) document.getElementById('boxLogo2').innerHTML = `<img src="${r}" class="logo-img">`; });
     fetchAPI('getDaftarDapur').then(r => { if(r) { dapurList = r; populateDapurSelects(); } });
 
@@ -804,8 +902,8 @@
 
   function showDock() { document.getElementById('sideDock').classList.add('show-dock'); clearTimeout(idleDockTimer); idleDockTimer = setTimeout(() => { if(!isDockHovered) document.getElementById('sideDock').classList.remove('show-dock'); }, 3500); }
   function scheduleHideDock() { clearTimeout(idleDockTimer); idleDockTimer = setTimeout(() => { document.getElementById('sideDock').classList.remove('show-dock'); }, 800); }
-  function showDl() { const btnDl = document.getElementById('btnDownload'), btnShare = document.getElementById('btnShare'), img = document.getElementById('displayImg'); if(isGridView || isModeGaleri || currentView === 'tentang' || !img.src || img.style.display==='none') return; btnDl.classList.add('visible'); btnShare.classList.add('visible'); clearTimeout(dlHideTimer); dlHideTimer = setTimeout(() => { btnDl.classList.remove('visible'); btnShare.classList.remove('visible'); }, 2800); }
-  function scheduleDlHide() { clearTimeout(dlHideTimer); dlHideTimer = setTimeout(() => { document.getElementById('btnDownload').classList.remove('visible'); document.getElementById('btnShare').classList.remove('visible'); }, 900); }
+  function showDl() {}
+  function scheduleDlHide() {}
 
   function showLoader(m) { document.getElementById('loaderMsg').innerText=m; document.getElementById('loaderFloat').classList.add('show'); }
   function hideLoader()  { document.getElementById('loaderFloat').classList.remove('show'); }
@@ -915,8 +1013,11 @@
   async function jalankanPlaySemua() {
     isGlobalPlayMode = true; isModeGaleri = false; isGridView = false;
     document.getElementById('txtDapur').innerText = "MEMUAT..."; document.getElementById('txtTgl').innerText = fmtHariIni();
-    showLoader("Mengambil Menu Hari Ini..."); const r = await fetchAPI('getSemuaMenuHariIni'); hideLoader();
-    if(r) { imageList = r.filter(i => !i.isPlaceholder); if(imageList.length > 0) { updateDisplay(0); if(!isPlaying) runSlide(); } else { document.getElementById('txtMenu').innerText = "BELUM ADA MENU HARI INI"; document.getElementById('displayImg').src = ""; document.getElementById('txtDapur').innerText = "SEMUA DAPUR"; document.getElementById('emptyState').style.display = 'flex'; } } updateCounter();
+    if(!isMenuFetched) {
+      showLoader("Mengambil Menu Hari Ini..."); const r = await fetchAPI('getSemuaMenuHariIni'); hideLoader();
+      if(r) { imageList = r.filter(i => !i.isPlaceholder); isMenuFetched = true; }
+    }
+    if(imageList.length > 0) { updateDisplay(0); if(!isPlaying) runSlide(); } else { document.getElementById('txtMenu').innerText = "BELUM ADA MENU HARI INI"; document.getElementById('displayImg').src = ""; document.getElementById('txtDapur').innerText = "SEMUA DAPUR"; document.getElementById('emptyState').style.display = 'flex'; } updateCounter();
   }
 
   async function fetchPeriode() { const id = document.getElementById('selDapur').value; if(!id) return; document.getElementById('txtDapur').innerText = document.getElementById('selDapur').options[document.getElementById('selDapur').selectedIndex].text; showLoader("Memuat Periode..."); const r = await fetchAPI('getDaftarPeriode',{dapurId:id}); hideLoader(); if(r) { let h = '<option value="">-- Pilih Periode --</option>'; r.forEach(p => h += `<option value="${p.id}">${p.nama}</option>`); document.getElementById('selPeriode').innerHTML = h; document.getElementById('emptyState').style.display = 'none'; } }
@@ -930,7 +1031,7 @@
   function updateDisplay(idx) { if(!imageList[idx]) return; const img = document.getElementById('displayImg'), data = imageList[idx]; img.classList.remove('fade-anim'); void img.offsetWidth; if(isGlobalPlayMode || data.dapur) document.getElementById('txtDapur').innerText = data.dapur || "SEMUA DAPUR"; document.getElementById('emptyState').style.display = data.isPlaceholder ? 'flex' : 'none'; img.style.display = data.isPlaceholder ? 'none' : 'block'; img.src = data.src; img.classList.add('fade-anim'); document.getElementById('txtMenu').innerText = data.nama; document.getElementById('txtTgl').innerText = fmtTgl(data.tanggal); currentIdx = idx; updateCounter(); }
 
   // GALERI LOGIC
-  async function muatGaleri() { showLoader("Memuat Galeri..."); const r = await fetchAPI('getGaleri'); hideLoader(); galeriAllData = r || []; const bulanSet = new Set(); galeriAllData.forEach(g => { if(g.tanggal && g.tanggal!=='-') { const d = new Date(g.tanggal); bulanSet.add(`${BULAN[d.getMonth()]} ${d.getFullYear()}`); } }); let hb = '<option value="">-- Semua Bulan --</option>'; [...bulanSet].reverse().forEach(b => hb += `<option value="${b}">${b}</option>`); document.getElementById('selGaleriBulan').innerHTML = hb; renderGaleri(galeriAllData); }
+  async function muatGaleri() { if(!isGaleriFetched){ showLoader("Memuat Galeri..."); const r = await fetchAPI('getGaleri'); hideLoader(); galeriAllData = r || []; isGaleriFetched = true; } const bulanSet = new Set(); galeriAllData.forEach(g => { if(g.tanggal && g.tanggal!=='-') { const d = new Date(g.tanggal); bulanSet.add(`${BULAN[d.getMonth()]} ${d.getFullYear()}`); } }); let hb = '<option value="">-- Semua Bulan --</option>'; [...bulanSet].reverse().forEach(b => hb += `<option value="${b}">${b}</option>`); document.getElementById('selGaleriBulan').innerHTML = hb; renderGaleri(galeriAllData); }
   function renderGaleri(data) { let html = ''; if(data && data.length > 0) { data.forEach((g) => { const origIdx = galeriAllData.findIndex(i => i.id === g.id); let actHtml = ''; if(isAdmin && isGaleriKelola) { actHtml = `<div class="galeri-admin-actions" onclick="event.stopPropagation()"><button class="btn-dark" onclick="bukaModalEditGaleri(${origIdx})">Edit</button><button class="btn-danger" onclick="doHapus('galeri', ${origIdx})">Hapus</button></div>`; } let media = `<img src="${g.src}" loading="lazy">`, yt = getYouTubeID(g.src); if (yt) media = `<div style="position:relative; width:100%; height:180px; display:flex; align-items:center; justify-content:center; border-radius:12px; margin-bottom:12px; overflow:hidden;"><img src="https://img.youtube.com/vi/${yt}/hqdefault.jpg" style="width:100%; height:100%; object-fit:cover; position:absolute; top:0; left:0;"><div style="position:absolute; background:rgba(0,0,0,0.6); border-radius:50%; width:44px; height:44px; display:flex; align-items:center; justify-content:center; z-index:2;"><svg viewBox="0 0 24 24" width="24" height="24" fill="var(--gold)"><path d="M8 5v14l11-7z"/></svg></div></div>`; else if (g.src.includes('data:video') || g.src.includes('video/mp4')) media = `<div style="position:relative; width:100%; height:180px; background:#000; display:flex; align-items:center; justify-content:center; border-radius:12px; margin-bottom:12px;"><svg viewBox="0 0 24 24" width="40" height="40" fill="rgba(255,255,255,0.7)"><path d="M8 5v14l11-7z"/></svg></div>`; html += `<div class="galeri-card" onclick="bukaGaleriFull(${origIdx})">${media}<div class="galeri-title">${g.judul}</div><div class="galeri-desc">${g.deskripsi||''}</div><div class="meta-item"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>${fmtTgl(g.tanggal)}</div><div class="meta-item"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>${g.dapur||'Umum'}</div>${actHtml}</div>`; }); } else { html = `<div style="color:#888;font-style:italic;grid-column:1/-1;text-align:center;padding:60px;">Belum ada kegiatan.</div>`; } document.getElementById('galeriContainer').innerHTML = html; }
 
   let galListFull = [], galIdx = 0;
@@ -938,7 +1039,45 @@
   function renderFullGaleri() { const item = galListFull[galIdx], cont = document.getElementById('fullGaleriContent'); let yt = getYouTubeID(item.src); if (yt) cont.innerHTML = `<iframe width="100%" height="100%" style="max-width:90vw; max-height:85vh; aspect-ratio: 16/9; border-radius:12px; border:none;" src="https://www.youtube.com/embed/${yt}?autoplay=1&rel=0&vq=hd720" allowfullscreen></iframe>`; else if (item.src.includes('data:video') || item.src.includes('video/mp4')) cont.innerHTML = `<video src="${item.src}" controls autoplay playsinline style="max-width:100%; max-height:85vh; border-radius:12px; background:black;"></video>`; else cont.innerHTML = `<img src="${item.src}" style="max-width:100%; max-height:85vh; border-radius:12px; object-fit: contain;">`; }
   function slideGal(next) { galIdx = next ? (galIdx + 1) % galListFull.length : (galIdx - 1 + galListFull.length) % galListFull.length; renderFullGaleri(); }
   function tutupModalFull() { document.getElementById('modalFullGaleri').style.display='none'; document.getElementById('fullGaleriContent').innerHTML = ''; saveAppState(); }
-  let tsX = 0, teX = 0; document.getElementById('modalFullGaleri').addEventListener('touchstart', e => tsX = e.changedTouches[0].screenX, {passive: true}); document.getElementById('modalFullGaleri').addEventListener('touchend', e => { teX = e.changedTouches[0].screenX; if (teX < tsX - 40) slideGal(true); if (teX > tsX + 40) slideGal(false); }, {passive: true});
+  // Swipe Logic for modalFullGaleri (Standard sensitivity: 75px)
+  let tsX = 0, tsY = 0;
+  document.getElementById('modalFullGaleri').addEventListener('touchstart', e => {
+    tsX = e.changedTouches[0].clientX;
+    tsY = e.changedTouches[0].clientY;
+  }, {passive: true});
+  document.getElementById('modalFullGaleri').addEventListener('touchend', e => {
+    const teX = e.changedTouches[0].clientX;
+    const teY = e.changedTouches[0].clientY;
+    const diffX = teX - tsX;
+    const diffY = teY - tsY;
+    if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 75) {
+      if (diffX < 0) {
+        slideGal(true); // Swipe left -> Next
+      } else {
+        slideGal(false); // Swipe right -> Prev
+      }
+    }
+  }, {passive: true});
+
+  // Swipe Logic for contentArea (Main slideshow)
+  let mTSX = 0, mTSY = 0;
+  document.getElementById('contentArea').addEventListener('touchstart', e => {
+    mTSX = e.changedTouches[0].clientX;
+    mTSY = e.changedTouches[0].clientY;
+  }, {passive: true});
+  document.getElementById('contentArea').addEventListener('touchend', e => {
+    const mTEX = e.changedTouches[0].clientX;
+    const mTEY = e.changedTouches[0].clientY;
+    const diffX = mTEX - mTSX;
+    const diffY = mTEY - mTSY;
+    if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 75) {
+      if (diffX < 0) {
+        nextSlide(); // Swipe left -> Next
+      } else {
+        prevSlide(); // Swipe right -> Prev
+      }
+    }
+  }, {passive: true});
 
   // TENTANG KAMI LOGIC (SUPERADMIN KHUSUS)
   async function muatTentang() {
@@ -1029,13 +1168,20 @@
   // GENERAL UPLOADS & EDIT
   function bukaModalUploadMenu() { document.getElementById('modalUploadMenu').style.display='flex'; rekamJejakModal(); }
   function bukaModalUploadGaleri() { document.getElementById('modalUploadGaleri').style.display='flex'; rekamJejakModal(); }
-  async function doUploadMenu() { const dapurId = document.getElementById('upMenuDapur').value, nama = document.getElementById('upMenuNama').value.trim(), tgl = document.getElementById('upMenuTgl').value, file = document.getElementById('upMenuFile').files[0]; if(!dapurId || !nama || !tgl || !file) return showToast("Lengkapi semua form!", true); processImageFile(file, async (base64) => { let payload = { dapurId, namaMenu: nama, tanggal: tgl, data: base64 }; tutupModal('modalUploadMenu'); if (!navigator.onLine) { await simpanKeAntrean({ action: 'uploadMenuAuto', payload, nama: nama }); return; } showLoader("MENGUPLOAD..."); let r = await fetchAPI('uploadMenuAuto', payload); hideLoader(); if(r && r.status==='sukses') { showToast("✓ Sukses!"); if(!isGlobalPlayMode && currentView==='menu') fetchGambar(); } else await simpanKeAntrean({ action: 'uploadMenuAuto', payload, nama: nama }); }); }
-  async function doUploadGaleri() { const dapurEl = document.getElementById('upGaleriDapur'), dapurNama = dapurEl.options[dapurEl.selectedIndex]?.text || '', tgl = document.getElementById('upGaleriTgl').value, judul = document.getElementById('upGaleriJudul').value.trim(), desc = document.getElementById('upGaleriDesc').value.trim(), file = document.getElementById('upGaleriFile').files[0]; if(!dapurEl.value || !tgl || !judul || !file) return showToast("Lengkapi form!", true); processImageFile(file, async (base64) => { let payload = { dapur:dapurNama, tanggal:tgl, judul, deskripsi:desc, data:base64 }; tutupModal('modalUploadGaleri'); if (!navigator.onLine) { await simpanKeAntrean({ action: 'uploadGaleri', payload, nama: judul }); return; } showLoader("MENGUPLOAD..."); let r = await fetchAPI('uploadGaleri', payload); hideLoader(); if(r && r.status==='sukses') { showToast("✓ Sukses!"); if(currentView==='galeri') muatGaleri(); } else await simpanKeAntrean({ action: 'uploadGaleri', payload, nama: judul }); }); }
+  async function doUploadMenu() { const dapurId = document.getElementById('upMenuDapur').value, nama = document.getElementById('upMenuNama').value.trim(), tgl = document.getElementById('upMenuTgl').value, file = document.getElementById('upMenuFile').files[0]; if(!dapurId || !nama || !tgl || !file) return showToast("Lengkapi semua form!", true); processImageFile(file, async (base64) => { let payload = { dapurId, namaMenu: nama, tanggal: tgl, data: base64 }; tutupModal('modalUploadMenu'); if (!navigator.onLine) { await simpanKeAntrean({ action: 'uploadMenuAuto', payload, nama: nama }); return; } showLoader("MENGUPLOAD..."); let r = await fetchAPI('uploadMenuAuto', payload); hideLoader(); if(r && r.status==='sukses') { showToast("✓ Sukses!"); isMenuFetched = false; if(!isGlobalPlayMode && currentView==='menu') fetchGambar(); } else await simpanKeAntrean({ action: 'uploadMenuAuto', payload, nama: nama }); }); }
+  async function doUploadGaleri() { const dapurEl = document.getElementById('upGaleriDapur'), dapurNama = dapurEl.options[dapurEl.selectedIndex]?.text || '', tgl = document.getElementById('upGaleriTgl').value, judul = document.getElementById('upGaleriJudul').value.trim(), desc = document.getElementById('upGaleriDesc').value.trim(), file = document.getElementById('upGaleriFile').files[0], ytLink = document.getElementById('upGaleriYT').value.trim(); if(!dapurEl.value || !tgl || !judul || (!file && !ytLink)) return showToast("Lengkapi form!", true); 
+    const finishUpload = async (dataPayload) => { let payload = { dapur:dapurNama, tanggal:tgl, judul, deskripsi:desc, data:dataPayload }; tutupModal('modalUploadGaleri'); if (!navigator.onLine) { await simpanKeAntrean({ action: 'uploadGaleri', payload, nama: judul }); return; } showLoader("MENGUPLOAD..."); let r = await fetchAPI('uploadGaleri', payload); hideLoader(); if(r && r.status==='sukses') { showToast("✓ Sukses!"); if(currentView==='galeri') { isGaleriFetched = false; muatGaleri(); } } else await simpanKeAntrean({ action: 'uploadGaleri', payload, nama: judul }); };
+    if(ytLink) { finishUpload(ytLink); } else { processImageFile(file, finishUpload); } 
+  }
 
   function bukaModalEdit() { if(imageList.length===0 || isModeGaleri) return; document.getElementById('editNama').value = imageList[currentIdx].nama; document.getElementById('editTgl').value = imageList[currentIdx].tanggal; document.getElementById('modalEdit').style.display = 'flex'; rekamJejakModal(); }
-  async function executeEdit() { const curr = imageList[currentIdx], file = document.getElementById('editFile').files[0]; tutupModal('modalEdit'); showLoader("MENYIMPAN..."); let payload = {id:curr.id, nama:document.getElementById('editNama').value, tanggal:document.getElementById('editTgl').value, fileData:null}; if(file) { processImageFile(file, async (base64) => { payload.fileData = base64; const r = await fetchAPI('editMenu', payload); hideLoader(); if(r && r.success) { showToast("Disimpan!"); fetchGambar(); } }); } else { const r = await fetchAPI('editMenu', payload); hideLoader(); if(r && r.success) { showToast("Disimpan!"); fetchGambar(); } } }
+  async function executeEdit() { const curr = imageList[currentIdx], file = document.getElementById('editFile').files[0]; tutupModal('modalEdit'); showLoader("MENYIMPAN..."); let payload = {id:curr.id, nama:document.getElementById('editNama').value, tanggal:document.getElementById('editTgl').value, fileData:null}; if(file) { processImageFile(file, async (base64) => { payload.fileData = base64; const r = await fetchAPI('editMenu', payload); hideLoader(); if(r && r.success) { showToast("Disimpan!"); isMenuFetched = false; fetchGambar(); } }); } else { const r = await fetchAPI('editMenu', payload); hideLoader(); if(r && r.success) { showToast("Disimpan!"); isMenuFetched = false; fetchGambar(); } } }
   function bukaModalEditGaleri(idx) { const curr = galeriAllData[idx]; deleteTargetIndex = idx; document.getElementById('editGaleriJudul').value = curr.judul; document.getElementById('editGaleriTgl').value = curr.tanggal; document.getElementById('editGaleriDesc').value = curr.deskripsi || ''; document.getElementById('modalEditGaleri').style.display = 'flex'; rekamJejakModal(); }
-  async function executeEditGaleri() { const curr = galeriAllData[deleteTargetIndex], file = document.getElementById('editGaleriFile').files[0]; tutupModal('modalEditGaleri'); showLoader("MENYIMPAN..."); let payload = {id: curr.id, judul: document.getElementById('editGaleriJudul').value, tanggal: document.getElementById('editGaleriTgl').value, deskripsi: document.getElementById('editGaleriDesc').value, fileData: null}; if(file) { processImageFile(file, async (base64) => { payload.fileData = base64; const r = await fetchAPI('editGaleri', payload); hideLoader(); if(r && r.success) { showToast("Diperbarui!"); muatGaleri(); } }); } else { const r = await fetchAPI('editGaleri', payload); hideLoader(); if(r && r.success) { showToast("Diperbarui!"); muatGaleri(); } } }
+  async function executeEditGaleri() { const curr = galeriAllData[deleteTargetIndex], file = document.getElementById('editGaleriFile').files[0], ytLink = document.getElementById('editGaleriYT').value.trim(); tutupModal('modalEditGaleri'); showLoader("MENYIMPAN..."); 
+    let payload = {id: curr.id, judul: document.getElementById('editGaleriJudul').value, tanggal: document.getElementById('editGaleriTgl').value, deskripsi: document.getElementById('editGaleriDesc').value, fileData: null}; 
+    const finishEdit = async (dataPayload) => { payload.fileData = dataPayload; const r = await fetchAPI('editGaleri', payload); hideLoader(); if(r && r.success) { showToast("Diperbarui!"); isGaleriFetched = false; muatGaleri(); } };
+    if(ytLink) { finishEdit(ytLink); } else if(file) { processImageFile(file, finishEdit); } else { const r = await fetchAPI('editGaleri', payload); hideLoader(); if(r && r.success) { showToast("Diperbarui!"); isGaleriFetched = false; muatGaleri(); } } 
+  }
 
   function doHapus(type, idx=null) { 
     deleteTargetType = type; 
@@ -1063,7 +1209,7 @@
     } 
     else if(deleteTargetType === 'galeri') { 
       const r = await fetchAPI('hapusGaleri', {fileId: galeriAllData[deleteTargetIndex].id}); hideLoader(); 
-      if(r && r.success) { showToast("Dihapus!"); muatGaleri(); } else showToast("Gagal!", true); 
+      if(r && r.success) { showToast("Dihapus!"); isGaleriFetched = false; muatGaleri(); } else showToast("Gagal!", true); 
     } 
     else if(deleteTargetType === 'struktur') {
       const r = await fetchAPI('hapusStruktur', {fileId: strukturAllData[deleteTargetIndex].id}); hideLoader();
@@ -1090,15 +1236,98 @@
 
   async function downloadPoster() {
     const imgElem = document.getElementById('displayImg'); if(!imgElem || !imgElem.src) return alert("Belum ada gambar!");
-    const canvas = document.getElementById('posterCanvas'), ctx = canvas.getContext('2d'); canvas.width = 1080; canvas.height = 1920; ctx.fillStyle = "#05233f"; ctx.fillRect(0,0,1080,1920); ctx.fillStyle = "rgba(255,255,255,0.05)"; ctx.beginPath(); ctx.moveTo(0,500); ctx.quadraticCurveTo(540,300,1080,500); ctx.lineTo(1080,1500); ctx.quadraticCurveTo(540,1700,0,1500); ctx.fill();
-    const loadImg = src => new Promise(res => { const i = new Image(); i.crossOrigin="Anonymous"; i.onload = () => res(i); i.src = src; });
-    const imgMenu = await loadImg(imgElem.src), logo1 = await loadImg(document.getElementById('boxLogo1')?.querySelector('img')?.src), logo2 = await loadImg(document.getElementById('boxLogo2')?.querySelector('img')?.src);
-    const lw = 160; ctx.drawImage(logo1, 80, 80, lw, lw/(logo1.width/logo1.height)); ctx.drawImage(logo2, 840, 80, lw, lw/(logo2.width/logo2.height)); 
-    ctx.save(); const x = 100, y = 600, w = 880, h = 600, r = 24; ctx.beginPath(); ctx.moveTo(x + r, y); ctx.lineTo(x + w - r, y); ctx.quadraticCurveTo(x + w, y, x + w, y + r); ctx.lineTo(x + w, y + h - r); ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h); ctx.lineTo(x + r, y + h); ctx.quadraticCurveTo(x, y + h, x, y + h - r); ctx.lineTo(x, y + r); ctx.quadraticCurveTo(x, y, x + r, y); ctx.closePath(); ctx.shadowColor = "rgba(0,0,0,0.6)"; ctx.shadowBlur = 30; ctx.shadowOffsetY = 10; ctx.fill(); ctx.clip(); let ratio = Math.max(w / imgMenu.width, h / imgMenu.height); let nw = imgMenu.width * ratio, nh = imgMenu.height * ratio, ox = x + (w - nw) / 2, oy = y + (h - nh) / 2; ctx.drawImage(imgMenu, 0, 0, imgMenu.width, imgMenu.height, ox, oy, nw, nh); ctx.restore(); 
-    ctx.textAlign = "center"; ctx.textBaseline = "top"; ctx.fillStyle = "#ffcc00"; ctx.font = "bold 55px Arial"; ctx.fillText(document.getElementById('txtDapur')?.innerText||"SPPG", 540, 430);
-    function wrapText(ctx, text, x, y, maxW, lh) { const words = text.split(' '); let line = '', cy = y; for(let n=0; n<words.length; n++) { const test = line + words[n] + ' '; if(ctx.measureText(test).width > maxW && n>0) { ctx.fillText(line,x,cy); line=words[n]+' '; cy+=lh; } else line=test; } ctx.fillText(line,x,cy); return cy+lh; }
-    ctx.fillStyle = "#fff"; ctx.font = "bold 60px Arial"; const endY = wrapText(ctx, document.getElementById('txtMenu')?.innerText||"Menu MBG", 540, 1320, 900, 80); ctx.fillStyle="#ffcc00"; ctx.font="italic 36px Arial"; ctx.fillText(document.getElementById('txtTgl')?.innerText||fmtHariIni(), 540, endY+28);
-    const a = document.createElement('a'); a.download = "Poster_Premium_MBG.png"; a.href = canvas.toDataURL("image/png"); a.click();
+    const loadImg = src => new Promise((res,rej) => { const i = new Image(); i.crossOrigin="Anonymous"; i.onload = () => res(i); i.onerror = rej; i.src = src; });
+    const imgMenu = await loadImg(imgElem.src).catch(() => null);
+    if(!imgMenu) return alert("Gagal memuat gambar!");
+
+    showLoader("Mempersiapkan poster...");
+    let cropCoords = null;
+    try {
+      const cvsTemp = document.createElement('canvas');
+      cvsTemp.width = imgMenu.width; cvsTemp.height = imgMenu.height;
+      cvsTemp.getContext('2d').drawImage(imgMenu, 0, 0);
+      const base64Data = cvsTemp.toDataURL('image/jpeg', 0.6);
+      
+      const resp = await fetch('/api/gemini/crop', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ imageBase64: base64Data })
+      });
+      if(resp.ok) {
+        cropCoords = await resp.json();
+      } else {
+        console.log("AI Crop skipped (using default size because Gemini API key is not configured or invalid)");
+      }
+    } catch(e) { console.log("AI Crop fail", e); }
+    hideLoader();
+
+    const canvas = document.getElementById('posterCanvas'), ctx = canvas.getContext('2d'); 
+    canvas.width = 1080; canvas.height = 1920; 
+    ctx.fillStyle = "#05233f"; ctx.fillRect(0,0,1080,1920); 
+    ctx.fillStyle = "rgba(255,255,255,0.05)"; ctx.beginPath(); ctx.moveTo(0,500); ctx.quadraticCurveTo(540,300,1080,500); ctx.lineTo(1080,1500); ctx.quadraticCurveTo(540,1700,0,1500); ctx.fill();
+
+    const logo1 = await loadImg("icon.png").catch(()=>null);
+    const logo2Src = document.getElementById('boxLogo2')?.querySelector('img')?.src || 'logo.png';
+    const logo2 = await loadImg(logo2Src).catch(()=>null);
+    
+    // Contain-fitting helper to align logos beautifully and keep them at the exact same height boundary
+    function drawImageContain(ctx, img, bx, by, bw, bh) {
+      if (!img) return;
+      const aspect = img.width / img.height;
+      let w = bw;
+      let h = bw / aspect;
+      if (h > bh) {
+        h = bh;
+        w = bh * aspect;
+      }
+      const x = bx + (bw - w) / 2;
+      const y = by + (bh - h) / 2;
+      ctx.drawImage(img, x, y, w, h);
+    }
+
+    const boxW = 240, boxH = 150, yVal = 100;
+    drawImageContain(ctx, logo1, 100, yVal, boxW, boxH);
+    drawImageContain(ctx, logo2, 1080 - 100 - boxW, yVal, boxW, boxH);
+
+    ctx.save(); 
+    const x = 100, y = 500, w = 880, h = 750, r = 32; 
+    ctx.beginPath(); ctx.moveTo(x + r, y); ctx.lineTo(x + w - r, y); ctx.quadraticCurveTo(x + w, y, x + w, y + r); ctx.lineTo(x + w, y + h - r); ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h); ctx.lineTo(x + r, y + h); ctx.quadraticCurveTo(x, y + h, x, y + h - r); ctx.lineTo(x, y + r); ctx.quadraticCurveTo(x, y, x + r, y); ctx.closePath(); 
+    ctx.shadowColor = "rgba(0,0,0,0.7)"; ctx.shadowBlur = 40; ctx.shadowOffsetY = 15; ctx.fill(); 
+    ctx.clip(); 
+    
+    let sx = 0, sy = 0, sw = imgMenu.width, sh = imgMenu.height;
+    if(cropCoords && cropCoords.xmin !== undefined) {
+      sx = cropCoords.xmin; sy = cropCoords.ymin;
+      sw = cropCoords.xmax - cropCoords.xmin; sh = cropCoords.ymax - cropCoords.ymin;
+    }
+    
+    let ratio = Math.max(w / sw, h / sh); 
+    let nw = sw * ratio, nh = sh * ratio;
+    let ox = x + (w - nw) / 2, oy = y + (h - nh) / 2; 
+    ctx.drawImage(imgMenu, sx, sy, sw, sh, ox, oy, nw, nh); 
+    ctx.restore(); 
+
+    ctx.textAlign = "center"; ctx.textBaseline = "top"; 
+    ctx.fillStyle = "#ffcc00"; ctx.font = "bold 65px 'Rajdhani', sans-serif"; 
+    ctx.fillText((document.getElementById('txtDapur')?.innerText||"SPPG").toUpperCase(), 540, 350);
+    
+    function wrapText(ctx, text, x, y, maxW, lh) { 
+      const words = text.split(' '); let line = '', cy = y; 
+      for(let n=0; n<words.length; n++) { 
+        const test = line + words[n] + ' '; 
+        if(ctx.measureText(test).width > maxW && n>0) { ctx.fillText(line,x,cy); line=words[n]+' '; cy+=lh; } 
+        else line=test; 
+      } 
+      ctx.fillText(line,x,cy); return cy+lh; 
+    }
+    
+    ctx.fillStyle = "#ffffff"; ctx.font = "bold 70px 'Nunito', sans-serif"; 
+    const endY = wrapText(ctx, document.getElementById('txtMenu')?.innerText||"Menu MBG", 540, 1330, 900, 90); 
+    ctx.fillStyle="#ffcc00"; ctx.font="italic 45px 'Nunito', sans-serif"; 
+    ctx.fillText(document.getElementById('txtTgl')?.innerText||fmtHariIni(), 540, endY+40);
+    
+    ctx.fillStyle = "#ffcc00"; ctx.fillRect(0, 1890, 1080, 30);
+    const a = document.createElement('a'); a.download = `Poster_${document.getElementById('txtDapur')?.innerText||"MBG"}.png`; a.href = canvas.toDataURL("image/png"); a.click();
   }
 
   setInterval(async () => {
